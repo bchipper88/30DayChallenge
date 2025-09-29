@@ -1,0 +1,6 @@
+.DS_Store
+xcuserdata/
+DerivedData/
+
+# Secrets
+30DayChallenge/Supporting/Secrets.plist

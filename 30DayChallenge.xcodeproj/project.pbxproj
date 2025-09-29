@@ -1,0 +1,451 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B0F634512A3E1F7B00A7AF01 /* 30DayChallengeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F6343F2A3E1F7B00A7AF01 /* 30DayChallengeApp.swift */; };
+		B0F634522A3E1F7B00A7AF01 /* ChallengeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634402A3E1F7B00A7AF01 /* ChallengeListView.swift */; };
+		B0F634532A3E1F7B00A7AF01 /* ChallengeDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634412A3E1F7B00A7AF01 /* ChallengeDashboardView.swift */; };
+		B0F634542A3E1F7B00A7AF01 /* DailyFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634422A3E1F7B00A7AF01 /* DailyFocusView.swift */; };
+		B0F634552A3E1F7B00A7AF01 /* WeeklyReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634432A3E1F7B00A7AF01 /* WeeklyReviewView.swift */; };
+		B0F634562A3E1F7B00A7AF01 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634442A3E1F7B00A7AF01 /* SettingsView.swift */; };
+		B0F634572A3E1F7B00A7AF01 /* ChallengeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634452A3E1F7B00A7AF01 /* ChallengeModels.swift */; };
+		B0F634582A3E1F7B00A7AF01 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634462A3E1F7B00A7AF01 /* SampleData.swift */; };
+		B0F634592A3E1F7B00A7AF01 /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634472A3E1F7B00A7AF01 /* ChallengeStore.swift */; };
+		B0F6345A2A3E1F7B00A7AF01 /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634482A3E1F7B00A7AF01 /* Repositories.swift */; };
+	B0F6345B2A3E1F7B00A7AF01 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634492A3E1F7B00A7AF01 /* NotificationScheduler.swift */; };
+	B0F6345C2A3E1F7B00A7AF01 /* FunFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F6344A2A3E1F7B00A7AF01 /* FunFeedback.swift */; };
+	B0F6345D2A3E1F7B00A7AF01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0F6344B2A3E1F7B00A7AF01 /* Assets.xcassets */; };
+	B0F634632A3E1F7B00A7AF01 /* TaskOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634652A3E1F7B00A7AF01 /* TaskOverviewView.swift */; };
+	B0F634642A3E1F7B00A7AF01 /* SettingsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634672A3E1F7B00A7AF01 /* SettingsTabView.swift */; };
+	B0F634692A3E1F7B00A7AF01 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F634682A3E1F7B00A7AF01 /* DesignSystem.swift */; };
+	B0F700A22A4D500100A7AF01 /* CreateChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F700A12A4D500100A7AF01 /* CreateChallengeView.swift */; };
+	B0F700B22A4D500100A7AF01 /* ChallengeDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F700B12A4D500100A7AF01 /* ChallengeDraft.swift */; };
+	B0F700C22A4D63A400A7AF01 /* SupabaseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F700C12A4D63A400A7AF01 /* SupabaseConfiguration.swift */; };
+	B0F700D22A4D6B5200A7AF01 /* SupabaseConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F700D12A4D6B5200A7AF01 /* SupabaseConnector.swift */; };
+	B0F700E22A4D764E00A7AF01 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0F700E12A4D764E00A7AF01 /* Secrets.plist */; };
+	B0F700F32A4D8A3F00A7AF01 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = B0F700F22A4D8A3F00A7AF01 /* Supabase */; };
+	B0F70132A4DA3E9000A7AF01 /* AIAssistantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F70122A4DA3E9000A7AF01 /* AIAssistantService.swift */; };
+	B0F701022A4D8D2D00A7AF01 /* SupabaseClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F701012A4D8D2D00A7AF01 /* SupabaseClientProvider.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B0F6343C2A3E1F7B00A7AF01 /* 30DayChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 30DayChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0F6343F2A3E1F7B00A7AF01 /* 30DayChallengeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 30DayChallengeApp.swift; sourceTree = "<group>"; };
+		B0F634402A3E1F7B00A7AF01 /* ChallengeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListView.swift; sourceTree = "<group>"; };
+		B0F634412A3E1F7B00A7AF01 /* ChallengeDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDashboardView.swift; sourceTree = "<group>"; };
+		B0F634422A3E1F7B00A7AF01 /* DailyFocusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyFocusView.swift; sourceTree = "<group>"; };
+		B0F634432A3E1F7B00A7AF01 /* WeeklyReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyReviewView.swift; sourceTree = "<group>"; };
+		B0F634442A3E1F7B00A7AF01 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B0F634452A3E1F7B00A7AF01 /* ChallengeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeModels.swift; sourceTree = "<group>"; };
+		B0F634462A3E1F7B00A7AF01 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		B0F634472A3E1F7B00A7AF01 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
+		B0F634482A3E1F7B00A7AF01 /* Repositories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repositories.swift; sourceTree = "<group>"; };
+		B0F634492A3E1F7B00A7AF01 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
+		B0F6344A2A3E1F7B00A7AF01 /* FunFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunFeedback.swift; sourceTree = "<group>"; };
+	B0F6344B2A3E1F7B00A7AF01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+	B0F6344C2A3E1F7B00A7AF01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+	B0F700E12A4D764E00A7AF01 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+	B0F70122A4DA3E9000A7AF01 /* AIAssistantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIAssistantService.swift; sourceTree = "<group>"; };
+	B0F701012A4D8D2D00A7AF01 /* SupabaseClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseClientProvider.swift; sourceTree = "<group>"; };
+		B0F634652A3E1F7B00A7AF01 /* TaskOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskOverviewView.swift; sourceTree = "<group>"; };
+		B0F634672A3E1F7B00A7AF01 /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
+		B0F634682A3E1F7B00A7AF01 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		B0F700A12A4D500100A7AF01 /* CreateChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeView.swift; sourceTree = "<group>"; };
+		B0F700B12A4D500100A7AF01 /* ChallengeDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDraft.swift; sourceTree = "<group>"; };
+		B0F700C12A4D63A400A7AF01 /* SupabaseConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseConfiguration.swift; sourceTree = "<group>"; };
+		B0F700D12A4D6B5200A7AF01 /* SupabaseConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseConnector.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+	B0F634382A3E1F7B00A7AF01 /* Frameworks */ = {
+		isa = PBXFrameworksBuildPhase;
+		buildActionMask = 2147483647;
+		files = (
+			B0F700F32A4D8A3F00A7AF01 /* Supabase in Frameworks */,
+		);
+		runOnlyForDeploymentPostprocessing = 0;
+	};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B0F634322A3E1F7B00A7AF01 = {
+			isa = PBXGroup;
+			children = (
+				B0F6343D2A3E1F7B00A7AF01 /* 30DayChallenge */,
+				B0F6343B2A3E1F7B00A7AF01 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B0F6343B2A3E1F7B00A7AF01 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B0F6343C2A3E1F7B00A7AF01 /* 30DayChallenge.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B0F6343D2A3E1F7B00A7AF01 /* 30DayChallenge */ = {
+			isa = PBXGroup;
+			children = (
+				B0F6343E2A3E1F7B00A7AF01 /* App */,
+				B0F6344D2A3E1F7B00A7AF01 /* Model */,
+				B0F6344E2A3E1F7B00A7AF01 /* Services */,
+				B0F6344F2A3E1F7B00A7AF01 /* Resources */,
+				B0F634502A3E1F7B00A7AF01 /* Supporting */,
+			);
+			path = 30DayChallenge;
+			sourceTree = "<group>";
+		};
+		B0F6343E2A3E1F7B00A7AF01 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B0F6343F2A3E1F7B00A7AF01 /* 30DayChallengeApp.swift */,
+				B0F634402A3E1F7B00A7AF01 /* ChallengeListView.swift */,
+				B0F700A12A4D500100A7AF01 /* CreateChallengeView.swift */,
+				B0F634412A3E1F7B00A7AF01 /* ChallengeDashboardView.swift */,
+				B0F634422A3E1F7B00A7AF01 /* DailyFocusView.swift */,
+				B0F634432A3E1F7B00A7AF01 /* WeeklyReviewView.swift */,
+				B0F634652A3E1F7B00A7AF01 /* TaskOverviewView.swift */,
+				B0F634442A3E1F7B00A7AF01 /* SettingsView.swift */,
+				B0F634682A3E1F7B00A7AF01 /* DesignSystem.swift */,
+				B0F634672A3E1F7B00A7AF01 /* SettingsTabView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		B0F6344D2A3E1F7B00A7AF01 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B0F634452A3E1F7B00A7AF01 /* ChallengeModels.swift */,
+				B0F634462A3E1F7B00A7AF01 /* SampleData.swift */,
+				B0F700B12A4D500100A7AF01 /* ChallengeDraft.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+	B0F6344E2A3E1F7B00A7AF01 /* Services */ = {
+		isa = PBXGroup;
+		children = (
+			B0F634472A3E1F7B00A7AF01 /* ChallengeStore.swift */,
+			B0F634482A3E1F7B00A7AF01 /* Repositories.swift */,
+			B0F634492A3E1F7B00A7AF01 /* NotificationScheduler.swift */,
+			B0F6344A2A3E1F7B00A7AF01 /* FunFeedback.swift */,
+			B0F700D12A4D6B5200A7AF01 /* SupabaseConnector.swift */,
+			B0F700C12A4D63A400A7AF01 /* SupabaseConfiguration.swift */,
+			B0F70122A4DA3E9000A7AF01 /* AIAssistantService.swift */,
+			B0F701012A4D8D2D00A7AF01 /* SupabaseClientProvider.swift */,
+		);
+		path = Services;
+		sourceTree = "<group>";
+	};
+	B0F6344F2A3E1F7B00A7AF01 /* Resources */ = {
+		isa = PBXGroup;
+		children = (
+			B0F6344B2A3E1F7B00A7AF01 /* Assets.xcassets */,
+		);
+		path = Resources;
+		sourceTree = "<group>";
+	};
+	B0F634502A3E1F7B00A7AF01 /* Supporting */ = {
+		isa = PBXGroup;
+		children = (
+			B0F6344C2A3E1F7B00A7AF01 /* Info.plist */,
+			B0F700E12A4D764E00A7AF01 /* Secrets.plist */,
+		);
+		path = Supporting;
+		sourceTree = "<group>";
+	};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B0F634372A3E1F7B00A7AF01 /* 30DayChallenge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0F6345F2A3E1F7B00A7AF01 /* Build configuration list for PBXNativeTarget "30DayChallenge" */;
+			buildPhases = (
+				B0F634372A3E1F7B00A7AF02 /* Sources */,
+				B0F634382A3E1F7B00A7AF01 /* Frameworks */,
+				B0F634392A3E1F7B00A7AF01 /* Resources */,
+			);
+		buildRules = (
+		);
+		dependencies = (
+		);
+		name = 30DayChallenge;
+		productName = 30DayChallenge;
+		productReference = B0F6343C2A3E1F7B00A7AF01 /* 30DayChallenge.app */;
+		productType = "com.apple.product-type.application";
+		packageProductDependencies = (
+			B0F700F22A4D8A3F00A7AF01 /* Supabase */,
+		);
+	};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B0F634332A3E1F7B00A7AF01 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					B0F634372A3E1F7B00A7AF01 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = B0F634362A3E1F7B00A7AF01 /* Build configuration list for PBXProject "30DayChallenge" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+		knownRegions = (
+			en,
+		);
+		mainGroup = B0F634322A3E1F7B00A7AF01;
+		productRefGroup = B0F6343B2A3E1F7B00A7AF01 /* Products */;
+		projectDirPath = "";
+		projectRoot = "";
+		targets = (
+			B0F634372A3E1F7B00A7AF01 /* 30DayChallenge */,
+		);
+		packageReferences = (
+			B0F700F12A4D8A3F00A7AF01 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+		);
+	};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+	B0F634392A3E1F7B00A7AF01 /* Resources */ = {
+		isa = PBXResourcesBuildPhase;
+		buildActionMask = 2147483647;
+		files = (
+		B0F6345D2A3E1F7B00A7AF01 /* Assets.xcassets in Resources */,
+			B0F700E22A4D764E00A7AF01 /* Secrets.plist in Resources */,
+		);
+		runOnlyForDeploymentPostprocessing = 0;
+	};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B0F634372A3E1F7B00A7AF02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0F6345C2A3E1F7B00A7AF01 /* FunFeedback.swift in Sources */,
+				B0F6345B2A3E1F7B00A7AF01 /* NotificationScheduler.swift in Sources */,
+				B0F6345A2A3E1F7B00A7AF01 /* Repositories.swift in Sources */,
+				B0F634592A3E1F7B00A7AF01 /* ChallengeStore.swift in Sources */,
+				B0F634582A3E1F7B00A7AF01 /* SampleData.swift in Sources */,
+				B0F634572A3E1F7B00A7AF01 /* ChallengeModels.swift in Sources */,
+				B0F700B22A4D500100A7AF01 /* ChallengeDraft.swift in Sources */,
+				B0F634562A3E1F7B00A7AF01 /* SettingsView.swift in Sources */,
+				B0F634692A3E1F7B00A7AF01 /* DesignSystem.swift in Sources */,
+				B0F634552A3E1F7B00A7AF01 /* WeeklyReviewView.swift in Sources */,
+				B0F634542A3E1F7B00A7AF01 /* DailyFocusView.swift in Sources */,
+				B0F634532A3E1F7B00A7AF01 /* ChallengeDashboardView.swift in Sources */,
+				B0F634632A3E1F7B00A7AF01 /* TaskOverviewView.swift in Sources */,
+				B0F634522A3E1F7B00A7AF01 /* ChallengeListView.swift in Sources */,
+			B0F700A22A4D500100A7AF01 /* CreateChallengeView.swift in Sources */,
+			B0F700C22A4D63A400A7AF01 /* SupabaseConfiguration.swift in Sources */,
+			B0F700D22A4D6B5200A7AF01 /* SupabaseConnector.swift in Sources */,
+			B0F701022A4D8D2D00A7AF01 /* SupabaseClientProvider.swift in Sources */,
+			B0F70132A4DA3E9000A7AF01 /* AIAssistantService.swift in Sources */,
+			B0F634642A3E1F7B00A7AF01 /* SettingsTabView.swift in Sources */,
+			B0F634512A3E1F7B00A7AF01 /* 30DayChallengeApp.swift in Sources */,
+		);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B0F6345E2A3E1F7B00A7AF01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				DEVELOPMENT_TEAM = S5LC2V58Y9;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = 30DayChallenge/Supporting/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.playfulbuilder.thirtydaychallenge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B0F634602A3E1F7B00A7AF01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				DEVELOPMENT_TEAM = S5LC2V58Y9;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = 30DayChallenge/Supporting/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.playfulbuilder.thirtydaychallenge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B0F634612A3E1F7B00A7AF01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		B0F634622A3E1F7B00A7AF01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+	B0F700F12A4D8A3F00A7AF01 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+		isa = XCRemoteSwiftPackageReference;
+		repositoryURL = "https://github.com/supabase-community/supabase-swift.git";
+		requirement = {
+			kind = upToNextMajorVersion;
+			minimumVersion = 2.2.0;
+		};
+	};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+	B0F700F22A4D8A3F00A7AF01 /* Supabase */ = {
+		isa = XCSwiftPackageProductDependency;
+		package = B0F700F12A4D8A3F00A7AF01 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+		productName = Supabase;
+	};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCConfigurationList section */
+		B0F634362A3E1F7B00A7AF01 /* Build configuration list for PBXProject "30DayChallenge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0F634612A3E1F7B00A7AF01 /* Debug */,
+				B0F634622A3E1F7B00A7AF01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0F6345F2A3E1F7B00A7AF01 /* Build configuration list for PBXNativeTarget "30DayChallenge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0F6345E2A3E1F7B00A7AF01 /* Debug */,
+				B0F634602A3E1F7B00A7AF01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B0F634332A3E1F7B00A7AF01 /* Project object */;
+}

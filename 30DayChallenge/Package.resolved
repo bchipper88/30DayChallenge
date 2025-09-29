@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "gotrue-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/supabase-community/gotrue-swift.git",
+      "state" : {
+        "revision" : "05673e1f3f3906aaa91b3f0cf94c0e5a573ed4cd",
+        "version" : "2.2.0"
+      }
+    },
+    {
+      "identity" : "supabase-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/supabase-community/supabase-swift.git",
+      "state" : {
+        "revision" : "75fdbe0bccbbd1d3df542ff0ebc5bfa81acdd5f0",
+        "version" : "2.2.0"
+      }
+    }
+  ],
+  "version" : 2
+}
