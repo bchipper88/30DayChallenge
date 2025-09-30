@@ -119,6 +119,8 @@ struct SupabasePlanRepository: PlanRepository {
             .eq("user_id", value: userID)
             .execute()
 
+        print("Fetched \(response.value.count) plans for user", userID.uuidString)
+
         return response.value.map(\.payload)
     }
 

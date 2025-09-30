@@ -304,9 +304,12 @@ final class ChallengeStore {
 
 private extension ChallengeStore {
     nonisolated static func makeDefaultRepository() -> any PlanRepository {
+        print("Attempting Supabase repository")
         if let repository = try? SupabasePlanRepository.makeFromSecrets() {
+            print("Supabase repository created")
             return repository
         }
+        print("Falling back to in-memory repository")
         return InMemoryPlanRepository()
     }
 
