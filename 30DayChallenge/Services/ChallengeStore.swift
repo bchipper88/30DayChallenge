@@ -213,13 +213,14 @@ final class ChallengeStore {
     }
 
     func deletePlan(_ planID: UUID) async {
-        guard let index = plans.firstIndex(where: { $0.id == planID }) else { return }
         do {
             try await repository.deletePlan(planID: planID)
-            plans.remove(at: index)
+            plans.removeAll { $0.id == planID }
+            pendingPlans.removeAll { $0.id == planID }
             if selectedPlanID == planID {
                 selectedPlanID = plans.first?.id
             }
+            errorMessage = nil
         } catch {
             errorMessage = error.localizedDescription
         }

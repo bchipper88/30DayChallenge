@@ -2,7 +2,10 @@ import SwiftUI
 
 struct ChallengeDashboardView: View {
     @Environment(ChallengeStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
     var plan: ChallengePlan
+
+    @State private var showDeleteConfirmation = false
 
     var body: some View {
         ScrollView {
@@ -20,13 +23,20 @@ struct ChallengeDashboardView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(role: .destructive) {
-                    Task {
-                        await deletePlan()
-                    }
+                    showDeleteConfirmation = true
                 } label: {
                     Image(systemName: "trash")
                 }
             }
+        }
+        .confirmationDialog("Delete this challenge?", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
+            Button("Delete", role: .destructive) {
+                Task {
+                    await deletePlan()
+                    dismiss()
+                }
+            }
+            Button("Cancel", role: .cancel) {}
         }
     }
 
