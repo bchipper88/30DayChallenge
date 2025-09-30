@@ -1,0 +1,13 @@
+{
+  "name": "ai-plan-worker",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.2",
+    "openai": "^4.53.2"
+  }
+}
