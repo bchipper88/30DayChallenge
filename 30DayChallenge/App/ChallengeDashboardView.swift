@@ -17,17 +17,27 @@ struct ChallengeDashboardView: View {
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationTitle("Challenge Overview")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(role: .destructive) {
+                    Task {
+                        await deletePlan()
+                    }
+                } label: {
+                    Image(systemName: "trash")
+                }
+            }
+        }
     }
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             Text(plan.title)
                 .font(.system(size: 30, weight: .semibold, design: .rounded))
                 .foregroundStyle(Palette.textPrimary)
                 .lineLimit(3)
-
             Text(plan.primaryGoal)
-                .font(.headline)
+                .font(.subheadline)
                 .foregroundStyle(Palette.textSecondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -113,6 +123,12 @@ struct WeeklyBreakdown: Identifiable {
         let lower = days.first?.dayNumber ?? ((week.weekNumber - 1) * 7 + 1)
         let upper = days.last?.dayNumber ?? min(30, week.weekNumber * 7)
         return "Days \(lower)-\(upper)"
+    }
+}
+
+private extension ChallengeDashboardView {
+    func deletePlan() async {
+        await store.deletePlan(plan.id)
     }
 }
 

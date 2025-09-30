@@ -212,6 +212,19 @@ final class ChallengeStore {
         pendingPlans.removeAll { $0.id == pending.id }
     }
 
+    func deletePlan(_ planID: UUID) async {
+        guard let index = plans.firstIndex(where: { $0.id == planID }) else { return }
+        do {
+            try await repository.deletePlan(planID: planID)
+            plans.remove(at: index)
+            if selectedPlanID == planID {
+                selectedPlanID = plans.first?.id
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
     private func triggerCelebration(for plan: ChallengePlan, day: DailyEntry) {
         showConfetti = true
         celebrationMessage = FunFeedback.playfulMessage(for: plan)

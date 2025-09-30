@@ -8,12 +8,14 @@ protocol PlanRepository {
     func fetchTaskStates(planIDs: [UUID]) async throws -> [UUID: [UUID: Bool]]
     func setTaskState(planID: UUID, taskID: UUID, dayNumber: Int, isComplete: Bool) async throws
     func clearTaskStates(planID: UUID, taskIDs: [UUID]) async throws
+    func deletePlan(planID: UUID) async throws
 }
 
 extension PlanRepository {
     func fetchTaskStates(planIDs: [UUID]) async throws -> [UUID: [UUID: Bool]] { [:] }
     func setTaskState(planID: UUID, taskID: UUID, dayNumber: Int, isComplete: Bool) async throws {}
     func clearTaskStates(planID: UUID, taskIDs: [UUID]) async throws {}
+    func deletePlan(planID: UUID) async throws {}
 }
 
 struct InMemoryPlanRepository: PlanRepository {
@@ -177,6 +179,16 @@ struct SupabasePlanRepository: PlanRepository {
             .delete()
             .eq("plan_id", value: planID)
             .`in`("task_id", values: taskIDs)
+            .execute()
+    }
+
+    func deletePlan(planID: UUID) async throws {
+        let userID = try currentUserID()
+        _ = try await client
+            .from(Table.challengePlans)
+            .delete()
+            .eq("id", value: planID)
+            .eq("user_id", value: userID)
             .execute()
     }
 }
