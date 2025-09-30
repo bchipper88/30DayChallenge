@@ -19,30 +19,17 @@ struct CreateChallengeView: View {
             VStack(alignment: .leading, spacing: 24) {
                 headerMessage
                 agentPicker
+                goalTitle
                 chatBox
                 purposeBox
                 familiarityPicker
+                submitButton
                 HelperFooter(isValid: draft.isValid)
             }
             .padding(24)
         }
         .background(Palette.background.ignoresSafeArea())
         .navigationTitle("New Challenge")
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button {
-                    Task { await handleCreate() }
-                } label: {
-                    if isSaving {
-                        ProgressView()
-                    } else {
-                        Text("Create")
-                            .fontWeight(.semibold)
-                    }
-                }
-                .disabled(isCreateDisabled)
-            }
-        }
         .task {
             await MainActor.runAfter(0.35) {
                 isPromptFocused = true
@@ -128,6 +115,19 @@ private extension CreateChallengeView {
                         }
                 }
             }
+        }
+    }
+}
+
+private extension CreateChallengeView {
+    var goalTitle: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("My Goal:")
+                .font(.headline)
+                .foregroundStyle(Palette.textPrimary)
+            Text("Share what success looks like so we can personalize your 30-day roadmap.")
+                .font(.footnote)
+                .foregroundStyle(Palette.textSecondary)
         }
     }
 }
@@ -237,6 +237,34 @@ private struct FamiliarityChip: View {
                 .stroke(isSelected ? Palette.accentBlue : Palette.border, lineWidth: isSelected ? 0 : 1)
         )
         .shadow(color: Color.black.opacity(isSelected ? 0.08 : 0.02), radius: 12, x: 0, y: 6)
+    }
+}
+
+private extension CreateChallengeView {
+    var submitButton: some View {
+        Button {
+            Task { await handleCreate() }
+        } label: {
+            HStack {
+                Spacer()
+                if isSaving {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                } else {
+                    Text("Submit Challenge")
+                        .font(.headline)
+                        .padding(.vertical, 14)
+                        .padding(.horizontal, 24)
+                        .frame(maxWidth: .infinity)
+                }
+                Spacer()
+            }
+            .foregroundStyle(Color.white)
+            .background(Palette.accentBlue, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .shadow(color: Palette.accentBlue.opacity(0.25), radius: 12, x: 0, y: 8)
+        }
+        .disabled(isCreateDisabled)
+        .opacity(isCreateDisabled ? 0.6 : 1)
     }
 }
 
