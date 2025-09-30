@@ -126,10 +126,19 @@ struct PlanCardView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(plan.title)
-                .font(.system(size: 24, weight: .semibold, design: .rounded))
-                .foregroundStyle(Palette.textPrimary)
-                .lineLimit(2)
+            HStack(alignment: .top) {
+                Text(plan.title)
+                    .font(.system(size: 24, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Palette.textPrimary)
+                    .lineLimit(2)
+                Spacer()
+                Text("Day \(currentDayNumber)")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Palette.textSecondary)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Palette.accentLavender.opacity(0.4), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            }
 
             ProgressView(value: progressFraction)
                 .progressViewStyle(.linear)
@@ -140,12 +149,9 @@ struct PlanCardView: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Palette.textSecondary)
                 Spacer()
-                Text("Day \(currentDayNumber)")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(Palette.textSecondary)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(Palette.accentLavender.opacity(0.4), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                Image(systemName: "arrow.right.circle.fill")
+                    .font(.title2)
+                    .foregroundStyle(Palette.accentBlue)
             }
         }
         .softCard(padding: 24, cornerRadius: 32)
