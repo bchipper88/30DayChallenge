@@ -156,25 +156,56 @@ struct PlanCardView: View {
         }
         .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            LinearGradient(colors: gradientColors,
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-        )
+        .background(cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 32, style: .continuous)
-                .stroke(Palette.border.opacity(0.3), lineWidth: 1)
+                .stroke(Palette.border.opacity(0.25), lineWidth: 1)
         )
-        .shadow(color: Palette.accentBlue.opacity(0.08), radius: 20, x: 0, y: 12)
+        .shadow(color: paletteOverlay.opacity(0.18), radius: 20, x: 0, y: 12)
     }
 
-    private var gradientColors: [Color] {
-        let colors = plan.accentColors
-        if colors.count >= 2 {
-            return [colors[0].opacity(0.35), colors[1].opacity(0.25)]
+    private var cardBackground: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .fill(Color.white.opacity(0.92))
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .fill(topGradient)
         }
-        return [Palette.accentBlue.opacity(0.3), Palette.accentLavender.opacity(0.25)]
+    }
+
+    private var topGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(stops: [
+                .init(color: paletteOverlay.opacity(0.55), location: 0),
+                .init(color: paletteAccent.opacity(0.3), location: 0.5),
+                .init(color: .clear, location: 1)
+            ]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    private var paletteOverlay: Color {
+        gradientPalette.first ?? Palette.accentBlue
+    }
+
+    private var paletteAccent: Color {
+        gradientPalette.last ?? Palette.accentLavender
+    }
+
+    private var gradientPalette: [Color] {
+        let palettes: [[Color]] = [
+            [Color(hex: "#A5F3FC"), Color(hex: "#60A5FA")],
+            [Color(hex: "#FDE68A"), Color(hex: "#F59E0B")],
+            [Color(hex: "#C4B5FD"), Color(hex: "#F472B6")],
+            [Color(hex: "#BBF7D0"), Color(hex: "#34D399")],
+            [Color(hex: "#FBCFE8"), Color(hex: "#A78BFA")],
+            [Color(hex: "#BFDBFE"), Color(hex: "#7DD3FC")],
+            [Color(hex: "#FECACA"), Color(hex: "#FB7185")]
+        ]
+        let index = abs(plan.id.hashValue) % palettes.count
+        return palettes[index]
     }
 }
 
