@@ -5,33 +5,44 @@ struct ChallengeListView: View {
     @State private var path: [ChallengePlan] = []
     var body: some View {
         NavigationStack(path: $path) {
-            ScrollView {
-                VStack(spacing: 28) {
-                    heroHeader
-                    segmentRow
-                    LazyVStack(spacing: 20) {
-                        ForEach(store.pendingPlans) { pending in
-                            PendingPlanCard(pending: pending)
-                        }
-                        ForEach(store.plans) { plan in
-                            NavigationLink(value: plan) {
-                                PlanCardView(plan: plan)
+            ZStack(alignment: .bottomTrailing) {
+                ScrollView {
+                    VStack(spacing: 28) {
+                        heroHeader
+                        segmentRow
+                        LazyVStack(spacing: 20) {
+                            ForEach(store.pendingPlans) { pending in
+                                PendingPlanCard(pending: pending)
                             }
-                            .buttonStyle(.plain)
-                            .simultaneousGesture(TapGesture().onEnded {
-                                store.select(plan)
-                            })
+                            ForEach(store.plans) { plan in
+                                NavigationLink(value: plan) {
+                                    PlanCardView(plan: plan)
+                                }
+                                .buttonStyle(.plain)
+                                .simultaneousGesture(TapGesture().onEnded {
+                                    store.select(plan)
+                                })
+                            }
+                            NewPlanCardLink()
                         }
-                        NewPlanCardLink()
                     }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 32)
                 }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 32)
+
+                FloatingCreateButton {
+                    path.append(CreateChallengePlaceholder.plan)
+                }
+                .padding(.trailing, 24)
+                .padding(.bottom, 32)
             }
             .background(Palette.background)
             .navigationDestination(for: ChallengePlan.self) { plan in
                 ChallengeDashboardView(plan: plan)
                     .onAppear { store.select(plan) }
+            }
+            .navigationDestination(for: CreateChallengePlaceholder.self) { _ in
+                CreateChallengeView()
             }
         }
     }
@@ -167,6 +178,33 @@ struct NewPlanCardLink: View {
         }
         .buttonStyle(.plain)
     }
+}
+
+struct FloatingCreateButton: View {
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: "sparkles")
+                    .font(.system(size: 18, weight: .semibold))
+                Text("New AI Plan")
+                    .font(.system(size: 16, weight: .semibold))
+            }
+            .padding(.vertical, 14)
+            .padding(.horizontal, 18)
+            .background(
+                LinearGradient(colors: [Palette.accentBlue, Palette.accentLavender], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .cornerRadius(28)
+            )
+            .foregroundColor(.white)
+            .shadow(color: Palette.accentBlue.opacity(0.35), radius: 18, x: 0, y: 14)
+        }
+    }
+}
+
+enum CreateChallengePlaceholder: Hashable {
+    case plan
 }
 
 struct PendingPlanCard: View {
