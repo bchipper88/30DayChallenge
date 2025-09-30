@@ -11,6 +11,14 @@ const openAIModel = process.env.OPENAI_MODEL ?? 'gpt-4.1-mini';
 const openAITemperature = parseFloat(process.env.OPENAI_TEMPERATURE ?? '0.6');
 const fixedTemperatureModels = new Set(['gpt-4.1-mini', 'gpt-4.1-nano', 'gpt-4.1']);
 
+const modelRequiresFixedTemperature = (model) => {
+  if (!model) return false;
+  if (fixedTemperatureModels.has(model)) {
+    return true;
+  }
+  return model.startsWith('gpt-5');
+};
+
 if (!supabaseUrl || !supabaseKey) {
   console.error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be provided.');
   process.exit(1);
@@ -505,7 +513,7 @@ async function generatePlan(prompt) {
         ]
       };
 
-      if (!fixedTemperatureModels.has(openAIModel)) {
+      if (!modelRequiresFixedTemperature(openAIModel)) {
         requestPayload.temperature = Number.isFinite(openAITemperature) ? openAITemperature : 0.6;
       }
 
