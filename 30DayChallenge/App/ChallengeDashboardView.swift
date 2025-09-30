@@ -13,10 +13,10 @@ struct ChallengeDashboardView: View {
                 headerSection
                 dueDatesRow
                 summarySection
+                rallyCrySection
                 outlineSection
                 principlesSection
                 risksSection
-                rallyCrySection
             }
             .padding(.vertical, 24)
             .padding(.horizontal, 20)

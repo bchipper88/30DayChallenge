@@ -297,6 +297,7 @@ Produce a JSON object that matches the "PlanBlueprint" format shown below. Your 
 • Provide a "dailyPlan" array with exactly 30 entries (dayNumber 1..30) and each day containing 2-3 tasks. Tasks require: title, type (setup/research/practice/review/reflection/outreach/build/ship), expectedMinutes, instructions (imperative), definitionOfDone, tags (2-3), and metric {name, unit, target} (set metric to null when not applicable). Add motivating checkInPrompt + celebrationMessage per day.
 • Provide four weekly reviews (weekNumber 1..4) each with 3 evidence items, 3 reflection questions, and 3 adaptation rules (condition + response).
 • Include assumptions, constraints, resources, callToAction, reminder (hour/minute/message), celebrationRule (trigger/message), streakRule (thresholdMinutes/graceDays), and accentPalette (3-4 hex colors).
+• Craft "callToAction" as an inspirational rally cry for the entire 30-day journey—short, memorable, and motivational.
 • Map the provided user goal into the plan title, phases, and tasks with concrete, actionable language.
 
 Return JSON in this exact structure (use your own values):
