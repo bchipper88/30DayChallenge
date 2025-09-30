@@ -8,6 +8,8 @@ const openAIKey = process.env.OPENAI_API_KEY;
 const pollIntervalMs = parseInt(process.env.POLL_INTERVAL_MS ?? '3000', 10);
 const maxOpenAIRetries = parseInt(process.env.OPENAI_MAX_RETRIES ?? '2', 10);
 const openAIModel = process.env.OPENAI_MODEL ?? 'gpt-4.1-mini';
+const openAITemperature = parseFloat(process.env.OPENAI_TEMPERATURE ?? '0.6');
+const fixedTemperatureModels = new Set(['gpt-4.1-mini', 'gpt-4.1-nano', 'gpt-4.1']);
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be provided.');
@@ -487,9 +489,8 @@ async function generatePlan(prompt) {
   for (let attempt = 0; attempt <= maxOpenAIRetries; attempt += 1) {
     try {
       console.log('Requesting plan from OpenAI', { attempt: attempt + 1, promptLength: prompt.length });
-      const completion = await openai.chat.completions.create({
+      const requestPayload = {
         model: openAIModel,
-        temperature: 0.6,
         response_format: {
           type: 'json_schema',
           json_schema: {
@@ -502,7 +503,13 @@ async function generatePlan(prompt) {
           { role: 'system', content: blueprintPrompt },
           { role: 'user', content: prompt }
         ]
-      });
+      };
+
+      if (!fixedTemperatureModels.has(openAIModel)) {
+        requestPayload.temperature = Number.isFinite(openAITemperature) ? openAITemperature : 0.6;
+      }
+
+      const completion = await openai.chat.completions.create(requestPayload);
 
       const message = completion.choices?.[0]?.message;
       if (!message) {
