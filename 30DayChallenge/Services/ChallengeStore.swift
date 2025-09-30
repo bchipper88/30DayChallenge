@@ -70,6 +70,7 @@ final class ChallengeStore {
             }
             errorMessage = nil
         } catch {
+            print("Failed to load plans:", error)
             errorMessage = error.localizedDescription
         }
         isLoading = false
