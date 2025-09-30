@@ -14,6 +14,9 @@ struct ChallengeDashboardView: View {
                 dueDatesRow
                 summarySection
                 outlineSection
+                principlesSection
+                risksSection
+                rallyCrySection
             }
             .padding(.vertical, 24)
             .padding(.horizontal, 20)
@@ -86,6 +89,77 @@ struct ChallengeDashboardView: View {
         }
     }
 
+    private var principlesSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Key Principles")
+                .font(.title3.bold())
+                .foregroundStyle(Palette.textPrimary)
+            VStack(alignment: .leading, spacing: 12) {
+                ForEach(keyPrinciples, id: \.self) { principle in
+                    HStack(spacing: 10) {
+                        Image(systemName: "sparkle")
+                            .foregroundStyle(Palette.accentBlue)
+                        Text(principle)
+                            .font(.body)
+                            .foregroundStyle(Palette.textSecondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(12)
+                    .background(Color.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
+                }
+            }
+        }
+    }
+
+    private var risksSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Risks Radar")
+                .font(.title3.bold())
+                .foregroundStyle(Palette.textPrimary)
+            VStack(spacing: 12) {
+                ForEach(plan.phases.flatMap { $0.risks }) { risk in
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack {
+                            Text(risk.risk)
+                                .font(.headline)
+                                .foregroundStyle(Palette.textPrimary)
+                            Spacer()
+                            Text(risk.likelihood.rawValue.capitalized)
+                                .font(.caption)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 4)
+                                .background(risk.likelihood.color.opacity(0.2), in: Capsule())
+                                .foregroundStyle(risk.likelihood.color)
+                        }
+                        Text(risk.mitigation)
+                            .font(.footnote)
+                            .foregroundStyle(Palette.textSecondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(16)
+                    .background(Color.white, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 6)
+                }
+            }
+        }
+    }
+
+    private var rallyCrySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Rally Cry")
+                .font(.title3.bold())
+                .foregroundStyle(Palette.textPrimary)
+            Text(plan.callToAction)
+                .font(.body.weight(.semibold))
+                .foregroundStyle(Palette.textSecondary)
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.white, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 8)
+        }
+    }
+
     private var dueDate: Date {
         Calendar.current.date(byAdding: .day, value: 29, to: plan.createdAt) ?? plan.createdAt
     }
@@ -95,6 +169,10 @@ struct ChallengeDashboardView: View {
         let today = calendar.startOfDay(for: Date())
         let due = calendar.startOfDay(for: dueDate)
         return max(0, calendar.dateComponents([.day], from: today, to: due).day ?? 0)
+    }
+
+    var keyPrinciples: [String] {
+        plan.phases.flatMap { $0.keyPrinciples }
     }
 }
 
