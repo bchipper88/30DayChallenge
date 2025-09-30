@@ -4,7 +4,7 @@ struct ChallengeDashboardView: View {
     @Environment(ChallengeStore.self) private var store
     var plan: ChallengePlan
 
-    @State private var showPhases = true
+    @State private var showWeeks = true
     @State private var showPrinciples = true
     @State private var showRisks = true
     @State private var showCallToAction = true
@@ -13,7 +13,7 @@ struct ChallengeDashboardView: View {
         ScrollView {
             VStack(spacing: 28) {
                 heroHeader
-                phasesSection
+                weeksSection
                 principlesSection
                 risksSection
                 callToAction
@@ -77,16 +77,16 @@ struct ChallengeDashboardView: View {
             }
     }
 
-    private var phasesSection: some View {
-        DisclosureGroup(isExpanded: $showPhases) {
+    private var weeksSection: some View {
+        DisclosureGroup(isExpanded: $showWeeks) {
             VStack(spacing: 18) {
-                ForEach(plan.phases) { phase in
-                    CollapsiblePhaseView(phase: phase)
+                ForEach(weeklyBreakdowns) { breakdown in
+                    WeeklyPlanView(breakdown: breakdown)
                 }
             }
             .padding(.top, 12)
         } label: {
-            sectionHeader(title: "Phases", subtitle: "A colourful roadmap to the finish line")
+            sectionHeader(title: "Weekly Ramp", subtitle: "Every 7-day sprint with checkpoints")
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .disclosureGroupStyle(.automatic)
@@ -174,6 +174,141 @@ struct ChallengeDashboardView: View {
         guard let hour = components.hour, let minute = components.minute else { return "--:--" }
         let date = Calendar.current.date(from: DateComponents(hour: hour, minute: minute)) ?? Date()
         return date.formatted(date: .omitted, time: .shortened)
+    }
+}
+
+private extension ChallengeDashboardView {
+    var weeklyBreakdowns: [WeeklyBreakdown] {
+        plan.weeklyReviews
+            .sorted { $0.weekNumber < $1.weekNumber }
+            .map { review in
+                let range = Self.weekRange(for: review.weekNumber)
+                let days = plan.days.filter { range.contains($0.dayNumber) }
+                let matchingPhase = plan.phases.first { phase in
+                    let weekRange = range.lowerBound..<(range.upperBound + 1)
+                    return phase.dayRange.overlaps(weekRange)
+                }
+                return WeeklyBreakdown(week: review, days: days, phase: matchingPhase)
+            }
+    }
+
+    static func weekRange(for week: Int) -> ClosedRange<Int> {
+        let lower = max(1, (week - 1) * 7 + 1)
+        let upper = min(30, week * 7)
+        return lower...upper
+    }
+}
+
+struct WeeklyBreakdown: Identifiable {
+    var id: UUID { week.id }
+    let week: WeeklyReview
+    let days: [DailyEntry]
+    let phase: ChallengePhase?
+
+    var weekRangeDescription: String {
+        let lower = days.first?.dayNumber ?? ((week.weekNumber - 1) * 7 + 1)
+        let upper = days.last?.dayNumber ?? min(30, week.weekNumber * 7)
+        return "Days \(lower)-\(upper)"
+    }
+}
+
+struct WeeklyPlanView: View {
+    var breakdown: WeeklyBreakdown
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            header
+            Divider()
+            dayHighlights
+            Divider()
+            reviewSection
+        }
+        .padding(20)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Palette.border, lineWidth: 1)
+        )
+    }
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: 12) {
+                Text("Week \(breakdown.week.weekNumber)")
+                    .font(.title3.bold())
+                    .foregroundStyle(Palette.textPrimary)
+                Text(breakdown.weekRangeDescription)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Palette.textSecondary)
+            }
+            if let phase = breakdown.phase {
+                Text(phase.name)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Palette.accentBlue)
+                Text(phase.objective)
+                    .font(.footnote)
+                    .foregroundStyle(Palette.textSecondary)
+            }
+        }
+    }
+
+    private var dayHighlights: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Daily themes")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Palette.textPrimary)
+            ForEach(breakdown.days) { day in
+                HStack(alignment: .center, spacing: 8) {
+                    Capsule()
+                        .fill(Palette.accentLavender)
+                        .frame(width: 6, height: 6)
+                    Text("Day \(day.dayNumber):")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Palette.textPrimary)
+                    Text(day.theme)
+                        .font(.footnote)
+                        .foregroundStyle(Palette.textSecondary)
+                    Spacer()
+                    Text("\(day.tasks.count) tasks")
+                        .font(.caption2)
+                        .foregroundStyle(Palette.textSecondary)
+                }
+            }
+        }
+    }
+
+    private var reviewSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Weekly review")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Palette.textPrimary)
+            VStack(alignment: .leading, spacing: 10) {
+                LabeledContent("Evidence to collect") {
+                    bulletList(breakdown.week.evidenceToCollect)
+                }
+                LabeledContent("Reflection prompts") {
+                    bulletList(breakdown.week.reflectionQuestions)
+                }
+                LabeledContent("Adaptation rules") {
+                    bulletList(breakdown.week.adaptationRules.map { "\($0.condition) → \($0.response)" })
+                }
+            }
+            .font(.footnote)
+            .foregroundStyle(Palette.textSecondary)
+        }
+    }
+
+    @ViewBuilder
+    private func bulletList(_ items: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(items, id: \.self) { item in
+                HStack(alignment: .top, spacing: 6) {
+                    Text("•")
+                    Text(item)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+        }
     }
 }
 
