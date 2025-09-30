@@ -41,6 +41,8 @@ struct AIAssistantService {
 
     private struct RequestPayload: Encodable {
         var prompt: String
+        var purpose: String?
+        var familiarity: String?
         var agent: String?
         var model: String?
     }
@@ -124,14 +126,27 @@ struct AIAssistantService {
         }
     }
 
-    func generatePlan(prompt: String) async throws -> ChallengePlan {
+    func generatePlan(
+        prompt: String,
+        purpose: String = "",
+        familiarity: ChallengeFamiliarity = .beginner,
+        agent: PlanGenerationAgent = .mentor
+    ) async throws -> ChallengePlan {
         switch backend {
         case .custom(let url, let apiKey):
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
-            request.httpBody = try JSONEncoder().encode(RequestPayload(prompt: prompt))
+            request.httpBody = try JSONEncoder().encode(
+                RequestPayload(
+                    prompt: prompt,
+                    purpose: purpose,
+                    familiarity: familiarity.rawValue,
+                    agent: agent.rawValue,
+                    model: agent.modelIdentifier
+                )
+            )
 
             let (data, response) = try await URLSession.shared.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
@@ -142,16 +157,33 @@ struct AIAssistantService {
             return try JSONDecoder().decode(ResponsePayload.self, from: data).plan
 
         case .supabase(let client):
-            let start = try await enqueueJob(client: client, prompt: prompt, agent: .mentor)
+            let start = try await enqueueJob(
+                client: client,
+                prompt: prompt,
+                purpose: purpose,
+                familiarity: familiarity,
+                agent: agent
+            )
             return try await pollForCompletion(client: client, jobId: start.jobId)
         }
     }
 
-    func enqueuePlan(prompt: String, agent: PlanGenerationAgent) async throws -> JobStartResponse {
+    func enqueuePlan(
+        prompt: String,
+        purpose: String,
+        familiarity: ChallengeFamiliarity,
+        agent: PlanGenerationAgent
+    ) async throws -> JobStartResponse {
         guard case .supabase(let client) = backend else {
             throw ServiceError.missingEndpoint
         }
-        return try await enqueueJob(client: client, prompt: prompt, agent: agent)
+        return try await enqueueJob(
+            client: client,
+            prompt: prompt,
+            purpose: purpose,
+            familiarity: familiarity,
+            agent: agent
+        )
     }
 
     func jobStatus(jobId: UUID) async throws -> JobStatusResponse {
@@ -171,8 +203,20 @@ struct AIAssistantService {
         return try await pollForCompletion(client: client, jobId: jobId, timeout: timeout)
     }
 
-    private func enqueueJob(client: SupabaseClient, prompt: String, agent: PlanGenerationAgent) async throws -> JobStartResponse {
-        let payload = RequestPayload(prompt: prompt, agent: agent.rawValue, model: agent.modelIdentifier)
+    private func enqueueJob(
+        client: SupabaseClient,
+        prompt: String,
+        purpose: String,
+        familiarity: ChallengeFamiliarity,
+        agent: PlanGenerationAgent
+    ) async throws -> JobStartResponse {
+        let payload = RequestPayload(
+            prompt: prompt,
+            purpose: purpose,
+            familiarity: familiarity.rawValue,
+            agent: agent.rawValue,
+            model: agent.modelIdentifier
+        )
         return try await client.functions.invoke(
             "generate-plan",
             options: FunctionInvokeOptions(body: payload)

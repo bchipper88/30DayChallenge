@@ -10,6 +10,8 @@ struct ParsedPrompt {
 struct ChallengeDraft {
     var domain: ChallengeDomain = .other
     var prompt: String = ""
+    var purpose: String = ""
+    var familiarity: ChallengeFamiliarity = .beginner
     var reminderTime: Date = ChallengeDraft.defaultReminderTime
     var streakMinutes: Int = 45
 
@@ -21,6 +23,7 @@ struct ChallengeDraft {
         !trimmedPrimaryGoal.isEmpty
             && !trimmedCoreMotivation.isEmpty
             && !trimmedSpecificWin.isEmpty
+            && !trimmedPurpose.isEmpty
     }
 
     private var parsedPrompt: ParsedPrompt {
@@ -30,6 +33,34 @@ struct ChallengeDraft {
     var trimmedPrimaryGoal: String { parsedPrompt.goal }
     var trimmedCoreMotivation: String { parsedPrompt.motivation }
     var trimmedSpecificWin: String { parsedPrompt.win }
+    var trimmedPurpose: String { purpose.trimmingCharacters(in: .whitespacesAndNewlines) }
+}
+
+enum ChallengeFamiliarity: String, CaseIterable, Identifiable, Codable {
+    case beginner
+    case intermediate
+    case advanced
+    case expert
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .beginner: return "Beginner"
+        case .intermediate: return "Intermediate"
+        case .advanced: return "Advanced"
+        case .expert: return "Expert"
+        }
+    }
+
+    var descriptor: String {
+        switch self {
+        case .beginner: return "New to this area"
+        case .intermediate: return "Some experience"
+        case .advanced: return "Comfortable, wants refinement"
+        case .expert: return "Seasoned, needs high-level strategy"
+        }
+    }
 }
 
 enum ChallengePlanFactory {
@@ -62,7 +93,7 @@ enum ChallengePlanFactory {
             reminderRule: reminderRule(for: draft, title: title),
             celebrationRule: CelebrationRule(trigger: .dayComplete, message: "Momentum unlocked! Celebrate the win."),
             streakRule: StreakRule(thresholdMinutes: draft.streakMinutes, graceDays: 2),
-            callToAction: defaultCallToAction(for: goal, motivation: motivation),
+            callToAction: defaultCallToAction(for: goal, motivation: motivation, purpose: draft.trimmedPurpose),
             accentPalette: palette(for: draft.domain)
         )
     }
@@ -223,11 +254,15 @@ enum ChallengePlanFactory {
     }
 
     private static func assumptions(for draft: ChallengeDraft) -> [String] {
-        [
+        var lines: [String] = [
             "Dedicate \(draft.streakMinutes) focused minutes each day.",
             "Capture one insight after every session to cement learning.",
-            "Share weekly progress with someone you trust."
+            "Share weekly progress with someone you trust.",
+            "Purpose: \(draft.trimmedPurpose)"
         ]
+
+        lines.append(familiarityGuidance(for: draft.familiarity))
+        return lines
     }
 
     private static func constraints(for draft: ChallengeDraft) -> [String] {
@@ -253,9 +288,12 @@ enum ChallengePlanFactory {
         return ReminderRule(timeOfDay: components, message: "Time to advance \(focusTitle).")
     }
 
-    private static func defaultCallToAction(for goal: String, motivation: String) -> String {
+    private static func defaultCallToAction(for goal: String, motivation: String, purpose: String) -> String {
         if !motivation.isEmpty {
             return motivation
+        }
+        if !purpose.isEmpty {
+            return purpose
         }
         let focus = focusGoal(goal)
         return "Every rep compounds—let's keep \(focus) moving."
@@ -483,6 +521,19 @@ enum ChallengePlanFactory {
 
     private static func gradient(_ hexes: [String]) -> GradientDescriptor {
         GradientDescriptor(stops: hexes.map { GradientStop(hex: $0, opacity: 1.0) })
+    }
+
+    private static func familiarityGuidance(for level: ChallengeFamiliarity) -> String {
+        switch level {
+        case .beginner:
+            return "Assume the user is a beginner—provide foundational explanations and step-by-step guidance."
+        case .intermediate:
+            return "Assume the user has some experience—mix fundamentals with moderate progression."
+        case .advanced:
+            return "Assume the user is advanced—focus on optimisation, challenging progressions, and autonomy."
+        case .expert:
+            return "Assume the user is an expert—offer strategic milestones, advanced metrics, and high-level experimentation."
+        }
     }
 
     private static func descriptiveGoal(_ goal: String) -> String {

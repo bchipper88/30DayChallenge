@@ -196,6 +196,10 @@ struct PendingPlanCard: View {
                         .font(.subheadline)
                         .foregroundStyle(Palette.textSecondary)
                         .lineLimit(3)
+                    Text(pending.purpose)
+                        .font(.footnote)
+                        .foregroundStyle(Palette.textSecondary.opacity(0.9))
+                        .lineLimit(2)
                     HStack(spacing: 8) {
                         Text(pending.agent.displayName)
                             .font(.caption.weight(.semibold))
@@ -205,6 +209,9 @@ struct PendingPlanCard: View {
                             .background(Palette.surfaceMuted, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                         Text(pending.agent.descriptor)
                             .font(.caption)
+                            .foregroundStyle(Palette.textSecondary)
+                        Text(pending.familiarity.displayName)
+                            .font(.caption.weight(.semibold))
                             .foregroundStyle(Palette.textSecondary)
                     }
                 }

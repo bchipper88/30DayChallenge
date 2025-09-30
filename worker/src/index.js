@@ -492,7 +492,7 @@ function buildPlanFromBlueprint(blueprint) {
   };
 }
 
-async function generatePlan(prompt, modelOverride) {
+async function generatePlan(prompt, modelOverride, purpose, familiarity) {
   const modelToUse = modelOverride ?? openAIModel;
   let lastError;
   for (let attempt = 0; attempt <= maxOpenAIRetries; attempt += 1) {
@@ -502,6 +502,12 @@ async function generatePlan(prompt, modelOverride) {
         promptLength: prompt.length,
         model: modelToUse,
       });
+      const contextSections = [
+        prompt,
+        purpose ? `Purpose for this goal: ${purpose}` : null,
+        familiarity ? `User familiarity level: ${familiarity}` : null,
+      ].filter(Boolean);
+
       const requestPayload = {
         model: modelToUse,
         response_format: {
@@ -514,7 +520,7 @@ async function generatePlan(prompt, modelOverride) {
         },
         messages: [
           { role: 'system', content: blueprintPrompt },
-          { role: 'user', content: prompt }
+          { role: 'user', content: contextSections.join('\n\n') }
         ]
       };
 
@@ -579,7 +585,12 @@ async function generatePlan(prompt, modelOverride) {
 
 async function processJob(job) {
   try {
-    const { plan, responseId } = await generatePlan(job.prompt, job.model ?? null);
+    const { plan, responseId } = await generatePlan(
+      job.prompt,
+      job.model ?? null,
+      job.purpose ?? '',
+      job.familiarity ?? ''
+    );
     const { error } = await supabase
       .from('ai_generation_jobs')
       .update({

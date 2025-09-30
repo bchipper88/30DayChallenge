@@ -29,6 +29,8 @@ final class ChallengeStore {
         var createdAt: Date
         var status: Status
         var agent: PlanGenerationAgent
+        var purpose: String
+        var familiarity: ChallengeFamiliarity
 
         var promptPreview: String {
             let trimmed = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -85,14 +87,21 @@ final class ChallengeStore {
     func createPlan(from draft: ChallengeDraft, agent: PlanGenerationAgent) async -> Bool {
         if let aiService, !draft.prompt.isEmpty {
             do {
-                let start = try await aiService.enqueuePlan(prompt: draft.prompt, agent: agent)
+                let start = try await aiService.enqueuePlan(
+                    prompt: draft.prompt,
+                    purpose: draft.trimmedPurpose,
+                    familiarity: draft.familiarity,
+                    agent: agent
+                )
                 errorMessage = nil
                 let pending = PendingPlan(
                     id: start.jobId,
                     prompt: draft.prompt,
                     createdAt: start.queuedAt ?? Date(),
                     status: .queued,
-                    agent: agent
+                    agent: agent,
+                    purpose: draft.trimmedPurpose,
+                    familiarity: draft.familiarity
                 )
                 pendingPlans.insert(pending, at: 0)
                 Task {
@@ -171,7 +180,12 @@ final class ChallengeStore {
         guard let aiService else { return }
         Task {
             do {
-                let start = try await aiService.enqueuePlan(prompt: pending.prompt, agent: pending.agent)
+                let start = try await aiService.enqueuePlan(
+                    prompt: pending.prompt,
+                    purpose: pending.purpose,
+                    familiarity: pending.familiarity,
+                    agent: pending.agent
+                )
                 await MainActor.run {
                     self.pendingPlans.removeAll { $0.id == pending.id }
                     let replacement = PendingPlan(
@@ -179,7 +193,9 @@ final class ChallengeStore {
                         prompt: pending.prompt,
                         createdAt: start.queuedAt ?? Date(),
                         status: .queued,
-                        agent: pending.agent
+                        agent: pending.agent,
+                        purpose: pending.purpose,
+                        familiarity: pending.familiarity
                     )
                     self.pendingPlans.insert(replacement, at: 0)
                 }

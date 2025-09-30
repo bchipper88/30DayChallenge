@@ -5,6 +5,8 @@ type RequestPayload = {
   userId?: string;
   agent?: string;
   model?: string;
+  purpose?: string;
+  familiarity?: string;
 };
 
 type JobResponse = {
@@ -56,7 +58,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
       status: "pending",
       user_id: payload.userId ?? null,
       agent: payload.agent ?? null,
-      model: payload.model ?? null
+      model: payload.model ?? null,
+      purpose: payload.purpose ?? null,
+      familiarity: payload.familiarity ?? null
     })
     .select("id, status, created_at")
     .single();
