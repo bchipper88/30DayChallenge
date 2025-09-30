@@ -469,6 +469,7 @@ function buildPlanFromBlueprint(blueprint) {
     title: blueprint.title,
     domain: blueprint.domain,
     primaryGoal: blueprint.primaryGoal,
+    createdAt: new Date().toISOString(),
     targetOutcome: blueprint.targetOutcome,
     assumptions: blueprint.assumptions,
     constraints: blueprint.constraints,

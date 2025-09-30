@@ -97,60 +97,58 @@ struct ChallengeListView: View {
 struct PlanCardView: View {
     var plan: ChallengePlan
 
-    private var progress: Int {
-        let ratio = plan.phases.flatMap { $0.milestones }.map { $0.progress }.average
-        return max(0, min(100, Int(ratio * 100)))
+    private var completedTasks: Int {
+        plan.days.reduce(0) { partial, day in
+            partial + day.tasks.filter { $0.isComplete }.count
+        }
     }
 
-    private var currentDay: Int {
-        plan.days.first(where: { !$0.tasks.allSatisfy { $0.isComplete } })?.dayNumber ?? plan.days.count
+    private var totalTasks: Int {
+        plan.days.reduce(0) { $0 + $1.tasks.count }
+    }
+
+    private var progressFraction: Double {
+        guard totalTasks > 0 else { return 0 }
+        return Double(completedTasks) / Double(totalTasks)
+    }
+
+    private var percentageComplete: Int {
+        Int(round(progressFraction * 100))
+    }
+
+    private var currentDayNumber: Int {
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: plan.createdAt)
+        let today = calendar.startOfDay(for: Date())
+        let diff = calendar.dateComponents([.day], from: start, to: today).day ?? 0
+        return max(1, diff + 1)
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(plan.domain.displayName.uppercased())
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(Palette.textSecondary)
-                    Text(plan.title)
-                        .font(.system(size: 26, weight: .semibold, design: .rounded))
-                        .foregroundStyle(Palette.textPrimary)
-                    Text(plan.primaryGoal)
-                        .font(.subheadline)
-                        .foregroundStyle(Palette.textSecondary)
-                }
+        VStack(alignment: .leading, spacing: 16) {
+            Text(plan.title)
+                .font(.system(size: 24, weight: .semibold, design: .rounded))
+                .foregroundStyle(Palette.textPrimary)
+                .lineLimit(2)
+
+            ProgressView(value: progressFraction)
+                .progressViewStyle(.linear)
+                .tint(Palette.accentBlue)
+
+            HStack {
+                Text("\(percentageComplete)% Complete")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Palette.textSecondary)
                 Spacer()
-                VStack(spacing: 10) {
-                    Text("Day \(currentDay)")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(Palette.textSecondary)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(Palette.accentLavender, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    Text("\(progress)%")
-                        .font(.title3.weight(.bold))
-                        .foregroundStyle(Palette.accentBlue)
-                }
+                Text("Day \(currentDayNumber)")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Palette.textSecondary)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Palette.accentLavender.opacity(0.4), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
-
-            HStack(spacing: 16) {
-                MetricChip(title: "Milestones", value: "\(plan.phases.flatMap { $0.milestones }.count)")
-                MetricChip(title: "Weekly reviews", value: "\(plan.weeklyReviews.count)", accent: Palette.accentLavender)
-                MetricChip(title: "Reminder", value: formattedReminder(plan.reminderRule), accent: Palette.accentCoral)
-            }
-
-            LinearGradient(colors: plan.accentColors, startPoint: .leading, endPoint: .trailing)
-                .frame(height: 6)
-                .clipShape(RoundedRectangle(cornerRadius: 3))
         }
         .softCard(padding: 24, cornerRadius: 32)
-    }
-
-    private func formattedReminder(_ rule: ReminderRule) -> String {
-        guard let hour = rule.timeOfDay.hour, let minute = rule.timeOfDay.minute else { return "Daily" }
-        let date = Calendar.current.date(from: DateComponents(hour: hour, minute: minute)) ?? Date()
-        return date.formatted(date: .omitted, time: .shortened)
     }
 }
 

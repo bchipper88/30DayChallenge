@@ -25,6 +25,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
     var title: String
     var domain: ChallengeDomain
     var primaryGoal: String
+    var createdAt: Date = Date()
     var targetOutcome: TargetOutcome
     var assumptions: [String]
     var constraints: [String]
@@ -44,6 +45,136 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
 
     var shortSummary: String {
         "\(domain.displayName): \(primaryGoal)"
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case domain
+        case primaryGoal
+        case createdAt
+        case targetOutcome
+        case assumptions
+        case constraints
+        case resources
+        case phases
+        case days
+        case weeklyReviews
+        case reminderRule
+        case celebrationRule
+        case streakRule
+        case callToAction
+        case accentPalette
+    }
+
+    init(
+        id: UUID,
+        title: String,
+        domain: ChallengeDomain,
+        primaryGoal: String,
+        createdAt: Date = Date(),
+        targetOutcome: TargetOutcome,
+        assumptions: [String],
+        constraints: [String],
+        resources: [String],
+        phases: [ChallengePhase],
+        days: [DailyEntry],
+        weeklyReviews: [WeeklyReview],
+        reminderRule: ReminderRule,
+        celebrationRule: CelebrationRule,
+        streakRule: StreakRule,
+        callToAction: String,
+        accentPalette: GradientDescriptor
+    ) {
+        self.id = id
+        self.title = title
+        self.domain = domain
+        self.primaryGoal = primaryGoal
+        self.createdAt = createdAt
+        self.targetOutcome = targetOutcome
+        self.assumptions = assumptions
+        self.constraints = constraints
+        self.resources = resources
+        self.phases = phases
+        self.days = days
+        self.weeklyReviews = weeklyReviews
+        self.reminderRule = reminderRule
+        self.celebrationRule = celebrationRule
+        self.streakRule = streakRule
+        self.callToAction = callToAction
+        self.accentPalette = accentPalette
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let id = try container.decode(UUID.self, forKey: .id)
+        let title = try container.decode(String.self, forKey: .title)
+        let domain = try container.decode(ChallengeDomain.self, forKey: .domain)
+        let primaryGoal = try container.decode(String.self, forKey: .primaryGoal)
+        let targetOutcome = try container.decode(TargetOutcome.self, forKey: .targetOutcome)
+        let assumptions = try container.decode([String].self, forKey: .assumptions)
+        let constraints = try container.decode([String].self, forKey: .constraints)
+        let resources = try container.decode([String].self, forKey: .resources)
+        let phases = try container.decode([ChallengePhase].self, forKey: .phases)
+        let days = try container.decode([DailyEntry].self, forKey: .days)
+        let weeklyReviews = try container.decode([WeeklyReview].self, forKey: .weeklyReviews)
+        let reminderRule = try container.decode(ReminderRule.self, forKey: .reminderRule)
+        let celebrationRule = try container.decode(CelebrationRule.self, forKey: .celebrationRule)
+        let streakRule = try container.decode(StreakRule.self, forKey: .streakRule)
+        let callToAction = try container.decode(String.self, forKey: .callToAction)
+        let accentPalette = try container.decode(GradientDescriptor.self, forKey: .accentPalette)
+
+        var createdAtDate = Date()
+        if let date = try? container.decode(Date.self, forKey: .createdAt) {
+            createdAtDate = date
+        } else if let timestamp = try? container.decode(Double.self, forKey: .createdAt) {
+            createdAtDate = Date(timeIntervalSince1970: timestamp)
+        } else if let iso = try? container.decode(String.self, forKey: .createdAt),
+                  let parsed = ISO8601DateFormatter().date(from: iso) {
+            createdAtDate = parsed
+        }
+
+        self.init(
+            id: id,
+            title: title,
+            domain: domain,
+            primaryGoal: primaryGoal,
+            createdAt: createdAtDate,
+            targetOutcome: targetOutcome,
+            assumptions: assumptions,
+            constraints: constraints,
+            resources: resources,
+            phases: phases,
+            days: days,
+            weeklyReviews: weeklyReviews,
+            reminderRule: reminderRule,
+            celebrationRule: celebrationRule,
+            streakRule: streakRule,
+            callToAction: callToAction,
+            accentPalette: accentPalette
+        )
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(title, forKey: .title)
+        try container.encode(domain, forKey: .domain)
+        try container.encode(primaryGoal, forKey: .primaryGoal)
+        try container.encode(createdAt, forKey: .createdAt)
+        try container.encode(targetOutcome, forKey: .targetOutcome)
+        try container.encode(assumptions, forKey: .assumptions)
+        try container.encode(constraints, forKey: .constraints)
+        try container.encode(resources, forKey: .resources)
+        try container.encode(phases, forKey: .phases)
+        try container.encode(days, forKey: .days)
+        try container.encode(weeklyReviews, forKey: .weeklyReviews)
+        try container.encode(reminderRule, forKey: .reminderRule)
+        try container.encode(celebrationRule, forKey: .celebrationRule)
+        try container.encode(streakRule, forKey: .streakRule)
+        try container.encode(callToAction, forKey: .callToAction)
+        try container.encode(accentPalette, forKey: .accentPalette)
     }
 }
 
