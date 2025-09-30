@@ -41,20 +41,9 @@ struct CreateChallengeView: View {
     }
 
     private var headerMessage: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Tell the assistant what you're plotting")
-                .font(.title2.bold())
-                .foregroundStyle(Palette.textPrimary)
-            Text("Think of this like a chat message. Share your 30-day goal, why it matters, and the specific win you'll celebrate.")
-                .font(.callout)
-                .foregroundStyle(Palette.textSecondary)
-        }
-        .padding(20)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 26, style: .continuous)
-                .stroke(Palette.border, lineWidth: 1)
-        )
+        Text("Generate Your 30 Day Challenge")
+            .font(.title2.bold())
+            .foregroundStyle(Palette.textPrimary)
     }
 
     private var chatBox: some View {
