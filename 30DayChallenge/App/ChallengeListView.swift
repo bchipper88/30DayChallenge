@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ChallengeListView: View {
     @Environment(ChallengeStore.self) private var store
-    @State private var path: [ChallengePlan] = []
+    @State private var path: [ChallengeListDestination] = []
     var body: some View {
         NavigationStack(path: $path) {
             ZStack(alignment: .bottomTrailing) {
@@ -14,10 +14,10 @@ struct ChallengeListView: View {
                             ForEach(store.pendingPlans) { pending in
                                 PendingPlanCard(pending: pending)
                             }
-                            ForEach(store.plans) { plan in
-                                NavigationLink(value: plan) {
-                                    PlanCardView(plan: plan)
-                                }
+                        ForEach(store.plans) { plan in
+                            NavigationLink(value: ChallengeListDestination.plan(plan)) {
+                                PlanCardView(plan: plan)
+                            }
                                 .buttonStyle(.plain)
                                 .simultaneousGesture(TapGesture().onEnded {
                                     store.select(plan)
@@ -31,18 +31,20 @@ struct ChallengeListView: View {
                 }
 
                 FloatingCreateButton {
-                    path.append(CreateChallengePlaceholder.plan)
+                    path.append(.create)
                 }
                 .padding(.trailing, 24)
                 .padding(.bottom, 32)
             }
             .background(Palette.background)
-            .navigationDestination(for: ChallengePlan.self) { plan in
-                ChallengeDashboardView(plan: plan)
-                    .onAppear { store.select(plan) }
-            }
-            .navigationDestination(for: CreateChallengePlaceholder.self) { _ in
-                CreateChallengeView()
+            .navigationDestination(for: ChallengeListDestination.self) { destination in
+                switch destination {
+                case .plan(let plan):
+                    ChallengeDashboardView(plan: plan)
+                        .onAppear { store.select(plan) }
+                case .create:
+                    CreateChallengeView()
+                }
             }
         }
     }
@@ -157,9 +159,7 @@ struct PlanCardView: View {
 
 struct NewPlanCardLink: View {
     var body: some View {
-        NavigationLink {
-            CreateChallengeView()
-        } label: {
+        NavigationLink(value: ChallengeListDestination.create) {
             VStack(alignment: .leading, spacing: 18) {
                 Image(systemName: "plus")
                     .font(.title3.weight(.semibold))
@@ -203,8 +203,9 @@ struct FloatingCreateButton: View {
     }
 }
 
-enum CreateChallengePlaceholder: Hashable {
-    case plan
+enum ChallengeListDestination: Hashable {
+    case plan(ChallengePlan)
+    case create
 }
 
 struct PendingPlanCard: View {
