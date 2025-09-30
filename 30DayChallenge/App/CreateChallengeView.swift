@@ -102,6 +102,10 @@ private extension CreateChallengeView {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 60, height: 60)
                         AgentChip(agent: agent, isSelected: agent == selectedAgent)
+                        Text(agent.descriptor)
+                            .font(.caption)
+                            .foregroundStyle(Palette.textSecondary)
+                            .multilineTextAlignment(.center)
                     }
                     .onTapGesture {
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
@@ -132,15 +136,9 @@ private struct AgentChip: View {
     var isSelected: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(agent.displayName)
-                .font(.headline)
-                .foregroundStyle(isSelected ? Color.white : Palette.textPrimary)
-            Text(agent.descriptor)
-                .font(.caption)
-                .foregroundStyle(isSelected ? Color.white.opacity(0.85) : Palette.textSecondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
+        Text(agent.displayName)
+            .font(.headline)
+            .foregroundStyle(isSelected ? Color.white : Palette.textPrimary)
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
         .frame(maxWidth: .infinity)
