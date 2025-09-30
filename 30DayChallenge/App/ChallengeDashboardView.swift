@@ -23,7 +23,6 @@ struct ChallengeDashboardView: View {
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationTitle("Challenge Overview")
-        .toolbar { streakToolbar }
     }
 
     private var heroHeader: some View {
@@ -32,49 +31,18 @@ struct ChallengeDashboardView: View {
                 .font(.system(.largeTitle, design: .rounded).bold())
                 .foregroundStyle(Palette.textPrimary)
 
-            Text(plan.primaryGoal)
-                .font(.headline)
-                .foregroundStyle(Palette.textSecondary)
-
-            gradientCard
+            if let summary = plan.summary, !summary.isEmpty {
+                Text(summary)
+                    .font(.body)
+                    .foregroundStyle(Palette.textSecondary)
+                    .lineSpacing(4)
+            } else {
+                Text(plan.primaryGoal)
+                    .font(.headline)
+                    .foregroundStyle(Palette.textSecondary)
+            }
         }
         .softCard(padding: 26, cornerRadius: 34)
-    }
-
-    private var gradientCard: some View {
-        RoundedRectangle(cornerRadius: 28)
-            .fill(LinearGradient(colors: plan.accentColors, startPoint: .topLeading, endPoint: .bottomTrailing))
-            .frame(height: 160)
-            .overlay(alignment: .leading) {
-                VStack(alignment: .leading, spacing: 10) {
-                    Label("Reminder", systemImage: "alarm")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.white.opacity(0.8))
-                    Text(plan.reminderRule.message)
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(.white)
-                    Text("Daily • \(formattedTime(plan.reminderRule.timeOfDay))")
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(.white.opacity(0.8))
-                }
-                .padding(24)
-            }
-            .overlay(alignment: .bottomTrailing) {
-                VStack(alignment: .trailing) {
-                    Text("Streak")
-                        .font(.caption.bold())
-                        .foregroundStyle(.white)
-                    if let streak = store.streakStates[plan.id] {
-                        Text("🔥 \(streak.current) current")
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                        Text("Best: \(streak.longest)")
-                            .font(.caption2)
-                            .foregroundStyle(.white.opacity(0.8))
-                    }
-                }
-                .padding(24)
-            }
     }
 
     private var weeksSection: some View {
@@ -153,20 +121,6 @@ struct ChallengeDashboardView: View {
             Text(subtitle)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-        }
-    }
-
-    private var streakToolbar: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            if let streak = store.streakStates[plan.id] {
-                VStack(spacing: 2) {
-                    Text("🔥\(streak.current)")
-                        .font(.headline)
-                    Text("Longest \(streak.longest)")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
-            }
         }
     }
 

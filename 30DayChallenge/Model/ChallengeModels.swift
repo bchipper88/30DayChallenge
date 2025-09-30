@@ -38,6 +38,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
     var streakRule: StreakRule
     var callToAction: String
     var accentPalette: GradientDescriptor
+    var summary: String?
 
     var accentColors: [Color] {
         accentPalette.colors
@@ -65,6 +66,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         case streakRule
         case callToAction
         case accentPalette
+        case summary
     }
 
     init(
@@ -84,7 +86,8 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         celebrationRule: CelebrationRule,
         streakRule: StreakRule,
         callToAction: String,
-        accentPalette: GradientDescriptor
+        accentPalette: GradientDescriptor,
+        summary: String? = nil
     ) {
         self.id = id
         self.title = title
@@ -103,6 +106,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         self.streakRule = streakRule
         self.callToAction = callToAction
         self.accentPalette = accentPalette
+        self.summary = summary
     }
 
     init(from decoder: Decoder) throws {
@@ -124,6 +128,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         let streakRule = try container.decode(StreakRule.self, forKey: .streakRule)
         let callToAction = try container.decode(String.self, forKey: .callToAction)
         let accentPalette = try container.decode(GradientDescriptor.self, forKey: .accentPalette)
+        let summary = try container.decodeIfPresent(String.self, forKey: .summary)
 
         var createdAtDate = Date()
         if let date = try? container.decode(Date.self, forKey: .createdAt) {
@@ -152,7 +157,8 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
             celebrationRule: celebrationRule,
             streakRule: streakRule,
             callToAction: callToAction,
-            accentPalette: accentPalette
+            accentPalette: accentPalette,
+            summary: summary
         )
     }
 
@@ -175,6 +181,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         try container.encode(streakRule, forKey: .streakRule)
         try container.encode(callToAction, forKey: .callToAction)
         try container.encode(accentPalette, forKey: .accentPalette)
+        try container.encodeIfPresent(summary, forKey: .summary)
     }
 }
 
