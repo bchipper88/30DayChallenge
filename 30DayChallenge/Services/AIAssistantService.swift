@@ -11,7 +11,7 @@ struct AIAssistantService {
         var prompt: String
     }
 
-    private struct JobStartResponse: Decodable {
+    struct JobStartResponse: Decodable {
         var jobId: UUID
         var status: JobStatus
         var queuedAt: Date?
@@ -34,17 +34,17 @@ struct AIAssistantService {
         }
     }
 
-    private struct JobStatusRequest: Encodable {
+    struct JobStatusRequest: Encodable {
         var jobId: UUID
     }
 
-    private struct JobStatusResponse: Decodable {
+    struct JobStatusResponse: Decodable {
         var status: JobStatus
         var plan: ChallengePlan?
         var error: String?
     }
 
-    private enum JobStatus: String, Decodable {
+    enum JobStatus: String, Decodable {
         case pending
         case inProgress = "in_progress"
         case completed
@@ -113,6 +113,30 @@ struct AIAssistantService {
         }
     }
 
+    func enqueuePlan(prompt: String) async throws -> JobStartResponse {
+        guard case .supabase(let client) = backend else {
+            throw ServiceError.missingEndpoint
+        }
+        return try await enqueueJob(client: client, prompt: prompt)
+    }
+
+    func jobStatus(jobId: UUID) async throws -> JobStatusResponse {
+        guard case .supabase(let client) = backend else {
+            throw ServiceError.missingEndpoint
+        }
+        return try await client.functions.invoke(
+            "plan-status",
+            options: FunctionInvokeOptions(body: JobStatusRequest(jobId: jobId))
+        )
+    }
+
+    func awaitPlanCompletion(jobId: UUID, timeout: TimeInterval = 180) async throws -> ChallengePlan {
+        guard case .supabase(let client) = backend else {
+            throw ServiceError.missingEndpoint
+        }
+        return try await pollForCompletion(client: client, jobId: jobId, timeout: timeout)
+    }
+
     private func enqueueJob(client: SupabaseClient, prompt: String) async throws -> JobStartResponse {
         let payload = RequestPayload(prompt: prompt)
         return try await client.functions.invoke(
@@ -121,9 +145,9 @@ struct AIAssistantService {
         )
     }
 
-    private func pollForCompletion(client: SupabaseClient, jobId: UUID) async throws -> ChallengePlan {
+    private func pollForCompletion(client: SupabaseClient, jobId: UUID, timeout: TimeInterval = 180) async throws -> ChallengePlan {
         let pollInterval: UInt64 = 2 * 1_000_000_000 // 2 seconds
-        let deadline = Date().addingTimeInterval(180)
+        let deadline = Date().addingTimeInterval(timeout)
 
         while true {
             try Task.checkCancellation()

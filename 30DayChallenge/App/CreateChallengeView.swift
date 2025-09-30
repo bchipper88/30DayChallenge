@@ -4,15 +4,9 @@ struct CreateChallengeView: View {
     @Environment(ChallengeStore.self) private var store
     @Environment(\.dismiss) private var dismiss
 
-    var onCreated: (ChallengePlan) -> Void
-
     @State private var draft = ChallengeDraft()
     @State private var isSaving = false
     @FocusState private var isPromptFocused: Bool
-
-    init(onCreated: @escaping (ChallengePlan) -> Void = { _ in }) {
-        self.onCreated = onCreated
-    }
 
     private var isCreateDisabled: Bool {
         isSaving || !draft.isValid
@@ -111,13 +105,10 @@ struct CreateChallengeView: View {
     private func handleCreate() async {
         guard !isCreateDisabled else { return }
         isSaving = true
-        do {
-            let plan = try await store.createPlan(from: draft)
-            isSaving = false
-            onCreated(plan)
+        let success = await store.createPlan(from: draft)
+        isSaving = false
+        if success {
             dismiss()
-        } catch {
-            isSaving = false
         }
     }
 }

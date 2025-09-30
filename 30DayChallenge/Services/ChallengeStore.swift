@@ -9,12 +9,33 @@ final class ChallengeStore {
     @ObservationIgnored private let aiService: AIAssistantService?
 
     var plans: [ChallengePlan] = []
+    var pendingPlans: [PendingPlan] = []
     var selectedPlanID: UUID?
     var isLoading: Bool = false
     var errorMessage: String?
     var showConfetti: Bool = false
     var celebrationMessage: String? = nil
     var streakStates: [UUID: StreakState] = [:]
+
+    struct PendingPlan: Identifiable, Equatable {
+        enum Status: Equatable {
+            case queued
+            case generating
+            case failed(String)
+        }
+
+        let id: UUID
+        var prompt: String
+        var createdAt: Date
+        var status: Status
+
+        var promptPreview: String {
+            let trimmed = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { return "AI generated plan" }
+            let preview = trimmed.prefix(120)
+            return preview.count < trimmed.count ? "\(preview)…" : String(preview)
+        }
+    }
 
     init(repository: any PlanRepository = ChallengeStore.makeDefaultRepository()) {
         self.repository = repository
@@ -59,31 +80,31 @@ final class ChallengeStore {
     }
 
     @discardableResult
-    func createPlan(from draft: ChallengeDraft) async throws -> ChallengePlan {
-        let plan: ChallengePlan
+    func createPlan(from draft: ChallengeDraft) async -> Bool {
         if let aiService, !draft.prompt.isEmpty {
             do {
-                plan = try await aiService.generatePlan(prompt: draft.prompt)
+                let start = try await aiService.enqueuePlan(prompt: draft.prompt)
+                errorMessage = nil
+                let pending = PendingPlan(
+                    id: start.jobId,
+                    prompt: draft.prompt,
+                    createdAt: start.queuedAt ?? Date(),
+                    status: .queued
+                )
+                pendingPlans.insert(pending, at: 0)
+                Task {
+                    await self.monitorJob(jobId: start.jobId)
+                }
+                return true
             } catch {
                 errorMessage = Self.humanReadableAIError(from: error)
-                throw error
+                return false
             }
         } else {
-            plan = ChallengePlanFactory.makePlan(from: draft)
+            let plan = ChallengePlanFactory.makePlan(from: draft)
+            await persistAndStore(plan: plan)
+            return true
         }
-        do {
-            try await repository.persist(plan: plan)
-            errorMessage = nil
-        } catch {
-            errorMessage = error.localizedDescription
-            throw error
-        }
-
-        plans.insert(plan, at: 0)
-        selectedPlanID = plan.id
-        streakStates[plan.id] = StreakState(current: 0, longest: 0, lastCompletedDay: nil)
-
-        return plan
     }
 
     func day(for dayNumber: Int) -> DailyEntry? {
@@ -143,6 +164,34 @@ final class ChallengeStore {
         }
     }
 
+    func retryPendingPlan(_ pending: PendingPlan) {
+        guard let aiService else { return }
+        Task {
+            do {
+                let start = try await aiService.enqueuePlan(prompt: pending.prompt)
+                await MainActor.run {
+                    self.pendingPlans.removeAll { $0.id == pending.id }
+                    let replacement = PendingPlan(
+                        id: start.jobId,
+                        prompt: pending.prompt,
+                        createdAt: start.queuedAt ?? Date(),
+                        status: .queued
+                    )
+                    self.pendingPlans.insert(replacement, at: 0)
+                }
+                await self.monitorJob(jobId: start.jobId)
+            } catch {
+                await MainActor.run {
+                    self.updatePending(jobId: pending.id, status: .failed(Self.humanReadableAIError(from: error)))
+                }
+            }
+        }
+    }
+
+    func dismissPendingPlan(_ pending: PendingPlan) {
+        pendingPlans.removeAll { $0.id == pending.id }
+    }
+
     private func triggerCelebration(for plan: ChallengePlan, day: DailyEntry) {
         showConfetti = true
         celebrationMessage = FunFeedback.playfulMessage(for: plan)
@@ -174,6 +223,63 @@ final class ChallengeStore {
 
     private func totalMinutes(for day: DailyEntry) -> Int {
         day.tasks.reduce(0) { $0 + $1.expectedMinutes }
+    }
+
+    private func monitorJob(jobId: UUID) async {
+        guard aiService != nil else { return }
+        let pollInterval: UInt64 = 2 * 1_000_000_000
+
+        while true {
+            do {
+                guard let aiService else { return }
+                let status = try await aiService.jobStatus(jobId: jobId)
+
+                switch status.status {
+                case .pending:
+                    updatePending(jobId: jobId, status: .queued)
+                case .inProgress:
+                    updatePending(jobId: jobId, status: .generating)
+                case .completed:
+                    guard let plan = status.plan else {
+                        updatePending(jobId: jobId, status: .failed("Plan data was unavailable. Please retry."))
+                        return
+                    }
+                    guard pendingPlans.contains(where: { $0.id == jobId }) else {
+                        return
+                    }
+                    pendingPlans.removeAll { $0.id == jobId }
+                    await persistAndStore(plan: plan)
+                    return
+                case .failed:
+                    let message = status.error ?? "Plan generation failed. Please try again."
+                    updatePending(jobId: jobId, status: .failed(message))
+                    return
+                }
+            } catch {
+                updatePending(jobId: jobId, status: .failed(Self.humanReadableAIError(from: error)))
+                return
+            }
+
+            try? await Task.sleep(nanoseconds: pollInterval)
+        }
+    }
+
+    private func persistAndStore(plan: ChallengePlan) async {
+        do {
+            try await repository.persist(plan: plan)
+            errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+
+        plans.insert(plan, at: 0)
+        selectedPlanID = plan.id
+        streakStates[plan.id] = StreakState(current: 0, longest: 0, lastCompletedDay: nil)
+    }
+
+    private func updatePending(jobId: UUID, status: PendingPlan.Status) {
+        guard let index = pendingPlans.firstIndex(where: { $0.id == jobId }) else { return }
+        pendingPlans[index].status = status
     }
 
     private func applyTaskStates(plans: [ChallengePlan], stateMap: [UUID: [UUID: Bool]]) -> [ChallengePlan] {

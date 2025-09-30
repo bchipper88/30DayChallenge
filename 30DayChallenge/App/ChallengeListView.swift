@@ -12,6 +12,9 @@ struct ChallengeListView: View {
                     heroHeader
                     segmentRow
                     LazyVStack(spacing: 20) {
+                        ForEach(store.pendingPlans) { pending in
+                            PendingPlanCard(pending: pending)
+                        }
                         ForEach(store.plans) { plan in
                             NavigationLink(value: plan) {
                                 PlanCardView(plan: plan)
@@ -36,9 +39,7 @@ struct ChallengeListView: View {
             }
         }
         .sheet(isPresented: $showCreate) {
-            CreateChallengeView { plan in
-                path = [plan]
-            }
+            CreateChallengeView()
         }
     }
 
@@ -172,5 +173,112 @@ struct NewPlanCard: View {
             .softCard(padding: 24, cornerRadius: 32)
         }
         .buttonStyle(.plain)
+    }
+}
+
+struct PendingPlanCard: View {
+    @Environment(ChallengeStore.self) private var store
+    var pending: ChallengeStore.PendingPlan
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: iconName)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(iconColor)
+                    .frame(width: 36, height: 36)
+                    .background(iconColor.opacity(0.1), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(statusTitle)
+                        .font(.headline)
+                        .foregroundStyle(Palette.textPrimary)
+                    Text(pending.promptPreview)
+                        .font(.subheadline)
+                        .foregroundStyle(Palette.textSecondary)
+                        .lineLimit(3)
+                }
+                Spacer()
+                Text(pending.createdAt, style: .time)
+                    .font(.caption)
+                    .foregroundStyle(Palette.textSecondary)
+            }
+
+            content
+        }
+        .softCard(padding: 24, cornerRadius: 32)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch pending.status {
+        case .queued, .generating:
+            HStack(spacing: 12) {
+                ProgressView()
+                Text(statusMessage)
+                    .font(.subheadline)
+                    .foregroundStyle(Palette.textSecondary)
+            }
+        case .failed(let message):
+            VStack(alignment: .leading, spacing: 12) {
+                Text(message)
+                    .font(.subheadline)
+                    .foregroundStyle(Palette.textSecondary)
+                HStack(spacing: 12) {
+                    Button("Retry") {
+                        store.retryPendingPlan(pending)
+                    }
+                    .buttonStyle(.borderedProminent)
+
+                    Button("Dismiss") {
+                        store.dismissPendingPlan(pending)
+                    }
+                    .buttonStyle(.bordered)
+                }
+            }
+        }
+    }
+
+    private var statusTitle: String {
+        switch pending.status {
+        case .queued:
+            return "Queued for drafting"
+        case .generating:
+            return "AI is crafting your plan"
+        case .failed:
+            return "Plan generation stalled"
+        }
+    }
+
+    private var statusMessage: String {
+        switch pending.status {
+        case .queued:
+            return "Waiting for the assistant to pick this up."
+        case .generating:
+            return "Writing the 30-day roadmap…"
+        case .failed(let message):
+            return message
+        }
+    }
+
+    private var iconName: String {
+        switch pending.status {
+        case .queued:
+            return "clock.arrow.circlepath"
+        case .generating:
+            return "sparkles"
+        case .failed:
+            return "exclamationmark.triangle"
+        }
+    }
+
+    private var iconColor: Color {
+        switch pending.status {
+        case .queued:
+            return Palette.accentBlue
+        case .generating:
+            return Palette.accentLavender
+        case .failed:
+            return Palette.accentCoral
+        }
     }
 }
