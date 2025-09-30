@@ -260,18 +260,7 @@ private extension CreateChallengeView {
 private struct HelperFooter: View {
     var isValid: Bool
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            if !isValid {
-                Label("Include a goal, the motivation, and a specific outcome so we can draft the plan.", systemImage: "sparkle")
-                    .foregroundStyle(Palette.textSecondary)
-                    .font(.footnote)
-            }
-            Text("Tip: Mention numbers or checkpoints (e.g. '15 signups' or 'publish weekly videos') so the daily roadmap feels bespoke.")
-                .font(.footnote)
-                .foregroundStyle(Palette.textSecondary.opacity(0.8))
-        }
-    }
+    var body: some View { EmptyView() }
 }
 
 private extension MainActor {
