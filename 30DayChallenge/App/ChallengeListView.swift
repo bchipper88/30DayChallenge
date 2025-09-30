@@ -3,8 +3,6 @@ import SwiftUI
 struct ChallengeListView: View {
     @Environment(ChallengeStore.self) private var store
     @State private var path: [ChallengePlan] = []
-    @State private var showCreate = false
-
     var body: some View {
         NavigationStack(path: $path) {
             ScrollView {
@@ -24,9 +22,7 @@ struct ChallengeListView: View {
                                 store.select(plan)
                             })
                         }
-                        NewPlanCard {
-                            showCreate = true
-                        }
+                        NewPlanCardLink()
                     }
                 }
                 .padding(.horizontal, 24)
@@ -37,9 +33,6 @@ struct ChallengeListView: View {
                 ChallengeDashboardView(plan: plan)
                     .onAppear { store.select(plan) }
             }
-        }
-        .sheet(isPresented: $showCreate) {
-            CreateChallengeView()
         }
     }
 
@@ -151,11 +144,11 @@ struct PlanCardView: View {
     }
 }
 
-struct NewPlanCard: View {
-    var action: () -> Void
-
+struct NewPlanCardLink: View {
     var body: some View {
-        Button(action: action) {
+        NavigationLink {
+            CreateChallengeView()
+        } label: {
             VStack(alignment: .leading, spacing: 18) {
                 Image(systemName: "plus")
                     .font(.title3.weight(.semibold))

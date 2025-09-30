@@ -15,49 +15,39 @@ struct CreateChallengeView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Palette.background
-                    .ignoresSafeArea()
-                VStack(alignment: .leading, spacing: 24) {
-                    headerMessage
-                    agentPicker
-                    chatBox
-                    purposeBox
-                    familiarityPicker
-                    HelperFooter(isValid: draft.isValid)
-                }
-                .padding(24)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                headerMessage
+                agentPicker
+                chatBox
+                purposeBox
+                familiarityPicker
+                HelperFooter(isValid: draft.isValid)
             }
-            .navigationTitle("New Challenge")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
+            .padding(24)
+        }
+        .background(Palette.background.ignoresSafeArea())
+        .navigationTitle("New Challenge")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    Task { await handleCreate() }
+                } label: {
+                    if isSaving {
+                        ProgressView()
+                    } else {
+                        Text("Create")
+                            .fontWeight(.semibold)
                     }
                 }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button {
-                        Task { await handleCreate() }
-                    } label: {
-                        if isSaving {
-                            ProgressView()
-                        } else {
-                            Text("Create")
-                                .fontWeight(.semibold)
-                        }
-                    }
-                    .disabled(isCreateDisabled)
-                }
-            }
-            .task {
-                await MainActor.runAfter(0.35) {
-                    isPromptFocused = true
-                }
+                .disabled(isCreateDisabled)
             }
         }
-        .interactiveDismissDisabled(isSaving)
+        .task {
+            await MainActor.runAfter(0.35) {
+                isPromptFocused = true
+            }
+        }
         .onAppear {
             selectedFamiliarity = draft.familiarity
         }
