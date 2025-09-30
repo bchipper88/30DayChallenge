@@ -18,9 +18,9 @@ enum PlanGenerationAgent: String, CaseIterable, Identifiable, Codable {
 
     var descriptor: String {
         switch self {
-        case .spark: return "Fastest"
-        case .mentor: return "Balanced"
-        case .oracle: return "Thorough"
+        case .spark: return "Speed: Fast\nAnalysis: Light"
+        case .mentor: return "Speed: Moderate\nAnalysis: Balanced"
+        case .oracle: return "Speed: Deliberate\nAnalysis: In-Depth"
         }
     }
 

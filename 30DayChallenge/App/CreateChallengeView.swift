@@ -139,6 +139,7 @@ private struct AgentChip: View {
             Text(agent.descriptor)
                 .font(.caption)
                 .foregroundStyle(isSelected ? Color.white.opacity(0.85) : Palette.textSecondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
