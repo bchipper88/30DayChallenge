@@ -154,7 +154,27 @@ struct PlanCardView: View {
                     .foregroundStyle(Palette.accentBlue)
             }
         }
-        .softCard(padding: 24, cornerRadius: 32)
+        .padding(24)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            LinearGradient(colors: gradientColors,
+                           startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .stroke(Palette.border.opacity(0.3), lineWidth: 1)
+        )
+        .shadow(color: Palette.accentBlue.opacity(0.08), radius: 20, x: 0, y: 12)
+    }
+
+    private var gradientColors: [Color] {
+        let colors = plan.accentColors
+        if colors.count >= 2 {
+            return [colors[0].opacity(0.35), colors[1].opacity(0.25)]
+        }
+        return [Palette.accentBlue.opacity(0.3), Palette.accentLavender.opacity(0.25)]
     }
 }
 
