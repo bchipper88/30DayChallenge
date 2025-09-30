@@ -188,7 +188,7 @@ struct FloatingCreateButton: View {
             HStack(spacing: 10) {
                 Image(systemName: "sparkles")
                     .font(.system(size: 18, weight: .semibold))
-                Text("New AI Plan")
+                Text("New")
                     .font(.system(size: 16, weight: .semibold))
             }
             .padding(.vertical, 14)
