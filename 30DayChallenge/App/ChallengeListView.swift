@@ -53,10 +53,7 @@ struct ChallengeListView: View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Your")
-                        .font(.system(size: 34, weight: .bold, design: .rounded))
-                        .foregroundStyle(Palette.textPrimary)
-                    Text("challenge workspace")
+                    Text("Challenges")
                         .font(.system(size: 34, weight: .bold, design: .rounded))
                         .foregroundStyle(Palette.textPrimary)
                 }
