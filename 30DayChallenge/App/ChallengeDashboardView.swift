@@ -4,19 +4,13 @@ struct ChallengeDashboardView: View {
     @Environment(ChallengeStore.self) private var store
     var plan: ChallengePlan
 
-    @State private var showWeeks = true
-    @State private var showPrinciples = true
-    @State private var showRisks = true
-    @State private var showCallToAction = true
-
     var body: some View {
         ScrollView {
             VStack(spacing: 28) {
-                heroHeader
-                weeksSection
-                principlesSection
-                risksSection
-                callToAction
+                headerSection
+                dueDatesRow
+                summarySection
+                outlineSection
             }
             .padding(.vertical, 24)
             .padding(.horizontal, 20)
@@ -25,109 +19,65 @@ struct ChallengeDashboardView: View {
         .navigationTitle("Challenge Overview")
     }
 
-    private var heroHeader: some View {
-        VStack(alignment: .leading, spacing: 16) {
+    private var headerSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
             Text(plan.title)
-                .font(.system(.largeTitle, design: .rounded).bold())
+                .font(.system(size: 30, weight: .semibold, design: .rounded))
                 .foregroundStyle(Palette.textPrimary)
+                .lineLimit(3)
 
-            if let summary = plan.summary, !summary.isEmpty {
-                Text(summary)
-                    .font(.body)
-                    .foregroundStyle(Palette.textSecondary)
-                    .lineSpacing(4)
-            } else {
-                Text(plan.primaryGoal)
-                    .font(.headline)
-                    .foregroundStyle(Palette.textSecondary)
-            }
+            Text(plan.primaryGoal)
+                .font(.headline)
+                .foregroundStyle(Palette.textSecondary)
         }
-        .softCard(padding: 26, cornerRadius: 34)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private var weeksSection: some View {
-        DisclosureGroup(isExpanded: $showWeeks) {
-            VStack(spacing: 18) {
+    private var dueDatesRow: some View {
+        HStack(spacing: 16) {
+            DueTile(title: "Due", systemImage: "calendar", text: dueDate.formatted(date: .abbreviated, time: .omitted))
+            DueTile(title: "Days Remaining", systemImage: "clock", text: "\(daysRemaining) days")
+        }
+    }
+
+    private var summarySection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Summary")
+                .font(.title3.bold())
+                .foregroundStyle(Palette.textPrimary)
+            Text(plan.summary?.isEmpty == false ? plan.summary! : plan.primaryGoal)
+                .font(.body)
+                .foregroundStyle(Palette.textSecondary)
+                .lineSpacing(5)
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.white, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 8)
+        }
+    }
+
+    private var outlineSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Outline")
+                .font(.title3.bold())
+                .foregroundStyle(Palette.textPrimary)
+            VStack(spacing: 16) {
                 ForEach(weeklyBreakdowns) { breakdown in
-                    WeeklyPlanView(breakdown: breakdown)
+                    WeeklyOutlineCard(breakdown: breakdown)
                 }
             }
-            .padding(.top, 12)
-        } label: {
-            sectionHeader(title: "Weekly Ramp", subtitle: "Every 7-day sprint with checkpoints")
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .disclosureGroupStyle(.automatic)
-        .softCard()
-    }
-
-    private var principlesSection: some View {
-        DisclosureGroup(isExpanded: $showPrinciples) {
-            let columns = [GridItem(.adaptive(minimum: 140), spacing: 12)]
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
-                ForEach(plan.phases.flatMap { $0.keyPrinciples }, id: \.self) { principle in
-                    Text(principle)
-                        .font(.footnote.weight(.semibold))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(.thinMaterial, in: Capsule())
-                }
-            }
-            .padding(.top, 12)
-        } label: {
-            sectionHeader(title: "Key Principles", subtitle: "Success heuristics to keep you playful")
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .disclosureGroupStyle(.automatic)
-        .softCard()
-    }
-
-    private var risksSection: some View {
-        DisclosureGroup(isExpanded: $showRisks) {
-            VStack(spacing: 12) {
-                ForEach(plan.phases.flatMap { $0.risks }) { risk in
-                    RiskRow(risk: risk)
-                }
-            }
-            .padding(.top, 12)
-        } label: {
-            sectionHeader(title: "Risks Radar", subtitle: "Spot the friction before it appears")
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .disclosureGroupStyle(.automatic)
-        .softCard()
-    }
-
-    private var callToAction: some View {
-        DisclosureGroup(isExpanded: $showCallToAction) {
-            Text(plan.callToAction)
-                .font(.title3.weight(.semibold))
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 22))
-                .padding(.top, 12)
-        } label: {
-            sectionHeader(title: "Rally Cry", subtitle: "Keep this mantra visible")
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .disclosureGroupStyle(.automatic)
-        .softCard()
-    }
-
-    private func sectionHeader(title: String, subtitle: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.title2.bold())
-            Text(subtitle)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
         }
     }
 
-    private func formattedTime(_ components: DateComponents) -> String {
-        guard let hour = components.hour, let minute = components.minute else { return "--:--" }
-        let date = Calendar.current.date(from: DateComponents(hour: hour, minute: minute)) ?? Date()
-        return date.formatted(date: .omitted, time: .shortened)
+    private var dueDate: Date {
+        Calendar.current.date(byAdding: .day, value: 29, to: plan.createdAt) ?? plan.createdAt
+    }
+
+    private var daysRemaining: Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let due = calendar.startOfDay(for: dueDate)
+        return max(0, calendar.dateComponents([.day], from: today, to: due).day ?? 0)
     }
 }
 
@@ -166,103 +116,69 @@ struct WeeklyBreakdown: Identifiable {
     }
 }
 
-struct WeeklyPlanView: View {
-    var breakdown: WeeklyBreakdown
+struct DueTile: View {
+    var title: String
+    var systemImage: String
+    var text: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            header
-            Divider()
-            dayHighlights
-            Divider()
-            reviewSection
-        }
-        .padding(20)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .stroke(Palette.border, lineWidth: 1)
-        )
-    }
-
-    private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .firstTextBaseline, spacing: 12) {
-                Text("Week \(breakdown.week.weekNumber)")
-                    .font(.title3.bold())
-                    .foregroundStyle(Palette.textPrimary)
-                Text(breakdown.weekRangeDescription)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(Palette.textSecondary)
+            Text(title)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Palette.textPrimary)
+            HStack(spacing: 8) {
+                Image(systemName: systemImage)
+                Text(text)
+                    .font(.body)
             }
-            if let phase = breakdown.phase {
-                Text(phase.name)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(Palette.accentBlue)
-                Text(phase.objective)
-                    .font(.footnote)
-                    .foregroundStyle(Palette.textSecondary)
-            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 6)
         }
     }
+}
 
-    private var dayHighlights: some View {
+struct WeeklyOutlineCard: View {
+    var breakdown: WeeklyBreakdown
+
+    private var phaseName: String {
+        breakdown.phase?.name ?? "Phase \(breakdown.week.weekNumber)"
+    }
+
+    private var phaseObjective: String {
+        breakdown.phase?.objective ?? breakdown.week.reflectionQuestions.first ?? "Focus on consistent progress."
+    }
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Daily themes")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(Palette.textPrimary)
-            ForEach(breakdown.days) { day in
-                HStack(alignment: .center, spacing: 8) {
-                    Capsule()
-                        .fill(Palette.accentLavender)
-                        .frame(width: 6, height: 6)
-                    Text("Day \(day.dayNumber):")
-                        .font(.footnote.weight(.semibold))
-                        .foregroundStyle(Palette.textPrimary)
-                    Text(day.theme)
-                        .font(.footnote)
-                        .foregroundStyle(Palette.textSecondary)
-                    Spacer()
-                    Text("\(day.tasks.count) tasks")
-                        .font(.caption2)
-                        .foregroundStyle(Palette.textSecondary)
-                }
+            HStack(alignment: .firstTextBaseline) {
+                Text("Week \(breakdown.week.weekNumber)")
+                    .font(.headline)
+                    .foregroundStyle(Palette.textPrimary)
+                Spacer()
+                Text(breakdown.weekRangeDescription)
+                    .font(.subheadline)
+                    .foregroundStyle(Palette.textSecondary)
             }
-        }
-    }
 
-    private var reviewSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Weekly review")
+            Text(phaseName)
                 .font(.subheadline.weight(.semibold))
-                .foregroundStyle(Palette.textPrimary)
-            VStack(alignment: .leading, spacing: 10) {
-                LabeledContent("Evidence to collect") {
-                    bulletList(breakdown.week.evidenceToCollect)
-                }
-                LabeledContent("Reflection prompts") {
-                    bulletList(breakdown.week.reflectionQuestions)
-                }
-                LabeledContent("Adaptation rules") {
-                    bulletList(breakdown.week.adaptationRules.map { "\($0.condition) → \($0.response)" })
-                }
-            }
-            .font(.footnote)
-            .foregroundStyle(Palette.textSecondary)
-        }
-    }
+                .foregroundStyle(Palette.accentBlue)
 
-    @ViewBuilder
-    private func bulletList(_ items: [String]) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            ForEach(items, id: \.self) { item in
-                HStack(alignment: .top, spacing: 6) {
-                    Text("•")
-                    Text(item)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            }
+            Text(phaseObjective)
+                .font(.footnote)
+                .foregroundStyle(Palette.textSecondary)
+                .lineSpacing(3)
         }
+        .padding(18)
+        .background(Color.white.opacity(0.95), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(Palette.border.opacity(0.3), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 6)
     }
 }
 

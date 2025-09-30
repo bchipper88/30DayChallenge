@@ -405,6 +405,7 @@ async function reserveJob() {
   }
 
   if (!claimed) {
+    console.log('Job already claimed elsewhere', { id: job.id });
     return null;
   }
 
@@ -496,6 +497,7 @@ function buildPlanFromBlueprint(blueprint) {
 
 async function generatePlan(prompt, modelOverride, purpose, familiarity) {
   const modelToUse = modelOverride ?? openAIModel;
+  console.log('Reserve job payload model override', { modelOverride, modelToUse });
   let lastError;
   for (let attempt = 0; attempt <= maxOpenAIRetries; attempt += 1) {
     try {
