@@ -36,9 +36,6 @@ struct ChallengeDashboardView: View {
                 .font(.system(size: 30, weight: .semibold, design: .rounded))
                 .foregroundStyle(Palette.textPrimary)
                 .lineLimit(3)
-            Text(plan.primaryGoal)
-                .font(.subheadline)
-                .foregroundStyle(Palette.textSecondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
