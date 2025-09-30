@@ -8,6 +8,7 @@ struct SupabaseClientProvider {
             resolvedConfiguration = configuration
         } else {
             resolvedConfiguration = try SupabaseConfiguration.load()
+            print("Loaded Supabase config:", resolvedConfiguration)
         }
 
         return SupabaseClient(supabaseURL: resolvedConfiguration.url, supabaseKey: resolvedConfiguration.anonKey)
