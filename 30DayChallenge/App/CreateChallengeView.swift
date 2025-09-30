@@ -126,13 +126,21 @@ private struct AgentChip: View {
     var isSelected: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(agent.displayName)
-                .font(.headline)
-                .foregroundStyle(isSelected ? Color.white : Palette.textPrimary)
-            Text(agent.descriptor)
-                .font(.caption)
-                .foregroundStyle(isSelected ? Color.white.opacity(0.85) : Palette.textSecondary)
+        HStack(spacing: 14) {
+            Image(agent.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 52, height: 52)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            VStack(alignment: .leading, spacing: 6) {
+                Text(agent.displayName)
+                    .font(.headline)
+                    .foregroundStyle(isSelected ? Color.white : Palette.textPrimary)
+                Text(agent.descriptor)
+                    .font(.caption)
+                    .foregroundStyle(isSelected ? Color.white.opacity(0.85) : Palette.textSecondary)
+            }
+            Spacer(minLength: 0)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)

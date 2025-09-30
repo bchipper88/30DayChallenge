@@ -31,6 +31,14 @@ enum PlanGenerationAgent: String, CaseIterable, Identifiable, Codable {
         case .oracle: return "gpt-5"
         }
     }
+
+    var imageName: String {
+        switch self {
+        case .spark: return "AgentSpark"
+        case .mentor: return "AgentMentor"
+        case .oracle: return "AgentOracle"
+        }
+    }
 }
 
 struct AIAssistantService {
