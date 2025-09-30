@@ -196,6 +196,17 @@ struct PendingPlanCard: View {
                         .font(.subheadline)
                         .foregroundStyle(Palette.textSecondary)
                         .lineLimit(3)
+                    HStack(spacing: 8) {
+                        Text(pending.agent.displayName)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(Palette.accentBlue)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                            .background(Palette.surfaceMuted, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        Text(pending.agent.descriptor)
+                            .font(.caption)
+                            .foregroundStyle(Palette.textSecondary)
+                    }
                 }
                 Spacer()
                 Text(pending.createdAt, style: .time)
@@ -252,9 +263,9 @@ struct PendingPlanCard: View {
     private var statusMessage: String {
         switch pending.status {
         case .queued:
-            return "Waiting for the assistant to pick this up."
+            return "\(pending.agent.displayName) is queued to start drafting."
         case .generating:
-            return "Writing the 30-day roadmap…"
+            return "\(pending.agent.displayName) is writing the 30-day roadmap…"
         case .failed(let message):
             return message
         }

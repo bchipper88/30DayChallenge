@@ -6,6 +6,7 @@ struct CreateChallengeView: View {
 
     @State private var draft = ChallengeDraft()
     @State private var isSaving = false
+    @State private var selectedAgent: PlanGenerationAgent = .spark
     @FocusState private var isPromptFocused: Bool
 
     private var isCreateDisabled: Bool {
@@ -19,6 +20,7 @@ struct CreateChallengeView: View {
                     .ignoresSafeArea()
                 VStack(alignment: .leading, spacing: 24) {
                     headerMessage
+                    agentPicker
                     chatBox
                     HelperFooter(isValid: draft.isValid)
                 }
@@ -105,11 +107,59 @@ struct CreateChallengeView: View {
     private func handleCreate() async {
         guard !isCreateDisabled else { return }
         isSaving = true
-        let success = await store.createPlan(from: draft)
+        let success = await store.createPlan(from: draft, agent: selectedAgent)
         isSaving = false
         if success {
             dismiss()
         }
+    }
+}
+
+private extension CreateChallengeView {
+    var agentPicker: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Choose your AI assistant")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Palette.textSecondary)
+            HStack(spacing: 12) {
+                ForEach(PlanGenerationAgent.allCases) { agent in
+                    AgentChip(agent: agent, isSelected: agent == selectedAgent)
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                selectedAgent = agent
+                            }
+                        }
+                }
+            }
+        }
+    }
+}
+
+private struct AgentChip: View {
+    var agent: PlanGenerationAgent
+    var isSelected: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(agent.displayName)
+                .font(.headline)
+                .foregroundStyle(isSelected ? Color.white : Palette.textPrimary)
+            Text(agent.descriptor)
+                .font(.caption)
+                .foregroundStyle(isSelected ? Color.white.opacity(0.85) : Palette.textSecondary)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(isSelected ? Palette.accentBlue : Palette.surface)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .stroke(isSelected ? Palette.accentBlue : Palette.border, lineWidth: isSelected ? 0 : 1)
+        )
+        .shadow(color: Color.black.opacity(isSelected ? 0.1 : 0.03), radius: 16, x: 0, y: 10)
     }
 }
 

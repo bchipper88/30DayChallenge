@@ -3,6 +3,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.2";
 type RequestPayload = {
   prompt?: string;
   userId?: string;
+  agent?: string;
+  model?: string;
 };
 
 type JobResponse = {
@@ -52,7 +54,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
     .insert({
       prompt,
       status: "pending",
-      user_id: payload.userId ?? null
+      user_id: payload.userId ?? null,
+      agent: payload.agent ?? null,
+      model: payload.model ?? null
     })
     .select("id, status, created_at")
     .single();

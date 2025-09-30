@@ -1,6 +1,38 @@
 import Foundation
 import Supabase
 
+enum PlanGenerationAgent: String, CaseIterable, Identifiable, Codable {
+    case spark
+    case mentor
+    case oracle
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .spark: return "Spark"
+        case .mentor: return "Mentor"
+        case .oracle: return "Oracle"
+        }
+    }
+
+    var descriptor: String {
+        switch self {
+        case .spark: return "Fastest"
+        case .mentor: return "Balanced"
+        case .oracle: return "Thorough"
+        }
+    }
+
+    var modelIdentifier: String {
+        switch self {
+        case .spark: return "gpt-5-mini"
+        case .mentor: return "gpt-4o"
+        case .oracle: return "gpt-5"
+        }
+    }
+}
+
 struct AIAssistantService {
     private enum Backend {
         case supabase(SupabaseClient)
@@ -9,6 +41,8 @@ struct AIAssistantService {
 
     private struct RequestPayload: Encodable {
         var prompt: String
+        var agent: String?
+        var model: String?
     }
 
     struct JobStartResponse: Decodable {
@@ -108,16 +142,16 @@ struct AIAssistantService {
             return try JSONDecoder().decode(ResponsePayload.self, from: data).plan
 
         case .supabase(let client):
-            let start = try await enqueueJob(client: client, prompt: prompt)
+            let start = try await enqueueJob(client: client, prompt: prompt, agent: .mentor)
             return try await pollForCompletion(client: client, jobId: start.jobId)
         }
     }
 
-    func enqueuePlan(prompt: String) async throws -> JobStartResponse {
+    func enqueuePlan(prompt: String, agent: PlanGenerationAgent) async throws -> JobStartResponse {
         guard case .supabase(let client) = backend else {
             throw ServiceError.missingEndpoint
         }
-        return try await enqueueJob(client: client, prompt: prompt)
+        return try await enqueueJob(client: client, prompt: prompt, agent: agent)
     }
 
     func jobStatus(jobId: UUID) async throws -> JobStatusResponse {
@@ -137,8 +171,8 @@ struct AIAssistantService {
         return try await pollForCompletion(client: client, jobId: jobId, timeout: timeout)
     }
 
-    private func enqueueJob(client: SupabaseClient, prompt: String) async throws -> JobStartResponse {
-        let payload = RequestPayload(prompt: prompt)
+    private func enqueueJob(client: SupabaseClient, prompt: String, agent: PlanGenerationAgent) async throws -> JobStartResponse {
+        let payload = RequestPayload(prompt: prompt, agent: agent.rawValue, model: agent.modelIdentifier)
         return try await client.functions.invoke(
             "generate-plan",
             options: FunctionInvokeOptions(body: payload)

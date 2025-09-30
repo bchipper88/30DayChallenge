@@ -28,6 +28,7 @@ final class ChallengeStore {
         var prompt: String
         var createdAt: Date
         var status: Status
+        var agent: PlanGenerationAgent
 
         var promptPreview: String {
             let trimmed = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -81,16 +82,17 @@ final class ChallengeStore {
     }
 
     @discardableResult
-    func createPlan(from draft: ChallengeDraft) async -> Bool {
+    func createPlan(from draft: ChallengeDraft, agent: PlanGenerationAgent) async -> Bool {
         if let aiService, !draft.prompt.isEmpty {
             do {
-                let start = try await aiService.enqueuePlan(prompt: draft.prompt)
+                let start = try await aiService.enqueuePlan(prompt: draft.prompt, agent: agent)
                 errorMessage = nil
                 let pending = PendingPlan(
                     id: start.jobId,
                     prompt: draft.prompt,
                     createdAt: start.queuedAt ?? Date(),
-                    status: .queued
+                    status: .queued,
+                    agent: agent
                 )
                 pendingPlans.insert(pending, at: 0)
                 Task {
@@ -169,14 +171,15 @@ final class ChallengeStore {
         guard let aiService else { return }
         Task {
             do {
-                let start = try await aiService.enqueuePlan(prompt: pending.prompt)
+                let start = try await aiService.enqueuePlan(prompt: pending.prompt, agent: pending.agent)
                 await MainActor.run {
                     self.pendingPlans.removeAll { $0.id == pending.id }
                     let replacement = PendingPlan(
                         id: start.jobId,
                         prompt: pending.prompt,
                         createdAt: start.queuedAt ?? Date(),
-                        status: .queued
+                        status: .queued,
+                        agent: pending.agent
                     )
                     self.pendingPlans.insert(replacement, at: 0)
                 }

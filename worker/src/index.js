@@ -492,13 +492,18 @@ function buildPlanFromBlueprint(blueprint) {
   };
 }
 
-async function generatePlan(prompt) {
+async function generatePlan(prompt, modelOverride) {
+  const modelToUse = modelOverride ?? openAIModel;
   let lastError;
   for (let attempt = 0; attempt <= maxOpenAIRetries; attempt += 1) {
     try {
-      console.log('Requesting plan from OpenAI', { attempt: attempt + 1, promptLength: prompt.length });
+      console.log('Requesting plan from OpenAI', {
+        attempt: attempt + 1,
+        promptLength: prompt.length,
+        model: modelToUse,
+      });
       const requestPayload = {
-        model: openAIModel,
+        model: modelToUse,
         response_format: {
           type: 'json_schema',
           json_schema: {
@@ -513,7 +518,7 @@ async function generatePlan(prompt) {
         ]
       };
 
-      if (!modelRequiresFixedTemperature(openAIModel)) {
+      if (!modelRequiresFixedTemperature(modelToUse)) {
         requestPayload.temperature = Number.isFinite(openAITemperature) ? openAITemperature : 0.6;
       }
 
@@ -574,7 +579,7 @@ async function generatePlan(prompt) {
 
 async function processJob(job) {
   try {
-    const { plan, responseId } = await generatePlan(job.prompt);
+    const { plan, responseId } = await generatePlan(job.prompt, job.model ?? null);
     const { error } = await supabase
       .from('ai_generation_jobs')
       .update({
@@ -588,7 +593,7 @@ async function processJob(job) {
     if (error) {
       console.error('Failed to mark job completed', error);
     } else {
-      console.log('Job completed', { id: job.id });
+      console.log('Job completed', { id: job.id, model: job.model ?? openAIModel });
     }
   } catch (error) {
     console.error('Job failed', { id: job.id, error });
