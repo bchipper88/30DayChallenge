@@ -115,6 +115,28 @@ enum SampleData {
             )
         }
 
+        var principleSet = Set<String>()
+        var planPrinciples: [String] = []
+        for principle in phases.flatMap({ $0.keyPrinciples }) {
+            let trimmed = principle.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { continue }
+            if principleSet.insert(trimmed.lowercased()).inserted {
+                planPrinciples.append(trimmed)
+            }
+            if planPrinciples.count == 5 { break }
+        }
+
+        var riskSet = Set<String>()
+        var planRisks: [RiskItem] = []
+        for risk in phases.flatMap({ $0.risks }) {
+            let key = risk.risk.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            guard !key.isEmpty else { continue }
+            if riskSet.insert(key).inserted {
+                planRisks.append(risk)
+            }
+            if planRisks.count == 6 { break }
+        }
+
         return ChallengePlan(
             id: UUID(),
             title: "30-Day Builder Sprint",
@@ -124,6 +146,9 @@ enum SampleData {
             assumptions: ["You have 60 minutes per day.", "Internet access for research."],
             constraints: ["Weekends lighter workload.", "No budget for ads."],
             resources: ["Notion template", "Figma starter kit", "3 accountability buddies"],
+            purpose: "Prove consistency by shipping joyful progress every day for a month.",
+            keyPrinciples: planPrinciples,
+            riskHighlights: planRisks,
             phases: phases,
             days: dailyEntries,
             weeklyReviews: weeklyReviews,

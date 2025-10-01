@@ -78,6 +78,11 @@ enum ChallengePlanFactory {
             timeframe: "30 days"
         )
 
+        let phases = makePhases(goal: goal)
+        let principles = corePrinciples(from: phases)
+        let riskHighlights = highlightRisks(from: phases)
+        let purpose = draft.trimmedPurpose
+
         return ChallengePlan(
             id: UUID(),
             title: title,
@@ -87,7 +92,10 @@ enum ChallengePlanFactory {
             assumptions: assumptions(for: draft),
             constraints: constraints(for: draft),
             resources: resources(),
-            phases: makePhases(goal: goal),
+            purpose: purpose,
+            keyPrinciples: principles,
+            riskHighlights: riskHighlights,
+            phases: phases,
             days: makeDays(goal: goal, metric: outcome.metric, unit: outcome.unit, target: outcome.value, streakMinutes: draft.streakMinutes),
             weeklyReviews: makeWeeklyReviews(goal: goal),
             reminderRule: reminderRule(for: draft, title: title),
@@ -257,8 +265,7 @@ enum ChallengePlanFactory {
         var lines: [String] = [
             "Dedicate \(draft.streakMinutes) focused minutes each day.",
             "Capture one insight after every session to cement learning.",
-            "Share weekly progress with someone you trust.",
-            "Purpose: \(draft.trimmedPurpose)"
+            "Share weekly progress with someone you trust."
         ]
 
         lines.append(familiarityGuidance(for: draft.familiarity))
@@ -280,6 +287,34 @@ enum ChallengePlanFactory {
             "Calendar blocks for deep work",
             "Visible progress tracker"
         ]
+    }
+
+    private static func corePrinciples(from phases: [ChallengePhase]) -> [String] {
+        var seen = Set<String>()
+        var results: [String] = []
+        for principle in phases.flatMap({ $0.keyPrinciples }) {
+            let trimmed = principle.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { continue }
+            if seen.insert(trimmed.lowercased()).inserted {
+                results.append(trimmed)
+            }
+            if results.count == 5 { break }
+        }
+        return results
+    }
+
+    private static func highlightRisks(from phases: [ChallengePhase]) -> [RiskItem] {
+        var seen = Set<String>()
+        var results: [RiskItem] = []
+        for risk in phases.flatMap({ $0.risks }) {
+            let key = risk.risk.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            guard !key.isEmpty else { continue }
+            if seen.insert(key).inserted {
+                results.append(risk)
+            }
+            if results.count == 6 { break }
+        }
+        return results
     }
 
     private static func reminderRule(for draft: ChallengeDraft, title: String) -> ReminderRule {

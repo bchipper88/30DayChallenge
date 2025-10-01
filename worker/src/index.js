@@ -45,6 +45,8 @@ const blueprintSchema = {
     'assumptions',
     'constraints',
     'resources',
+    'keyPrinciples',
+    'riskRadar',
     'callToAction',
     'reminder',
     'celebrationRule',
@@ -95,6 +97,30 @@ const blueprintSchema = {
       type: 'array',
       minItems: 2,
       items: { type: 'string' }
+    },
+    purpose: {
+      type: 'string'
+    },
+    keyPrinciples: {
+      type: 'array',
+      minItems: 3,
+      maxItems: 5,
+      items: { type: 'string' }
+    },
+    riskRadar: {
+      type: 'array',
+      minItems: 3,
+      maxItems: 6,
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['risk', 'likelihood', 'mitigation'],
+        properties: {
+          risk: { type: 'string' },
+          likelihood: { type: 'string', enum: ['low', 'medium', 'high'] },
+          mitigation: { type: 'string' }
+        }
+      }
     },
     callToAction: { type: 'string' },
     reminder: {
@@ -158,12 +184,14 @@ const blueprintSchema = {
           },
           keyPrinciples: {
             type: 'array',
-            minItems: 3,
+            minItems: 2,
+            maxItems: 3,
             items: { type: 'string' }
           },
           risks: {
             type: 'array',
             minItems: 2,
+            maxItems: 4,
             items: {
               type: 'object',
               additionalProperties: false,
@@ -293,11 +321,12 @@ const blueprintPrompt = `
 You are an expert coach who designs science-informed 30-day challenges that move someone from their stated goal to completion.
 
 Produce a JSON object that matches the "PlanBlueprint" format shown below. Your plan must:
-• Outline exactly 4 phases (7-8 day spans) with objectives, 2-3 milestones, 3 principles, and 2-3 risks (likelihood low/medium/high) each.
+• Outline exactly 4 phases (7-8 day spans) with objectives and 2-3 milestones each.
+• Define challenge-wide "keyPrinciples" (3-5) and "riskRadar" entries (3-6, each with likelihood low/medium/high) capturing only the highest-leverage guidance for the full 30-day journey.
 • Provide a "dailyPlan" array with exactly 30 entries (dayNumber 1..30) and each day containing 2-3 tasks. Tasks require: title, type (setup/research/practice/review/reflection/outreach/build/ship), expectedMinutes, instructions (imperative), definitionOfDone, tags (2-3), and metric {name, unit, target} (set metric to null when not applicable). Add motivating checkInPrompt + celebrationMessage per day.
 • Provide four weekly reviews (weekNumber 1..4) each with 3 evidence items, 3 reflection questions, and 3 adaptation rules (condition + response).
 • Include assumptions, constraints, resources, callToAction, reminder (hour/minute/message), celebrationRule (trigger/message), streakRule (thresholdMinutes/graceDays), and accentPalette (3-4 hex colors).
-• Craft "callToAction" as an inspirational rally cry for the entire 30-day journey—short, memorable, and motivational.
+• Craft "callToAction" as an inspirational rally cry for their 30-day challenge—short, memorable, high-energy, and explicitly calling them to step up for the full journey.
 • Map the provided user goal into the plan title, phases, and tasks with concrete, actionable language.
 
 Return JSON in this exact structure (use your own values):
@@ -309,6 +338,11 @@ Return JSON in this exact structure (use your own values):
   "assumptions": ["..."],
   "constraints": ["..."],
   "resources": ["..."],
+  "purpose": "...",
+  "keyPrinciples": ["..."],
+  "riskRadar": [
+    { "risk": "...", "likelihood": "medium", "mitigation": "..." }
+  ],
   "callToAction": "...",
   "reminder": { "hour": 8, "minute": 30, "message": "..." },
   "celebrationRule": { "trigger": "dayComplete", "message": "..." },
@@ -413,21 +447,21 @@ async function reserveJob() {
   return claimed;
 }
 
-function buildPlanFromBlueprint(blueprint) {
-  const phases = blueprint.phases.map((phase, index) => ({
+function buildPlanFromBlueprint(blueprint, { fallbackPurpose = null } = {}) {
+  const phases = (blueprint.phases ?? []).map((phase, index) => ({
     id: randomUUID(),
     index,
     name: phase.name,
     objective: phase.objective,
-    milestones: phase.milestones.map((milestone) => ({
+    milestones: (phase.milestones ?? []).map((milestone) => ({
       id: randomUUID(),
       title: milestone.title,
       detail: milestone.detail,
       progress: 0,
       targetDay: milestone.targetDay
     })),
-    keyPrinciples: phase.keyPrinciples,
-    risks: phase.risks.map((risk) => ({
+    keyPrinciples: phase.keyPrinciples ?? [],
+    risks: (phase.risks ?? []).map((risk) => ({
       id: randomUUID(),
       risk: risk.risk,
       likelihood: risk.likelihood,
@@ -435,13 +469,86 @@ function buildPlanFromBlueprint(blueprint) {
     }))
   }));
 
-  const days = blueprint.dailyPlan.map((day) => ({
+  const planPrinciples = [];
+  const principleSeen = new Set();
+  const enqueuePrinciple = (value) => {
+    if (typeof value !== 'string') return;
+    const trimmed = value.trim();
+    if (!trimmed.length) return;
+    const key = trimmed.toLowerCase();
+    if (principleSeen.has(key)) return;
+    principleSeen.add(key);
+    planPrinciples.push(trimmed);
+  };
+
+  if (Array.isArray(blueprint.keyPrinciples)) {
+    for (const entry of blueprint.keyPrinciples) {
+      enqueuePrinciple(entry);
+      if (planPrinciples.length === 5) break;
+    }
+  }
+
+  if (planPrinciples.length < 3) {
+    for (const phase of phases) {
+      for (const principle of phase.keyPrinciples ?? []) {
+        enqueuePrinciple(principle);
+        if (planPrinciples.length === 5) break;
+      }
+      if (planPrinciples.length === 5) break;
+    }
+  }
+
+  const normalizeLikelihood = (value) => {
+    const lower = typeof value === 'string' ? value.toLowerCase() : '';
+    return ['low', 'medium', 'high'].includes(lower) ? lower : 'medium';
+  };
+
+  const planRisks = [];
+  const riskSeen = new Set();
+  const enqueueRisk = (risk) => {
+    if (!risk || typeof risk !== 'object') return;
+    const description = typeof risk.risk === 'string' ? risk.risk.trim() : '';
+    const mitigation = typeof risk.mitigation === 'string' ? risk.mitigation.trim() : '';
+    if (!description.length) return;
+    const key = description.toLowerCase();
+    if (riskSeen.has(key)) return;
+    riskSeen.add(key);
+    planRisks.push({
+      id: randomUUID(),
+      risk: description,
+      likelihood: normalizeLikelihood(risk.likelihood),
+      mitigation
+    });
+  };
+
+  if (Array.isArray(blueprint.riskRadar)) {
+    for (const risk of blueprint.riskRadar) {
+      enqueueRisk(risk);
+      if (planRisks.length === 6) break;
+    }
+  }
+
+  if (planRisks.length < 3) {
+    for (const phase of phases) {
+      for (const risk of phase.risks ?? []) {
+        enqueueRisk(risk);
+        if (planRisks.length === 6) break;
+      }
+      if (planRisks.length === 6) break;
+    }
+  }
+
+  const trimmedFallbackPurpose = typeof fallbackPurpose === 'string' ? fallbackPurpose.trim() : '';
+  const blueprintPurpose = typeof blueprint.purpose === 'string' ? blueprint.purpose.trim() : '';
+  const planPurpose = blueprintPurpose.length > 0 ? blueprintPurpose : (trimmedFallbackPurpose.length > 0 ? trimmedFallbackPurpose : null);
+
+  const days = (blueprint.dailyPlan ?? []).map((day) => ({
     id: randomUUID(),
     dayNumber: day.dayNumber,
     theme: day.theme,
     checkInPrompt: day.checkInPrompt,
     celebrationMessage: day.celebrationMessage,
-    tasks: day.tasks.map((task) => ({
+    tasks: (day.tasks ?? []).map((task) => ({
       id: randomUUID(),
       title: task.title,
       type: task.type,
@@ -454,12 +561,12 @@ function buildPlanFromBlueprint(blueprint) {
     }))
   }));
 
-  const weeklyReviews = blueprint.weeklyReviews.map((review) => ({
+  const weeklyReviews = (blueprint.weeklyReviews ?? []).map((review) => ({
     id: randomUUID(),
     weekNumber: review.weekNumber,
     evidenceToCollect: review.evidenceToCollect,
     reflectionQuestions: review.reflectionQuestions,
-    adaptationRules: review.adaptationRules.map((rule) => ({
+    adaptationRules: (review.adaptationRules ?? []).map((rule) => ({
       id: randomUUID(),
       condition: rule.condition,
       response: rule.response
@@ -477,6 +584,9 @@ function buildPlanFromBlueprint(blueprint) {
     assumptions: blueprint.assumptions,
     constraints: blueprint.constraints,
     resources: blueprint.resources,
+    purpose: planPurpose,
+    keyPrinciples: planPrinciples,
+    riskHighlights: planRisks,
     phases,
     days,
     weeklyReviews,
@@ -573,7 +683,7 @@ async function generatePlan(prompt, modelOverride, purpose, familiarity) {
         throw new Error('OpenAI returned empty content');
       }
 
-      const plan = buildPlanFromBlueprint(blueprint);
+      const plan = buildPlanFromBlueprint(blueprint, { fallbackPurpose: purpose });
       return { plan, responseId: completion.id ?? null };
     } catch (error) {
       lastError = error;

@@ -176,6 +176,27 @@ final class ChallengeStore {
         }
     }
 
+    func update(plan updatedPlan: ChallengePlan) {
+        guard let index = plans.firstIndex(where: { $0.id == updatedPlan.id }) else { return }
+        plans[index] = updatedPlan
+        if selectedPlanID == updatedPlan.id {
+            selectedPlanID = updatedPlan.id
+        }
+
+        Task {
+            do {
+                try await repository.persist(plan: updatedPlan)
+                await MainActor.run {
+                    self.errorMessage = nil
+                }
+            } catch {
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+
     func retryPendingPlan(_ pending: PendingPlan) {
         guard let aiService else { return }
         Task {
@@ -274,12 +295,16 @@ final class ChallengeStore {
                 case .inProgress:
                     updatePending(jobId: jobId, status: .generating)
                 case .completed:
-                    guard let plan = status.plan else {
+                    guard var plan = status.plan else {
                         updatePending(jobId: jobId, status: .failed("Plan data was unavailable. Please retry."))
                         return
                     }
-                    guard pendingPlans.contains(where: { $0.id == jobId }) else {
+                    guard let pending = pendingPlans.first(where: { $0.id == jobId }) else {
                         return
+                    }
+                    let trimmedPurpose = pending.purpose.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if (plan.purpose?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true) && !trimmedPurpose.isEmpty {
+                        plan.purpose = trimmedPurpose
                     }
                     pendingPlans.removeAll { $0.id == jobId }
                     await persistAndStore(plan: plan)

@@ -30,6 +30,9 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
     var assumptions: [String]
     var constraints: [String]
     var resources: [String]
+    var purpose: String?
+    var keyPrinciples: [String]
+    var riskHighlights: [RiskItem]
     var phases: [ChallengePhase]
     var days: [DailyEntry]
     var weeklyReviews: [WeeklyReview]
@@ -58,6 +61,9 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         case assumptions
         case constraints
         case resources
+        case purpose
+        case keyPrinciples
+        case riskHighlights
         case phases
         case days
         case weeklyReviews
@@ -79,6 +85,9 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         assumptions: [String],
         constraints: [String],
         resources: [String],
+        purpose: String?,
+        keyPrinciples: [String],
+        riskHighlights: [RiskItem],
         phases: [ChallengePhase],
         days: [DailyEntry],
         weeklyReviews: [WeeklyReview],
@@ -98,6 +107,9 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         self.assumptions = assumptions
         self.constraints = constraints
         self.resources = resources
+        self.purpose = Self.normalizePurpose(purpose, assumptions: assumptions)
+        self.keyPrinciples = Self.normalizePrinciples(keyPrinciples)
+        self.riskHighlights = Self.normalizeRisks(riskHighlights)
         self.phases = phases
         self.days = days
         self.weeklyReviews = weeklyReviews
@@ -120,7 +132,10 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         let assumptions = try container.decode([String].self, forKey: .assumptions)
         let constraints = try container.decode([String].self, forKey: .constraints)
         let resources = try container.decode([String].self, forKey: .resources)
+        let purpose = try container.decodeIfPresent(String.self, forKey: .purpose)
         let phases = try container.decode([ChallengePhase].self, forKey: .phases)
+        let providedKeyPrinciples = try container.decodeIfPresent([String].self, forKey: .keyPrinciples)
+        let providedRiskHighlights = try container.decodeIfPresent([RiskItem].self, forKey: .riskHighlights)
         let days = try container.decode([DailyEntry].self, forKey: .days)
         let weeklyReviews = try container.decode([WeeklyReview].self, forKey: .weeklyReviews)
         let reminderRule = try container.decode(ReminderRule.self, forKey: .reminderRule)
@@ -150,6 +165,9 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
             assumptions: assumptions,
             constraints: constraints,
             resources: resources,
+            purpose: purpose,
+            keyPrinciples: providedKeyPrinciples ?? phases.flatMap { $0.keyPrinciples },
+            riskHighlights: providedRiskHighlights ?? phases.flatMap { $0.risks },
             phases: phases,
             days: days,
             weeklyReviews: weeklyReviews,
@@ -173,6 +191,9 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         try container.encode(assumptions, forKey: .assumptions)
         try container.encode(constraints, forKey: .constraints)
         try container.encode(resources, forKey: .resources)
+        try container.encodeIfPresent(purpose, forKey: .purpose)
+        try container.encode(keyPrinciples, forKey: .keyPrinciples)
+        try container.encode(riskHighlights, forKey: .riskHighlights)
         try container.encode(phases, forKey: .phases)
         try container.encode(days, forKey: .days)
         try container.encode(weeklyReviews, forKey: .weeklyReviews)
@@ -182,6 +203,46 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         try container.encode(callToAction, forKey: .callToAction)
         try container.encode(accentPalette, forKey: .accentPalette)
         try container.encodeIfPresent(summary, forKey: .summary)
+    }
+
+    private static func normalizePrinciples(_ values: [String]) -> [String] {
+        var seen = Set<String>()
+        var result: [String] = []
+        for value in values.map({ $0.trimmingCharacters(in: .whitespacesAndNewlines) }) where !value.isEmpty {
+            if seen.insert(value.lowercased()).inserted {
+                result.append(value)
+            }
+            if result.count == 5 { break }
+        }
+        return result
+    }
+
+    private static func normalizeRisks(_ values: [RiskItem]) -> [RiskItem] {
+        var seen = Set<String>()
+        var result: [RiskItem] = []
+        for value in values {
+            let normalized = value.risk.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !normalized.isEmpty else { continue }
+            if seen.insert(normalized.lowercased()).inserted {
+                result.append(value)
+            }
+            if result.count == 6 { break }
+        }
+        return result
+    }
+
+    private static func normalizePurpose(_ rawValue: String?, assumptions: [String]) -> String? {
+        if let raw = rawValue?.trimmingCharacters(in: .whitespacesAndNewlines), !raw.isEmpty {
+            return raw
+        }
+
+        if let assumptionLine = assumptions.first(where: { $0.lowercased().hasPrefix("purpose:") }) {
+            let trimmed = assumptionLine.dropFirst("Purpose:".count)
+            let value = trimmed.trimmingCharacters(in: .whitespacesAndNewlines)
+            return value.isEmpty ? nil : value
+        }
+
+        return nil
     }
 }
 
