@@ -137,8 +137,10 @@ enum SampleData {
             if planRisks.count == 6 { break }
         }
 
+        let planID = UUID()
+
         return ChallengePlan(
-            id: UUID(),
+            id: planID,
             title: "30-Day Builder Sprint",
             domain: .creative,
             primaryGoal: "Launch a playful micro-product",
@@ -160,7 +162,8 @@ enum SampleData {
                 GradientStop(hex: "FF7EB3", opacity: 1.0),
                 GradientStop(hex: "A855F7", opacity: 1.0),
                 GradientStop(hex: "3B82F6", opacity: 1.0)
-            ])
+            ]),
+            cardPalette: GradientDescriptor.card(for: planID)
         )
     }()
 

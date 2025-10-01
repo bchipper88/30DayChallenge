@@ -847,27 +847,30 @@ private struct WeekOverviewView: View {
                         Text("No tasks scheduled.")
                             .foregroundStyle(.secondary)
                     } else {
-                        ForEach(day.tasks) { task in
-                            WeekTaskRow(
-                                task: task,
-                                isExpanded: expandedTaskIDs.contains(task.id),
-                                onToggleCompletion: {
-                                    store.toggleTask(planID: planID, dayNumber: day.dayNumber, taskID: task.id)
-                                },
-                                onToggleExpanded: {
-                                    toggleExpansion(for: task.id)
-                                }
-                            )
-                            .listRowInsets(EdgeInsets())
-                            .padding(.vertical, 6)
-                            .contextMenu {
-                                Button("Edit Task") {
-                                    isEditingTasks = true
+                        VStack(alignment: .leading, spacing: 20) {
+                            ForEach(day.tasks) { task in
+                                WeekTaskRow(
+                                    task: task,
+                                    isExpanded: expandedTaskIDs.contains(task.id),
+                                    onToggleCompletion: {
+                                        store.toggleTask(planID: planID, dayNumber: day.dayNumber, taskID: task.id)
+                                    },
+                                    onToggleExpanded: {
+                                        toggleExpansion(for: task.id)
+                                    }
+                                )
+                                .contextMenu {
+                                    Button("Edit Task") {
+                                        isEditingTasks = true
+                                    }
                                 }
                             }
                         }
+                        .padding(.vertical, 6)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
+                .listRowBackground(Color.clear)
             }
         }
         .listStyle(.insetGrouped)
@@ -908,100 +911,50 @@ private struct WeekTaskRow: View {
     var onToggleExpanded: () -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 12) {
                 completionButton
-
                 VStack(alignment: .leading, spacing: 6) {
                     Text(task.title)
                         .font(.body.weight(.semibold))
-                        .foregroundStyle(Palette.textPrimary)
-
-                    HStack(spacing: 10) {
-                        Text(task.type.icon)
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(Palette.accentBlue)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 4)
-                            .background(Palette.accentBlue.opacity(0.12), in: Capsule())
-                        Text("\(task.expectedMinutes) min")
-                            .font(.caption)
-                            .foregroundStyle(Palette.textSecondary)
-                    }
+                    Text("\(task.expectedMinutes) min")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Palette.accentBlue)
                 }
-
                 Spacer()
-
                 Button(action: onToggleExpanded) {
-                    Image(systemName: "chevron.down")
-                        .rotationEffect(isExpanded ? .degrees(180) : .degrees(0))
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                         .font(.headline.weight(.semibold))
                         .foregroundStyle(Palette.textSecondary)
-                        .padding(8)
+                        .padding(6)
                         .background(Color.secondary.opacity(0.08), in: Circle())
                 }
                 .buttonStyle(.plain)
             }
-            .padding(16)
             .contentShape(Rectangle())
-            .onTapGesture {
-                onToggleExpanded()
-            }
+            .onTapGesture { onToggleExpanded() }
 
             if isExpanded {
-                Divider()
-                    .padding(.horizontal, 16)
-
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 10) {
                     if !task.instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("How to execute")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(Palette.textSecondary)
-                            Text(task.instructions)
-                                .font(.subheadline)
-                                .foregroundStyle(Palette.textPrimary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
+                        infoRow(title: "How to execute", text: task.instructions)
                     }
-
                     if !task.definitionOfDone.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("Definition of done")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(Palette.textSecondary)
-                            Text(task.definitionOfDone)
-                                .font(.subheadline)
-                                .foregroundStyle(Palette.textPrimary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
+                        infoRow(title: "Definition of done", text: task.definitionOfDone)
                     }
-
                     if let metric = task.metric {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("Metric")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(Palette.textSecondary)
-                            Text("\(metric.name) — target \(metric.target) \(metric.unit)")
-                                .font(.subheadline)
-                                .foregroundStyle(Palette.textPrimary)
-                        }
+                        infoRow(title: "Metric", text: "\(metric.name) — target \(metric.target) \(metric.unit)")
                     }
                 }
-                .padding(16)
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(Color.white)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(Color.black.opacity(0.05), lineWidth: 1)
-        )
-        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 6)
-        .padding(.horizontal, 4)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 6)
+        .frame(maxWidth: .infinity)
     }
 
     private var completionButton: some View {
@@ -1025,6 +978,19 @@ private struct WeekTaskRow: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(task.isComplete ? "Mark incomplete" : "Mark complete")
+    }
+
+    private func infoRow(title: String, text: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Palette.textSecondary)
+            Text(text)
+                .font(.subheadline)
+                .foregroundStyle(Palette.textPrimary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.top, 4)
     }
 }
 
@@ -1168,20 +1134,20 @@ private struct EditableTaskCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             titleRow
-            typeRow
             instructionsRow
             doneRow
             expectedRow
         }
         .padding(18)
         .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(Palette.surface)
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(Color.white)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(Color.black.opacity(0.04), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .stroke(Color.black.opacity(0.08), lineWidth: 1)
         )
+        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 6)
     }
 
     private var titleRow: some View {
@@ -1191,20 +1157,6 @@ private struct EditableTaskCard: View {
                 .foregroundStyle(Palette.textSecondary)
             TextField("Name this task", text: $task.title)
                 .font(.headline)
-        }
-    }
-
-    private var typeRow: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("Type")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Palette.textSecondary)
-            Picker("Type", selection: $task.type) {
-                ForEach(TaskItem.TaskType.allCases) { type in
-                    Text(type.icon).tag(type)
-                }
-            }
-            .pickerStyle(.segmented)
         }
     }
 

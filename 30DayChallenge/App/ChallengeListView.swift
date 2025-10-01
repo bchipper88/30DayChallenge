@@ -195,17 +195,7 @@ struct PlanCardView: View {
     }
 
     private var gradientPalette: [Color] {
-        let palettes: [[Color]] = [
-            [Color(hex: "#A5F3FC"), Color(hex: "#60A5FA")],
-            [Color(hex: "#FDE68A"), Color(hex: "#F59E0B")],
-            [Color(hex: "#C4B5FD"), Color(hex: "#F472B6")],
-            [Color(hex: "#BBF7D0"), Color(hex: "#34D399")],
-            [Color(hex: "#FBCFE8"), Color(hex: "#A78BFA")],
-            [Color(hex: "#BFDBFE"), Color(hex: "#7DD3FC")],
-            [Color(hex: "#FECACA"), Color(hex: "#FB7185")]
-        ]
-        let index = abs(plan.id.hashValue) % palettes.count
-        return palettes[index]
+        plan.cardPalette.colors
     }
 }
 

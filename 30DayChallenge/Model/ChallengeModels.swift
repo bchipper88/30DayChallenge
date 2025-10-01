@@ -41,6 +41,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
     var streakRule: StreakRule
     var callToAction: String
     var accentPalette: GradientDescriptor
+    var cardPalette: GradientDescriptor
     var summary: String?
 
     var accentColors: [Color] {
@@ -72,6 +73,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         case streakRule
         case callToAction
         case accentPalette
+        case cardPalette
         case summary
     }
 
@@ -96,6 +98,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         streakRule: StreakRule,
         callToAction: String,
         accentPalette: GradientDescriptor,
+        cardPalette: GradientDescriptor,
         summary: String? = nil
     ) {
         self.id = id
@@ -118,6 +121,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         self.streakRule = streakRule
         self.callToAction = callToAction
         self.accentPalette = accentPalette
+        self.cardPalette = cardPalette
         self.summary = summary
     }
 
@@ -143,6 +147,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         let streakRule = try container.decode(StreakRule.self, forKey: .streakRule)
         let callToAction = try container.decode(String.self, forKey: .callToAction)
         let accentPalette = try container.decode(GradientDescriptor.self, forKey: .accentPalette)
+        let cardPalette = try container.decodeIfPresent(GradientDescriptor.self, forKey: .cardPalette)
         let summary = try container.decodeIfPresent(String.self, forKey: .summary)
 
         var createdAtDate = Date()
@@ -176,6 +181,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
             streakRule: streakRule,
             callToAction: callToAction,
             accentPalette: accentPalette,
+            cardPalette: cardPalette ?? GradientDescriptor.card(for: id),
             summary: summary
         )
     }
@@ -202,6 +208,7 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
         try container.encode(streakRule, forKey: .streakRule)
         try container.encode(callToAction, forKey: .callToAction)
         try container.encode(accentPalette, forKey: .accentPalette)
+        try container.encode(cardPalette, forKey: .cardPalette)
         try container.encodeIfPresent(summary, forKey: .summary)
     }
 
@@ -431,6 +438,22 @@ struct GradientDescriptor: Codable, Hashable {
 
     var colors: [Color] {
         stops.map { $0.color }
+    }
+
+    static func card(for planID: UUID) -> GradientDescriptor {
+        let palettes: [[(String, Double)]] = [
+            [("A5F3FC", 0.9), ("60A5FA", 0.9)],
+            [("FDE68A", 0.9), ("F59E0B", 0.9)],
+            [("C4B5FD", 0.9), ("F472B6", 0.9)],
+            [("BBF7D0", 0.9), ("34D399", 0.9)],
+            [("FBCFE8", 0.9), ("A78BFA", 0.9)],
+            [("BFDBFE", 0.9), ("7DD3FC", 0.9)],
+            [("FECACA", 0.9), ("FB7185", 0.9)],
+            [("FDECEF", 0.9), ("FBCFE8", 0.9)]
+        ]
+        let index = abs(planID.hashValue) % palettes.count
+        let palette = palettes[index]
+        return GradientDescriptor(stops: palette.map { GradientStop(hex: $0.0, opacity: $0.1) })
     }
 }
 

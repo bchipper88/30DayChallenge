@@ -45,6 +45,7 @@ const blueprintSchema = {
     'assumptions',
     'constraints',
     'resources',
+    'purpose',
     'keyPrinciples',
     'riskRadar',
     'callToAction',
@@ -52,6 +53,7 @@ const blueprintSchema = {
     'celebrationRule',
     'streakRule',
     'accentPalette',
+    'cardPalette',
     'phases',
     'dailyPlan',
     'weeklyReviews'
@@ -155,6 +157,12 @@ const blueprintSchema = {
       type: 'array',
       minItems: 3,
       maxItems: 4,
+      items: { type: 'string', pattern: '^#?[0-9A-Fa-f]{6}$' }
+    },
+    cardPalette: {
+      type: 'array',
+      minItems: 2,
+      maxItems: 3,
       items: { type: 'string', pattern: '^#?[0-9A-Fa-f]{6}$' }
     },
     phases: {
@@ -325,7 +333,7 @@ Produce a JSON object that matches the "PlanBlueprint" format shown below. Your 
 • Define challenge-wide "keyPrinciples" (3-5) and "riskRadar" entries (3-6, each with likelihood low/medium/high) capturing only the highest-leverage guidance for the full 30-day journey.
 • Provide a "dailyPlan" array with exactly 30 entries (dayNumber 1..30) and each day containing 2-3 tasks. Tasks require: title, type (setup/research/practice/review/reflection/outreach/build/ship), expectedMinutes, instructions (imperative), definitionOfDone, tags (2-3), and metric {name, unit, target} (set metric to null when not applicable). Add motivating checkInPrompt + celebrationMessage per day.
 • Provide four weekly reviews (weekNumber 1..4) each with 3 evidence items, 3 reflection questions, and 3 adaptation rules (condition + response).
-• Include assumptions, constraints, resources, callToAction, reminder (hour/minute/message), celebrationRule (trigger/message), streakRule (thresholdMinutes/graceDays), and accentPalette (3-4 hex colors).
+• Include assumptions, constraints, resources, callToAction, reminder (hour/minute/message), celebrationRule (trigger/message), streakRule (thresholdMinutes/graceDays), accentPalette (3-4 hex colors), and cardPalette (2-3 softer pastel hex colors for UI cards).
 • Craft "callToAction" as an inspirational rally cry for their 30-day challenge—short, memorable, high-energy, and explicitly calling them to step up for the full journey.
 • Map the provided user goal into the plan title, phases, and tasks with concrete, actionable language.
 
@@ -348,6 +356,7 @@ Return JSON in this exact structure (use your own values):
   "celebrationRule": { "trigger": "dayComplete", "message": "..." },
   "streakRule": { "thresholdMinutes": 45, "graceDays": 2 },
   "accentPalette": ["#FF7EB3", "#A855F7", "#3B82F6"],
+  "cardPalette": ["#FECACA", "#FBCFE8"],
   "phases": [
     {
       "name": "Phase name",
@@ -602,6 +611,9 @@ function buildPlanFromBlueprint(blueprint, { fallbackPurpose = null } = {}) {
     callToAction: blueprint.callToAction,
     accentPalette: {
       stops: blueprint.accentPalette.map((hex) => ({ hex, opacity: 1 }))
+    },
+    cardPalette: {
+      stops: (blueprint.cardPalette ?? blueprint.accentPalette).map((hex) => ({ hex, opacity: 1 }))
     }
   };
 }

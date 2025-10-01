@@ -78,13 +78,14 @@ enum ChallengePlanFactory {
             timeframe: "30 days"
         )
 
+        let planID = UUID()
         let phases = makePhases(goal: goal)
         let principles = corePrinciples(from: phases)
         let riskHighlights = highlightRisks(from: phases)
         let purpose = draft.trimmedPurpose
 
         return ChallengePlan(
-            id: UUID(),
+            id: planID,
             title: title,
             domain: draft.domain,
             primaryGoal: goal,
@@ -102,7 +103,8 @@ enum ChallengePlanFactory {
             celebrationRule: CelebrationRule(trigger: .dayComplete, message: "Momentum unlocked! Celebrate the win."),
             streakRule: StreakRule(thresholdMinutes: draft.streakMinutes, graceDays: 2),
             callToAction: defaultCallToAction(for: goal, motivation: motivation, purpose: draft.trimmedPurpose),
-            accentPalette: palette(for: draft.domain)
+            accentPalette: palette(for: draft.domain),
+            cardPalette: GradientDescriptor.card(for: planID)
         )
     }
 
