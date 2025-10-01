@@ -114,7 +114,12 @@ struct ChallengeDashboardView: View {
                 .foregroundStyle(Palette.textPrimary)
             VStack(spacing: 16) {
                 ForEach(weeklyBreakdowns) { breakdown in
-                    WeeklyOutlineCard(breakdown: breakdown)
+                    NavigationLink {
+                        WeekOverviewView(planID: plan.id, breakdown: breakdown)
+                    } label: {
+                        WeeklyOutlineCard(breakdown: breakdown, showsChevron: true)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
         }
@@ -207,19 +212,14 @@ struct ChallengeDashboardView: View {
     }
 
     var keyPrinciples: [String] {
-        let trimmed = plan.keyPrinciples.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
-        if !trimmed.isEmpty {
-            return trimmed
-        }
-        return plan.phases.flatMap { $0.keyPrinciples }
+        plan.keyPrinciples
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
     }
 
     var riskHighlights: [RiskItem] {
-        let trimmed = plan.riskHighlights.filter { !$0.risk.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-        if !trimmed.isEmpty {
-            return trimmed
-        }
-        return plan.phases.flatMap { $0.risks }
+        plan.riskHighlights
+            .filter { !$0.risk.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
     }
 
     private var trimmedCallToAction: String {
@@ -307,6 +307,7 @@ struct DueTile: View {
 
 struct WeeklyOutlineCard: View {
     var breakdown: WeeklyBreakdown
+    var showsChevron: Bool = false
 
     private var phaseName: String {
         breakdown.phase?.name ?? "Phase \(breakdown.week.weekNumber)"
@@ -316,16 +317,30 @@ struct WeeklyOutlineCard: View {
         breakdown.phase?.objective ?? breakdown.week.reflectionQuestions.first ?? "Focus on consistent progress."
     }
 
+    private var progress: Double {
+        let tasks = breakdown.days.flatMap { $0.tasks }
+        guard !tasks.isEmpty else { return 0 }
+        let completed = tasks.filter { $0.isComplete }.count
+        return Double(completed) / Double(tasks.count)
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .firstTextBaseline) {
-                Text("Week \(breakdown.week.weekNumber)")
-                    .font(.headline)
-                    .foregroundStyle(Palette.textPrimary)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .center) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Week \(breakdown.week.weekNumber)")
+                        .font(.headline)
+                        .foregroundStyle(Palette.textPrimary)
+                    Text(breakdown.weekRangeDescription)
+                        .font(.subheadline)
+                        .foregroundStyle(Palette.textSecondary)
+                }
                 Spacer()
-                Text(breakdown.weekRangeDescription)
-                    .font(.subheadline)
-                    .foregroundStyle(Palette.textSecondary)
+                if showsChevron {
+                    Image(systemName: "chevron.right")
+                        .font(.headline.weight(.semibold))
+                        .foregroundStyle(Palette.textSecondary)
+                }
             }
 
             Text(phaseName)
@@ -336,6 +351,22 @@ struct WeeklyOutlineCard: View {
                 .font(.footnote)
                 .foregroundStyle(Palette.textSecondary)
                 .lineSpacing(3)
+
+            ProgressView(value: progress) {
+                HStack {
+                    Text("Progress")
+                        .font(.caption)
+                        .foregroundStyle(Palette.textSecondary)
+                    Spacer()
+                    let tasks = breakdown.days.flatMap { $0.tasks }
+                    let completed = tasks.filter { $0.isComplete }.count
+                    Text("\(completed)/\(tasks.count)")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Palette.textPrimary)
+                }
+            }
+            .progressViewStyle(.linear)
+            .tint(Palette.accentBlue)
         }
         .padding(18)
         .background(Color.white.opacity(0.95), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
@@ -418,12 +449,22 @@ private struct EditChallengeView: View {
     @State private var phases: [EditablePhase]
     @State private var principles: [EditablePrinciple]
     @State private var risks: [EditableRisk]
+    @FocusState private var focusedField: Field?
+
+    private enum Field: Hashable {
+        case title
+        case summary
+        case purpose
+        case rally
+        case principle(UUID)
+        case risk(UUID)
+    }
 
     init(plan: ChallengePlan, onSave: @escaping (ChallengePlan) -> Void) {
         self.plan = plan
         self.onSave = onSave
         _title = State(initialValue: plan.title)
-        _summary = State(initialValue: plan.summary ?? "")
+        _summary = State(initialValue: plan.summary ?? plan.primaryGoal)
         _purpose = State(initialValue: plan.purpose ?? "")
         _rallyCry = State(initialValue: plan.callToAction)
         _phases = State(initialValue: plan.phases.map { phase in
@@ -479,6 +520,7 @@ private struct EditChallengeView: View {
         Section("Title") {
             TextField("Title", text: $title)
                 .textInputAutocapitalization(.sentences)
+                .focused($focusedField, equals: .title)
         }
     }
 
@@ -486,6 +528,7 @@ private struct EditChallengeView: View {
         Section("Summary") {
             TextEditor(text: $summary)
                 .frame(minHeight: 120)
+                .focused($focusedField, equals: .summary)
         }
     }
 
@@ -493,6 +536,7 @@ private struct EditChallengeView: View {
         Section("Purpose") {
             TextEditor(text: $purpose)
                 .frame(minHeight: 120)
+                .focused($focusedField, equals: .purpose)
         }
     }
 
@@ -524,6 +568,7 @@ private struct EditChallengeView: View {
                 HStack {
                     TextField("Principle", text: $principle.text, axis: .vertical)
                         .lineLimit(1...3)
+                        .focused($focusedField, equals: .principle(principle.id))
                     if principles.count > 1 {
                         Button {
                             removePrinciple(id: principle.id)
@@ -535,12 +580,8 @@ private struct EditChallengeView: View {
                     }
                 }
             }
-            if principles.count < 5 {
-                Button {
-                    principles.append(EditablePrinciple(text: ""))
-                } label: {
-                    Label("Add Principle", systemImage: "plus.circle")
-                }
+            Button(action: addPrinciple) {
+                Label("Add Principle", systemImage: "plus.circle")
             }
         }
     }
@@ -549,32 +590,52 @@ private struct EditChallengeView: View {
         Section("Risks Radar") {
             ForEach($risks) { $risk in
                 VStack(alignment: .leading, spacing: 12) {
-                    TextField("Risk", text: $risk.risk, axis: .vertical)
+                    Text("Risk")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                    TextField("e.g. Momentum drops after week 2", text: $risk.risk, axis: .vertical)
                         .lineLimit(1...3)
+                        .focused($focusedField, equals: .risk(risk.id))
+
+                    Text("Likelihood")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.secondary)
                     Picker("Likelihood", selection: $risk.likelihood) {
                         ForEach(RiskItem.Likelihood.allCases, id: \.self) { likelihood in
                             Text(likelihood.rawValue.capitalized).tag(likelihood)
                         }
                     }
-                    TextField("Mitigation", text: $risk.mitigation, axis: .vertical)
+                    .pickerStyle(.segmented)
+
+                    Text("Mitigation")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                    TextField("How will you counter this?", text: $risk.mitigation, axis: .vertical)
                         .lineLimit(1...3)
+                        .focused($focusedField, equals: .risk(risk.id))
+
                     if risks.count > 1 {
-                        Button(role: .destructive) {
-                            removeRisk(id: risk.id)
-                        } label: {
-                            Label("Remove Risk", systemImage: "trash")
-                                .labelStyle(.titleAndIcon)
+                        HStack {
+                            Spacer()
+                            Button(role: .destructive) {
+                                removeRisk(id: risk.id)
+                            } label: {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "trash")
+                                    Text("Remove Risk")
+                                }
+                            }
+                            .buttonStyle(.borderless)
                         }
                     }
+
+                    Divider()
+                        .padding(.top, 4)
                 }
                 .padding(.vertical, 6)
             }
-            if risks.count < 6 {
-                Button {
-                    risks.append(EditableRisk(id: UUID(), risk: "", likelihood: .medium, mitigation: ""))
-                } label: {
-                    Label("Add Risk", systemImage: "plus.circle")
-                }
+            Button(action: addRisk) {
+                Label("Add Risk", systemImage: "plus.circle")
             }
         }
     }
@@ -583,20 +644,57 @@ private struct EditChallengeView: View {
         Section("Rally Cry") {
             TextEditor(text: $rallyCry)
                 .frame(minHeight: 120)
+                .focused($focusedField, equals: .rally)
         }
     }
 
     private func removePrinciple(id: UUID) {
         principles.removeAll { $0.id == id }
         if principles.isEmpty {
-            principles = [EditablePrinciple(text: "")]
+            let fallback = EditablePrinciple(text: "")
+            principles = [fallback]
+            focusedField = .principle(fallback.id)
         }
     }
 
     private func removeRisk(id: UUID) {
         risks.removeAll { $0.id == id }
         if risks.isEmpty {
-            risks = [EditableRisk(id: UUID(), risk: "", likelihood: .medium, mitigation: "")]
+            let fallback = EditableRisk(id: UUID(), risk: "", likelihood: .medium, mitigation: "")
+            risks = [fallback]
+            focusedField = .risk(fallback.id)
+        }
+    }
+
+    private func addPrinciple() {
+        if let empty = principles.first(where: { $0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) {
+            DispatchQueue.main.async {
+                focusedField = .principle(empty.id)
+            }
+            return
+        }
+        let newPrinciple = EditablePrinciple(text: "")
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+            principles.append(newPrinciple)
+        }
+        DispatchQueue.main.async {
+            focusedField = .principle(newPrinciple.id)
+        }
+    }
+
+    private func addRisk() {
+        if let empty = risks.first(where: { $0.risk.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && $0.mitigation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) {
+            DispatchQueue.main.async {
+                focusedField = .risk(empty.id)
+            }
+            return
+        }
+        let newRisk = EditableRisk(id: UUID(), risk: "", likelihood: .medium, mitigation: "")
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+            risks.append(newRisk)
+        }
+        DispatchQueue.main.async {
+            focusedField = .risk(newRisk.id)
         }
     }
 
@@ -641,7 +739,6 @@ private struct EditChallengeView: View {
             if seen.insert(key).inserted {
                 result.append(trimmed)
             }
-            if result.count == 5 { break }
         }
         return result
     }
@@ -658,9 +755,491 @@ private struct EditChallengeView: View {
                 let mitigation = trimmedMitigation.isEmpty ? "" : trimmedMitigation
                 result.append(RiskItem(id: risk.id, risk: trimmedRisk, likelihood: risk.likelihood, mitigation: mitigation))
             }
-            if result.count == 6 { break }
         }
         return result
+    }
+}
+
+private struct WeekOverviewView: View {
+    @Environment(ChallengeStore.self) private var store
+    var planID: UUID
+    var breakdown: WeeklyBreakdown
+
+    @State private var expandedTaskIDs: Set<UUID> = []
+    @State private var isEditingTasks = false
+
+    private var plan: ChallengePlan? {
+        store.plans.first(where: { $0.id == planID })
+    }
+
+    private var currentPhase: ChallengePhase? {
+        guard let plan else { return breakdown.phase }
+        let range = weekRange
+        return plan.phases.first { phase in
+            let phaseRange = phase.dayRange.lowerBound..<(phase.dayRange.upperBound)
+            return phaseRange.overlaps(range.lowerBound..<(range.upperBound + 1))
+        } ?? breakdown.phase
+    }
+
+    private var sortedDays: [DailyEntry] {
+        latestDays.sorted { $0.dayNumber < $1.dayNumber }
+    }
+
+    private var latestDays: [DailyEntry] {
+        if let plan {
+            return plan.days.filter { weekRange.contains($0.dayNumber) }
+        }
+        return breakdown.days
+    }
+
+    private var weekRange: ClosedRange<Int> {
+        let lower = max(1, (breakdown.week.weekNumber - 1) * 7 + 1)
+        let upper = min(30, breakdown.week.weekNumber * 7)
+        return lower...upper
+    }
+
+    private var allTasks: [TaskItem] {
+        latestDays.flatMap { $0.tasks }
+    }
+
+    private var progress: Double {
+        let tasks = allTasks
+        guard !tasks.isEmpty else { return 0 }
+        let completed = tasks.filter { $0.isComplete }.count
+        return Double(completed) / Double(tasks.count)
+    }
+
+    var body: some View {
+        List {
+            if let phase = currentPhase {
+                Section("Phase") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(phase.name)
+                            .font(.headline)
+                        Text(phase.objective)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 4)
+                }
+            }
+
+            Section {
+                ProgressView(value: progress) {
+                    HStack {
+                        Text("Week Progress")
+                            .font(.caption)
+                            .foregroundStyle(Palette.textSecondary)
+                        Spacer()
+                        Text("\(allTasks.filter { $0.isComplete }.count)/\(allTasks.count)")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(Palette.textPrimary)
+                    }
+                }
+                .progressViewStyle(.linear)
+                .tint(Palette.accentBlue)
+                .padding(.vertical, 8)
+            }
+
+            ForEach(sortedDays) { day in
+                Section(header: Text("Day \(day.dayNumber): \(day.theme)")) {
+                    if day.tasks.isEmpty {
+                        Text("No tasks scheduled.")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(day.tasks) { task in
+                            WeekTaskRow(
+                                task: task,
+                                isExpanded: expandedTaskIDs.contains(task.id),
+                                onToggleCompletion: {
+                                    store.toggleTask(planID: planID, dayNumber: day.dayNumber, taskID: task.id)
+                                },
+                                onToggleExpanded: {
+                                    toggleExpansion(for: task.id)
+                                }
+                            )
+                            .listRowInsets(EdgeInsets())
+                            .padding(.vertical, 6)
+                            .contextMenu {
+                                Button("Edit Task") {
+                                    isEditingTasks = true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(Palette.background.ignoresSafeArea())
+        .navigationTitle("Week \(breakdown.week.weekNumber)")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Edit Tasks") {
+                    isEditingTasks = true
+                }
+                .disabled(plan == nil)
+            }
+        }
+        .sheet(isPresented: $isEditingTasks) {
+            if let plan {
+                EditWeekTasksView(plan: plan, weekRange: weekRange) { updatedPlan in
+                    store.update(plan: updatedPlan)
+                }
+            }
+        }
+    }
+
+    private func toggleExpansion(for id: UUID) {
+        if expandedTaskIDs.contains(id) {
+            expandedTaskIDs.remove(id)
+        } else {
+            expandedTaskIDs.insert(id)
+        }
+    }
+}
+
+private struct WeekTaskRow: View {
+    var task: TaskItem
+    var isExpanded: Bool
+    var onToggleCompletion: () -> Void
+    var onToggleExpanded: () -> Void
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 12) {
+                completionButton
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(task.title)
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(Palette.textPrimary)
+
+                    HStack(spacing: 10) {
+                        Text(task.type.icon)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(Palette.accentBlue)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                            .background(Palette.accentBlue.opacity(0.12), in: Capsule())
+                        Text("\(task.expectedMinutes) min")
+                            .font(.caption)
+                            .foregroundStyle(Palette.textSecondary)
+                    }
+                }
+
+                Spacer()
+
+                Button(action: onToggleExpanded) {
+                    Image(systemName: "chevron.down")
+                        .rotationEffect(isExpanded ? .degrees(180) : .degrees(0))
+                        .font(.headline.weight(.semibold))
+                        .foregroundStyle(Palette.textSecondary)
+                        .padding(8)
+                        .background(Color.secondary.opacity(0.08), in: Circle())
+                }
+                .buttonStyle(.plain)
+            }
+            .padding(16)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                onToggleExpanded()
+            }
+
+            if isExpanded {
+                Divider()
+                    .padding(.horizontal, 16)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    if !task.instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("How to execute")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(Palette.textSecondary)
+                            Text(task.instructions)
+                                .font(.subheadline)
+                                .foregroundStyle(Palette.textPrimary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+
+                    if !task.definitionOfDone.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Definition of done")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(Palette.textSecondary)
+                            Text(task.definitionOfDone)
+                                .font(.subheadline)
+                                .foregroundStyle(Palette.textPrimary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+
+                    if let metric = task.metric {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Metric")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(Palette.textSecondary)
+                            Text("\(metric.name) — target \(metric.target) \(metric.unit)")
+                                .font(.subheadline)
+                                .foregroundStyle(Palette.textPrimary)
+                        }
+                    }
+                }
+                .padding(16)
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(Color.white)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(Color.black.opacity(0.05), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 6)
+        .padding(.horizontal, 4)
+    }
+
+    private var completionButton: some View {
+        Button(action: onToggleCompletion) {
+            ZStack {
+                Circle()
+                    .stroke(task.isComplete ? Color.clear : Palette.border, lineWidth: 2)
+                    .fill(task.isComplete ? Palette.accentBlue : Color.clear)
+                    .frame(width: 30, height: 30)
+
+                if task.isComplete {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(Color.white)
+                }
+            }
+            .overlay(
+                Circle()
+                    .stroke(task.isComplete ? Palette.accentBlue : Color.clear, lineWidth: task.isComplete ? 0 : 0)
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(task.isComplete ? "Mark incomplete" : "Mark complete")
+    }
+}
+
+private struct EditWeekTasksView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(ChallengeStore.self) private var store
+    var plan: ChallengePlan
+    var weekRange: ClosedRange<Int>
+    var onSave: (ChallengePlan) -> Void
+
+    @State private var editablePlan: ChallengePlan
+    @State private var editedDays: [DailyEntry]
+
+    init(plan: ChallengePlan, weekRange: ClosedRange<Int>, onSave: @escaping (ChallengePlan) -> Void) {
+        self.plan = plan
+        self.weekRange = weekRange
+        self.onSave = onSave
+        _editablePlan = State(initialValue: plan)
+        let days = plan.days.filter { weekRange.contains($0.dayNumber) }
+        _editedDays = State(initialValue: days)
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(editedDayBindings(), id: \.wrappedValue.id) { binding in
+                    EditableDaySection(day: binding) {
+                        addTask(to: binding)
+                    }
+                }
+            }
+            .listStyle(.insetGrouped)
+            .navigationTitle("Edit Week Tasks")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") { saveChanges() }
+                }
+            }
+        }
+    }
+
+    private func addTask(to day: Binding<DailyEntry>) {
+        let newTask = TaskItem(
+            id: UUID(),
+            title: "New task",
+            type: .build,
+            expectedMinutes: 30,
+            instructions: "",
+            definitionOfDone: "",
+            metric: nil,
+            tags: [],
+            isComplete: false
+        )
+        day.tasks.wrappedValue.append(newTask)
+    }
+
+    private func saveChanges() {
+        var planCopy = editablePlan
+        planCopy.days = planCopy.days.map { existing in
+            if let updated = editedDays.first(where: { $0.dayNumber == existing.dayNumber }) {
+                return updated
+            }
+            return existing
+        }
+        onSave(planCopy)
+        dismiss()
+    }
+
+    private func editedDayBindings() -> [Binding<DailyEntry>] {
+        $editedDays.indices.map { index in
+            $editedDays[index]
+        }
+    }
+}
+
+private struct EditableDaySection: View {
+    @Binding var day: DailyEntry
+    var onAddTask: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            header
+            ForEach($day.tasks) { $task in
+                EditableTaskCard(task: $task)
+            }
+            addButton
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(Color.white)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Color.black.opacity(0.05), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 8)
+    }
+
+    private var header: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Day \(day.dayNumber)")
+                    .font(.title3.weight(.semibold))
+                Text("\(day.theme) focus")
+                    .font(.subheadline)
+                    .foregroundStyle(Palette.textSecondary)
+            }
+            Spacer()
+            Text("\(day.tasks.count) task\(day.tasks.count == 1 ? "" : "s")")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Palette.accentBlue)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(Palette.accentBlue.opacity(0.12), in: Capsule())
+        }
+    }
+
+    private var addButton: some View {
+        Button(action: onAddTask) {
+            HStack(spacing: 10) {
+                Image(systemName: "plus.circle.fill")
+                    .foregroundStyle(Palette.accentBlue)
+                Text("Add Task")
+                    .font(.body.weight(.semibold))
+            }
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity)
+            .background(Palette.accentBlue.opacity(0.12), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private struct EditableTaskCard: View {
+    @Binding var task: TaskItem
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            titleRow
+            typeRow
+            instructionsRow
+            doneRow
+            expectedRow
+        }
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(Palette.surface)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(Color.black.opacity(0.04), lineWidth: 1)
+        )
+    }
+
+    private var titleRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Task Title")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Palette.textSecondary)
+            TextField("Name this task", text: $task.title)
+                .font(.headline)
+        }
+    }
+
+    private var typeRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Type")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Palette.textSecondary)
+            Picker("Type", selection: $task.type) {
+                ForEach(TaskItem.TaskType.allCases) { type in
+                    Text(type.icon).tag(type)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+
+    private var instructionsRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Instructions")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Palette.textSecondary)
+            TextField("Describe how to complete this task", text: $task.instructions, axis: .vertical)
+                .lineLimit(1...4)
+                .textFieldStyle(.roundedBorder)
+        }
+    }
+
+    private var doneRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Definition of Done")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Palette.textSecondary)
+            TextField("What proves it’s complete?", text: $task.definitionOfDone, axis: .vertical)
+                .lineLimit(1...4)
+                .textFieldStyle(.roundedBorder)
+        }
+    }
+
+    private var expectedRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Expected Minutes")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Palette.textSecondary)
+            Stepper(value: $task.expectedMinutes, in: 5...240, step: 5) {
+                Text("\(task.expectedMinutes) min")
+                    .font(.body.weight(.semibold))
+            }
+        }
     }
 }
 

@@ -212,7 +212,6 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
             if seen.insert(value.lowercased()).inserted {
                 result.append(value)
             }
-            if result.count == 5 { break }
         }
         return result
     }
@@ -226,7 +225,6 @@ struct ChallengePlan: Codable, Identifiable, Hashable {
             if seen.insert(normalized.lowercased()).inserted {
                 result.append(value)
             }
-            if result.count == 6 { break }
         }
         return result
     }

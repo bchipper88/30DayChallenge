@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "gotrue-swift",
+      "identity" : "keychainaccess",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/supabase-community/gotrue-swift.git",
+      "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
       "state" : {
-        "revision" : "05673e1f3f3906aaa91b3f0cf94c0e5a573ed4cd",
-        "version" : "2.2.0"
+        "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
+        "version" : "4.2.2"
       }
     },
     {
@@ -14,8 +14,26 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/supabase-community/supabase-swift.git",
       "state" : {
-        "revision" : "75fdbe0bccbbd1d3df542ff0ebc5bfa81acdd5f0",
+        "revision" : "148e3dc50473bbec8128dc5520c6dccb754d4bd9",
         "version" : "2.2.0"
+      }
+    },
+    {
+      "identity" : "swift-concurrency-extras",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-concurrency-extras",
+      "state" : {
+        "revision" : "5a3825302b1a0d744183200915a47b508c828e6f",
+        "version" : "1.3.2"
+      }
+    },
+    {
+      "identity" : "swift-crypto",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-crypto.git",
+      "state" : {
+        "revision" : "60f13f60c4d093691934dc6cfdf5f508ada1f894",
+        "version" : "2.6.0"
       }
     }
   ],
