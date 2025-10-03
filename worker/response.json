@@ -1,1046 +1,1168 @@
 {
-  "jobId": "cf4061bf-99ea-4b35-b474-21d71e54a2e6",
+  "jobId": "7069ee31-e216-46b6-acde-de2273bda2f1",
   "plan": {
-    "id": "e5796045-01cd-427e-a3a9-cd2b92761329",
-    "title": "Master a reliable pound cake",
-    "domain": "creative",
-    "primaryGoal": "Learn to bake a repeatable, excellent pound cake and add the tested recipe to your personal library",
-    "createdAt": "2025-10-02T22:06:17.977Z",
+    "id": "f88df31b-3634-4cec-a3a6-5749475975df",
+    "title": "30-Day Walk-a-Mile Challenge",
+    "domain": "fitness",
+    "primaryGoal": "Build a reliable daily habit of walking one mile with improving comfort, consistency, and pace.",
+    "createdAt": "2025-10-03T15:23:38.448Z",
     "summary": null,
     "targetOutcome": {
-      "metric": "Successful test bakes",
-      "value": 6,
-      "unit": "cakes",
+      "metric": "Days with at least 1 mile walked",
+      "value": 25,
+      "unit": "days",
       "timeframe": "30 days"
     },
     "assumptions": [
-      "You have intermediate baking familiarity (can follow standard recipes and use common kitchen equipment).",
-      "You have access to an oven, standard baking pans, and basic ingredients or can procure them within a day.",
-      "You can commit ~45–120 minutes on most days for baking or prep."
+      "You can safely perform low-impact walking (no current acute contraindicating injury).",
+      "You have 20–40 minutes available most days or can split walking into short segments.",
+      "You can access a safe walking route (sidewalk, track, treadmill, or indoor loop)."
     ],
     "constraints": [
-      "No specialized commercial equipment required (plan uses tools common at home).",
-      "Dietary restrictions (gluten/dairy/egg-free) require separate adaptation not covered here.",
-      "Time per day is limited to typical home-cook windows (max ~2 hours for bake days)."
+      "Weather or schedule may occasionally prevent outdoor walking.",
+      "Limited access to specialized equipment—plan for bodyweight-only walking.",
+      "Possible minor soreness; avoid pushing through sharp pain."
     ],
     "resources": [
-      "Digital kitchen scale, oven thermometer, loaf pan (9x5\" or 8.5x4.5\"), mixing bowls, mixer or whisk, spatula, cooling rack",
-      "Three reliable pound cake recipes (links or cookbooks you trust), a notebook or notes app for logging",
-      "Stopwatch/timer and measuring spoons/cups"
+      "Comfortable walking shoes",
+      "Stopwatch or phone for timing and tracking",
+      "Water bottle and simple warm-up routine",
+      "Map of 1-mile routes (neighborhood, park, treadmill settings)"
     ],
-    "purpose": "Add another recipe to my library — develop a repeatable pound cake you trust and can reliably reproduce.",
+    "purpose": "Make walking one mile a dependable, energizing habit so it becomes effortless and sustainable beyond 30 days.",
     "keyPrinciples": [
-      "Measure precisely: weight is more reliable than volume for consistency.",
-      "One change at a time: isolate variables so you can learn what matters.",
-      "Iterate fast, learn faster: bake, record, adjust, repeat.",
-      "Prioritize texture and timing over decoration early on."
+      "Start easy and progress gradually — consistency creates fitness.",
+      "Prioritize recovery and form over speed to avoid setbacks.",
+      "Track simple objective data (time, distance, notes) to build feedback loops.",
+      "Small, repeatable wins compound into a lasting habit."
     ],
     "riskHighlights": [
       {
-        "id": "00b66b31-33e7-4b2f-9b5a-0b2fad2e2408",
-        "risk": "Inconsistent measurements leading to variable results",
-        "likelihood": "high",
-        "mitigation": "Use a digital scale, write exact weights, and standardize ingredient temperature."
-      },
-      {
-        "id": "4172b7a7-80d6-42f7-a791-7118336edaf6",
-        "risk": "Overloading the schedule on bake days and getting discouraged",
+        "id": "b247509c-d46d-451f-9780-db40fd53f7dd",
+        "risk": "Muscle soreness or overuse injury",
         "likelihood": "medium",
-        "mitigation": "Limit daily tasks; plan longer bake days only a few times and rest between them."
+        "mitigation": "Include warm-ups, cool-downs, one active recovery day per week, and reduce pace/distance if pain arises."
       },
       {
-        "id": "8aad2042-b9c3-4215-afb8-51563bfd8a32",
-        "risk": "Oven temperature variance causing under/overbake",
+        "id": "6da2388f-afd9-4c93-a94f-9e17c8147469",
+        "risk": "Schedule conflicts and missed days",
         "likelihood": "high",
-        "mitigation": "Calibrate oven with thermometer and map hot spots early in the plan."
+        "mitigation": "Plan walks into calendar, have 10–15 minute shorter options, and use 2 grace days in streakRule."
       },
       {
-        "id": "508ba736-0c95-4706-a3a9-9bfa926bd167",
-        "risk": "Missing feedback from tasters",
+        "id": "ac896025-2eeb-4fce-a38e-5cb9d0b28c6f",
+        "risk": "Boredom and loss of motivation",
         "likelihood": "medium",
-        "mitigation": "Use a quick feedback form and encourage friends to be specific about texture, moisture, and flavor."
+        "mitigation": "Vary route, add mini-challenges (tempo segments), pair with audio (podcast/music), and celebrate micro-wins."
+      },
+      {
+        "id": "d6ad9dec-ec8a-4c0f-ab78-ecd6f5affaff",
+        "risk": "Adverse weather",
+        "likelihood": "medium",
+        "mitigation": "Have indoor alternatives (mall, treadmill, hallway loops) and a weather-triggered quick plan."
       }
     ],
     "milestones": [
       {
         "id": "M1",
-        "title": "Core recipe learned",
-        "description": "Understand and execute a standard pound cake recipe reliably.",
+        "title": "First continuous mile",
+        "description": "Walk one continuous mile comfortably without needing extended rests.",
         "targetDay": 7
       },
       {
         "id": "M2",
-        "title": "Texture & rise optimized",
-        "description": "Tune oven, mixing, and bake timing to get consistent crumb and rise.",
-        "targetDay": 14
+        "title": "3-day walking streak",
+        "description": "Achieve a short streak of three consecutive days walking at least one mile.",
+        "targetDay": 10
       },
       {
         "id": "M3",
-        "title": "Flavor variations & troubleshooting",
-        "description": "Create 2 tasteful variations and document fixes for common faults.",
-        "targetDay": 22
+        "title": "Comfortable pace (≤18 min)",
+        "description": "Walk one mile at or under an 18-minute time while feeling steady.",
+        "targetDay": 15
       },
       {
         "id": "M4",
-        "title": "Recipe card & photos ready",
-        "description": "Write a final recipe card with weights, steps, photos, and notes for the library.",
-        "targetDay": 26
+        "title": "Mid-challenge consistency (12 walks)",
+        "description": "Hit at least 12 logged one-mile walks by the midway point to prove habit formation.",
+        "targetDay": 21
       },
       {
         "id": "M5",
-        "title": "Final confident bake & tasting",
-        "description": "Deliver a final bake for tasting, collect feedback, and finalize the recipe.",
+        "title": "Five-day streak & mini personal best",
+        "description": "Complete a five-day streak and set a new comfortable fastest mile time.",
+        "targetDay": 25
+      },
+      {
+        "id": "M6",
+        "title": "Challenge complete: 25+ one-mile days",
+        "description": "Finish strong with at least 25 days where you walked one mile in 30 days.",
         "targetDay": 30
       }
     ],
     "phases": [
       {
-        "id": "7d2036f9-e883-49fc-9d21-e2c85ddc4c83",
+        "id": "de69f235-edcb-474b-a378-e4cbf3e1d676",
         "index": 0,
-        "name": "Phase 1 — Learn the Core (Days 1–7)",
-        "objective": "Establish a baseline: choose a core recipe, master the method, and complete the first reliable bakes.",
+        "name": "Phase 1 — Start Moving (Days 1–7)",
+        "objective": "Establish the daily habit and complete your first continuous one-mile walk.",
         "milestones": [
           {
-            "id": "e62f5822-4516-4eec-bdcf-5561bf06bc5c",
-            "title": "Pick a base recipe",
-            "detail": "Select one trusted pound cake recipe and translate it to weights.",
+            "id": "71086f44-c35a-4c7e-90d0-40860f65c5cc",
+            "title": "Plan your routes",
+            "detail": "Identify 2–3 safe one-mile routes to use in the first week.",
             "progress": 0,
             "targetDay": 2
           },
           {
-            "id": "2357147e-886f-42f9-9aad-41d78f948b15",
-            "title": "First full bake",
-            "detail": "Complete a full bake and record results with photos and notes.",
-            "progress": 0,
-            "targetDay": 4
-          },
-          {
-            "id": "3d88a6de-06be-4043-a87c-85ec89d9acba",
-            "title": "Refined baseline bake",
-            "detail": "Produce a repeatable loaf following exact measurements and timing.",
+            "id": "f802c686-0d41-4742-b405-f73e87fd3389",
+            "title": "Complete first continuous mile",
+            "detail": "Walk an unbroken mile by Day 7 at an easy pace.",
             "progress": 0,
             "targetDay": 7
           }
         ],
         "keyPrinciples": [
-          "Measure precisely",
-          "One change at a time"
+          "Begin gently",
+          "Consistency first",
+          "Track every walk"
         ],
         "risks": [
           {
-            "id": "28f81ec3-8bb2-4996-9f2d-c7dd4d4c932e",
-            "risk": "Skipping weight conversion and introducing variability",
-            "likelihood": "high",
-            "mitigation": "Convert recipes to grams immediately and use a scale."
+            "id": "7d71920d-f32b-4c3c-8893-24f74aa54941",
+            "risk": "Starting too fast and burning out",
+            "likelihood": "medium",
+            "mitigation": "Keep pace conversational; split into 2 short breaks if needed and reduce pace."
           },
           {
-            "id": "0f452780-fe06-4eb9-94bc-43ab87171e20",
-            "risk": "Rushing the first bakes and misreading results",
+            "id": "3f825ce5-930a-424d-b704-caeebce90a22",
+            "risk": "Poor route prep",
             "likelihood": "medium",
-            "mitigation": "Take photos, note oven temp, and allow full cool time before judging."
+            "mitigation": "Scout a safe route on Day 1 and have an indoor backup."
+          },
+          {
+            "id": "e9c3c0f8-3edc-490f-bbb0-0c2c1ccbdc5f",
+            "risk": "No log habit",
+            "likelihood": "medium",
+            "mitigation": "Log immediately after each walk; use a simple note or app."
           }
         ]
       },
       {
-        "id": "3aca011d-9878-4b57-a4b0-5f66ff3cf068",
+        "id": "267b9162-a584-416f-951a-f4d59a64df20",
         "index": 1,
-        "name": "Phase 2 — Tweak Texture (Days 8–14)",
-        "objective": "Diagnose and tune crumb, rise and moisture via oven mapping and mixing refinements.",
+        "name": "Phase 2 — Build the Streak (Days 8–14)",
+        "objective": "Turn single walks into short streaks and begin light pace work.",
         "milestones": [
           {
-            "id": "867101d2-073b-4a7c-8d85-9e4e38a309e9",
-            "title": "Oven calibrated",
-            "detail": "Map real oven temperatures and find ideal rack position.",
+            "id": "cf307beb-f82f-4f29-990d-e97a103a1590",
+            "title": "3-day streak",
+            "detail": "Stack three consecutive one-mile walks to build routine.",
             "progress": 0,
-            "targetDay": 9
+            "targetDay": 10
           },
           {
-            "id": "35cffc18-4686-48ac-9e92-0f92149761e5",
-            "title": "Mixing and timing refined",
-            "detail": "Identify creaming time and mixing speed that yields consistent crumb.",
+            "id": "da064182-5a54-4f54-8875-c7ab67bfc742",
+            "title": "Introduce easy tempo intervals",
+            "detail": "Add short periods of brisk walking into at least two walks.",
             "progress": 0,
-            "targetDay": 13
+            "targetDay": 14
           }
         ],
         "keyPrinciples": [
-          "Iterate fast, learn faster",
-          "Prioritize texture early"
+          "Trade intensity for frequency",
+          "Small speed play",
+          "Recovery matters"
         ],
         "risks": [
           {
-            "id": "b0428a97-e60f-4797-9d41-acd5c0a50c19",
-            "risk": "Oven hotspots causing uneven bake",
+            "id": "04403336-a8f9-457e-8f75-a56d05784821",
+            "risk": "Schedule interruptions",
             "likelihood": "high",
-            "mitigation": "Rotate pan mid-bake or use a different rack; use an oven thermometer."
+            "mitigation": "Plan calendar blocks and have a 10–15 minute quick-walk fallback."
           },
           {
-            "id": "49bda939-c2cc-4bfc-91af-fe95e79bc31e",
-            "risk": "Changing multiple variables at once",
+            "id": "71344d26-454e-4ae4-a23e-0f731bd945cb",
+            "risk": "Soreness from increased frequency",
             "likelihood": "medium",
-            "mitigation": "Test one change per bake and keep notes."
+            "mitigation": "Use gentle mobility and one active recovery day."
           }
         ]
       },
       {
-        "id": "e7ef13f3-9f92-423b-83a5-44e6e6241e7a",
+        "id": "28043c69-9a2b-45fc-88b2-dd6ccd801dff",
         "index": 2,
-        "name": "Phase 3 — Flavor & Fixes (Days 15–22)",
-        "objective": "Explore variations, document techniques for common faults, and lock in two favorite tweaks.",
+        "name": "Phase 3 — Improve Comfort & Speed (Days 15–22)",
+        "objective": "Lower your mile time and deepen consistency toward midpoint goals.",
         "milestones": [
           {
-            "id": "36e02d69-2826-412e-920c-cee793637a67",
-            "title": "Two variation recipes",
-            "detail": "Develop two reliable flavor variations (e.g., vanilla-citrus and almond).",
+            "id": "3b679cb6-ab61-49cf-be6a-59806e38e1b1",
+            "title": "Comfortable sub-18 minute mile",
+            "detail": "Push to reach a steady mile in 18 minutes or less.",
             "progress": 0,
-            "targetDay": 19
+            "targetDay": 18
           },
           {
-            "id": "bf8d6a54-e2da-4f83-a4a8-9dd84e7dddc8",
-            "title": "Fault-fix list",
-            "detail": "Create a troubleshooting checklist for density, collapse, and dryness.",
+            "id": "8cea5e90-1f03-4dd6-9362-ea4efb468170",
+            "title": "Mid-challenge consistency",
+            "detail": "Accumulate at least 12 one-mile walks by Day 21.",
             "progress": 0,
-            "targetDay": 22
+            "targetDay": 21
           }
         ],
         "keyPrinciples": [
-          "One change at a time",
-          "Document every trial"
+          "Progressive overload",
+          "Form and cadence",
+          "Measure and celebrate improvements"
         ],
         "risks": [
           {
-            "id": "70c80e0f-9f13-490c-ae2f-5aa11ffc3a69",
-            "risk": "Over-complicating variations and losing baseline",
+            "id": "9be88477-63bb-477a-8b47-7f9de53c17b5",
+            "risk": "Trying to sprint before ready",
             "likelihood": "medium",
-            "mitigation": "Always keep the core recipe unchanged and label variants clearly."
+            "mitigation": "Use interval training with short brisk segments, then recover fully."
           },
           {
-            "id": "0c648fb2-920f-470b-ba6f-be359e19c163",
-            "risk": "Ingredient substitution causing failures",
+            "id": "783b92ed-3c57-4c47-862d-3b0aeb83b99d",
+            "risk": "Motivation dip after initial novelty",
             "likelihood": "medium",
-            "mitigation": "When substituting, change only one ingredient and test."
+            "mitigation": "Introduce variety (routes, music, partners) and small rewards."
           }
         ]
       },
       {
-        "id": "2e652d64-e795-4a73-8c35-364144a855c0",
+        "id": "5188d7f6-20d6-4ee3-96e5-3d8321427276",
         "index": 3,
-        "name": "Phase 4 — Finalize & Share (Days 23–30)",
-        "objective": "Document the perfected recipe with photos, perform final bakes for tasting, and add it to your library.",
+        "name": "Phase 4 — Lock the Habit & Finish Strong (Days 23–30)",
+        "objective": "Convert runs into routine: extend streaks, chase a personal best, and hit 25+ days.",
         "milestones": [
           {
-            "id": "cc98b59a-d201-4309-b727-f3f3a6d58326",
-            "title": "Recipe card completed",
-            "detail": "Write clear steps, weights, bake times, and notes for the final recipe card.",
+            "id": "86394de5-4f33-4512-87b4-77a4b47f3a6e",
+            "title": "Five-day streak & mini PB",
+            "detail": "Deliver five straight one-mile walks and record your fastest comfortable time.",
             "progress": 0,
-            "targetDay": 26
+            "targetDay": 25
           },
           {
-            "id": "f0977e1f-1aae-4703-b50b-df80e6284885",
-            "title": "Final tasting and sign-off",
-            "detail": "Conduct a final bake for feedback and finalize the recipe.",
+            "id": "07f823b2-0967-4571-b918-e40b35da244a",
+            "title": "Finish: 25+ one-mile days",
+            "detail": "Close the challenge with at least 25 days logged in 30 days.",
             "progress": 0,
             "targetDay": 30
           }
         ],
         "keyPrinciples": [
-          "Document thoroughly",
-          "Celebrate process and results"
+          "Sustainability over spikes",
+          "Finish with momentum",
+          "Celebrate the habit"
         ],
         "risks": [
           {
-            "id": "e98a10c5-456f-4d58-b88a-fc0835a951fd",
-            "risk": "Not collecting actionable feedback",
-            "likelihood": "medium",
-            "mitigation": "Provide tasters with a short feedback form focusing on texture, flavor, and moisture."
+            "id": "51f332d5-35c0-4967-8824-58595b662919",
+            "risk": "Late-stage fatigue or missed days",
+            "likelihood": "high",
+            "mitigation": "Use scheduled rest, lower intensity on taxing days, and rely on graceDays."
           },
           {
-            "id": "90fba4de-4934-4f98-a110-9cf6c9b85769",
-            "risk": "Losing track of versions",
-            "likelihood": "low",
-            "mitigation": "Store each recipe iteration with date and a version number."
+            "id": "f3516c5c-6301-4916-bc0b-d4f71b0ffb9a",
+            "risk": "Injury from over-exertion chasing PB",
+            "likelihood": "medium",
+            "mitigation": "Keep PB attempts controlled and prioritize form and pain-free effort."
           }
         ]
       }
     ],
     "days": [
       {
-        "id": "cdbebae6-cd75-4f51-bcec-6a860d839bac",
+        "id": "9f477c8d-9282-4bc4-be96-ace1b0d45edd",
         "dayNumber": 1,
-        "theme": "Start: Choose & Prepare",
-        "checkInPrompt": "Which base recipe will you convert to weights today?",
-        "celebrationMessage": "Good start — your baseline recipe is chosen.",
+        "theme": "Ignite",
+        "checkInPrompt": "How motivated are you? (1–10)",
+        "celebrationMessage": "You started — great momentum!",
         "tasks": [
           {
-            "id": "4dbd76ac-83bd-4e8e-96fa-8c2c776fa995",
-            "title": "Select base recipe",
-            "expectedMinutes": 30,
-            "details": "Choose one pound cake recipe you trust and read it fully.",
+            "id": "305b2212-71e0-4d0f-8bed-83b84b91ef14",
+            "title": "Choose 2 safe one-mile routes",
+            "expectedMinutes": 15,
+            "details": "Walk or map two nearby safe loops of approximately one mile; note start/end points.",
             "milestoneId": "M1",
             "isComplete": false
           },
           {
-            "id": "5dc56ec2-6487-41c9-8970-5e254fdc754b",
-            "title": "Convert to weight measurements",
-            "expectedMinutes": 30,
-            "details": "Translate ingredient volumes to grams and write them down.",
+            "id": "a84494fa-4cc2-456a-9d17-724bb9fb76cd",
+            "title": "Do a 5-minute dynamic warm-up",
+            "expectedMinutes": 50,
+            "details": "Perform leg swings, ankle circles, and knee lifts to prime your muscles.",
             "milestoneId": "M1",
             "isComplete": false
           },
           {
-            "id": "afa915f5-dd31-4e19-ae72-193a4476198c",
-            "title": "Inventory equipment & ingredients",
-            "expectedMinutes": 20,
-            "details": "Check that you have the pans, scale, thermometer, and ingredients; add missing items to a shopping list.",
+            "id": "43e710ce-e667-4f97-a0d8-63de516d5bd3",
+            "title": "Walk 1 mile easy pace",
+            "expectedMinutes": 25,
+            "details": "Walk one mile at a conversational pace; stop briefly if needed but aim for continuity.",
             "milestoneId": "M1",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "a4e9c61c-24c6-4a5d-abc7-2bba78ae1f06",
+        "id": "4d6ad886-18d1-4cc0-a547-d102978d675f",
         "dayNumber": 2,
-        "theme": "Prep & Learn",
-        "checkInPrompt": "Are your ingredients at the recommended temperatures?",
-        "celebrationMessage": "Prep complete — ingredients and tools are ready.",
+        "theme": "Set the baseline",
+        "checkInPrompt": "How did yesterday feel? Any tight spots?",
+        "celebrationMessage": "Baseline set — you're on the board!",
         "tasks": [
           {
-            "id": "fca7d928-3210-40dc-bc96-7d753fda2626",
-            "title": "Bring ingredients to temperature",
-            "expectedMinutes": 20,
-            "details": "Set butter and eggs at room temperature per the recipe.",
+            "id": "a448a78f-d2c5-4283-92b6-3a5474fa12f3",
+            "title": "Check shoes and water",
+            "expectedMinutes": 52,
+            "details": "Confirm shoes feel good and bring water or a small snack.",
             "milestoneId": "M1",
             "isComplete": false
           },
           {
-            "id": "e5947a8b-da0b-4680-b8fa-9e674c7bb15c",
-            "title": "Watch technique videos",
+            "id": "5925bd43-9690-44f6-9d58-de9f6a0794fe",
+            "title": "Walk 1 mile steady",
             "expectedMinutes": 25,
-            "details": "Watch short clips on creaming butter+sugar and proper folding; take two technique notes.",
+            "details": "Walk one full mile and note the time on your phone.",
             "milestoneId": "M1",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "167a7160-7e9e-4168-b6dd-3fd12bb5d2ca",
+        "id": "8659fc32-8535-4096-ac4f-386f13c82b28",
         "dayNumber": 3,
-        "theme": "First Full Bake",
-        "checkInPrompt": "Preheat the oven and set your timer — ready to bake?",
-        "celebrationMessage": "First cake out of the oven — well done!",
+        "theme": "Find a rhythm",
+        "checkInPrompt": "What time of day feels best for your walk?",
+        "celebrationMessage": "Rhythm found — consistency building!",
         "tasks": [
           {
-            "id": "1f33ea1e-5127-43d8-8010-c4181b66a16b",
-            "title": "Preheat & calibrate",
-            "expectedMinutes": 15,
-            "details": "Preheat oven to recipe temp and place the oven thermometer to confirm actual temp.",
+            "id": "7227c4b6-7cfe-42fa-8789-d3e64b9b46d2",
+            "title": "Short mobility routine",
+            "expectedMinutes": 80,
+            "details": "Spend 5–8 minutes on ankle, hip, and calf mobility before walking.",
             "milestoneId": "M1",
             "isComplete": false
           },
           {
-            "id": "c38443a7-fde2-4a5e-a457-d3a503858fbe",
-            "title": "Bake first test loaf",
-            "expectedMinutes": 90,
-            "details": "Follow your converted recipe exactly and bake one loaf; time and note bake duration.",
+            "id": "c10d8cfa-3506-4cb9-9806-cdf40d2ef2c9",
+            "title": "Walk 1 mile and note pace",
+            "expectedMinutes": 25,
+            "details": "Walk one mile; try to keep a consistent cadence and record total time.",
             "milestoneId": "M1",
             "isComplete": false
           },
           {
-            "id": "b2c15832-61c5-4a3d-b9bf-e293bdda3ec4",
-            "title": "Cool and log observations",
-            "expectedMinutes": 20,
-            "details": "Allow full cool, then photograph, taste a small piece, and write notes on texture and flavor.",
+            "id": "75c4e1ab-1226-4892-9d5b-1ef46d826307",
+            "title": "Log today's walk",
+            "expectedMinutes": 50,
+            "details": "Write one sentence about how the walk felt and the time you recorded.",
             "milestoneId": "M1",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "28717913-a9f5-4aa0-aa16-d28fddced6a2",
+        "id": "1838d839-fdb9-47be-a52d-cba6aa371109",
         "dayNumber": 4,
-        "theme": "Analyze & Adjust",
-        "checkInPrompt": "What surprised you about your first loaf?",
-        "celebrationMessage": "You turned observation into action — small tweaks planned.",
+        "theme": "Repeat",
+        "checkInPrompt": "Any soreness? Adjust pace if needed.",
+        "celebrationMessage": "Day 4 — steady work!",
         "tasks": [
           {
-            "id": "a4e748c3-132d-4837-93da-223a80c77d25",
-            "title": "Review notes & photos",
-            "expectedMinutes": 25,
-            "details": "Compare results to expected texture and note deviations (crumb, moisture, top color).",
+            "id": "473ff117-371a-4530-b166-bd96bddb1908",
+            "title": "Warm-up 5 minutes",
+            "expectedMinutes": 50,
+            "details": "Prime hips and calves with mobility and a short walk-in place.",
             "milestoneId": "M1",
             "isComplete": false
           },
           {
-            "id": "641e1244-8304-48b7-b149-0da7a57af32d",
-            "title": "Plan one variable change",
-            "expectedMinutes": 20,
-            "details": "Choose a single change to test (oven temp, mixing time, or pan position).",
-            "milestoneId": "M1",
-            "isComplete": false
-          },
-          {
-            "id": "b8759c59-7bb4-4504-adfb-57fffa5ac585",
-            "title": "Bake second test with one change",
-            "expectedMinutes": 90,
-            "details": "Implement the chosen change and bake one loaf; record bake time and outcome.",
+            "id": "f1ccfe3a-2770-4826-8996-ccef60d197af",
+            "title": "Walk 1 mile with two gentle pickups",
+            "expectedMinutes": 28,
+            "details": "During the mile, pick up the pace for 30–60 seconds twice, then recover.",
             "milestoneId": "M1",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "5194bf93-44c8-4c1a-8be1-c1fdc66c5482",
+        "id": "bfa2ce5b-a3d9-4eb1-a83b-72c56413d7e6",
         "dayNumber": 5,
-        "theme": "Technique Focus",
-        "checkInPrompt": "Which technique will you prioritize today: creaming, folding, or measuring?",
-        "celebrationMessage": "Technique practice logged — you're building muscle memory.",
+        "theme": "Tune in",
+        "checkInPrompt": "What motivates you to finish today’s walk?",
+        "celebrationMessage": "You tuned in and delivered — well done!",
         "tasks": [
           {
-            "id": "0a1918b1-6df7-41f6-9fa7-3833bb7aa210",
-            "title": "Practice creaming method",
-            "expectedMinutes": 30,
-            "details": "Do a smaller practice: cream butter and sugar for 5–7 minutes and note texture.",
-            "milestoneId": "M1",
-            "isComplete": false
-          },
-          {
-            "id": "6d08af7b-7465-4d26-9344-be02b02e9696",
-            "title": "Measure and sifting drill",
-            "expectedMinutes": 20,
-            "details": "Weigh flour and sift; practice folding dry into wet to avoid overmixing.",
-            "milestoneId": "M1",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "d6fb290d-4205-4c17-a8f0-d6b95b445aad",
-        "dayNumber": 6,
-        "theme": "Small Tweaks",
-        "checkInPrompt": "What single tweak will you test today to improve crumb?",
-        "celebrationMessage": "Small tweak tested — each change is data.",
-        "tasks": [
-          {
-            "id": "c4664331-d39f-41b7-8b31-5636c1d6ef56",
-            "title": "Test ingredient temperature",
-            "expectedMinutes": 15,
-            "details": "Bake a half-loaf or cupcake batch changing only butter/egg temperature to compare.",
-            "milestoneId": "M1",
-            "isComplete": false
-          },
-          {
-            "id": "8d0d623c-2f67-44b1-9f54-19b936db3416",
-            "title": "Record differences",
-            "expectedMinutes": 20,
-            "details": "Photograph and write clear notes on how the change affected rise and texture.",
-            "milestoneId": "M1",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "dae1e60d-af06-4e90-b096-e74692264cef",
-        "dayNumber": 7,
-        "theme": "Baseline Confirmed",
-        "checkInPrompt": "Is your baseline loaf repeatable with the steps you've logged?",
-        "celebrationMessage": "Baseline achieved — core recipe learned!",
-        "tasks": [
-          {
-            "id": "35c69cd5-1da1-4381-8390-fd6b5de21978",
-            "title": "Bake baseline loaf",
-            "expectedMinutes": 100,
-            "details": "Bake one final baseline loaf using your documented weights and timings.",
-            "milestoneId": "M1",
-            "isComplete": false
-          },
-          {
-            "id": "816600fb-a12c-48ec-b7ea-d0852e8a3eb8",
-            "title": "Finalize baseline notes",
-            "expectedMinutes": 25,
-            "details": "Write a short 'baseline recipe' in your notes with exact weights, oven rack, and bake time.",
-            "milestoneId": "M1",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "eeb758e7-a374-4a93-8ba4-f8bb9cfd0b7a",
-        "dayNumber": 8,
-        "theme": "Oven & Environment",
-        "checkInPrompt": "Do you know your oven's true temperature and hot spots?",
-        "celebrationMessage": "Oven mapped — you know where to place the pan.",
-        "tasks": [
-          {
-            "id": "68b14e9b-54e4-41a4-8961-df0cc6bb3522",
-            "title": "Map oven temperature",
-            "expectedMinutes": 30,
-            "details": "Place the thermometer in different rack positions and log actual temps at set points.",
-            "milestoneId": "M2",
-            "isComplete": false
-          },
-          {
-            "id": "9fc8460d-cb7e-4ec4-bee1-b952c419ac13",
-            "title": "Plan ideal rack position",
+            "id": "c002f08d-743f-4943-973d-f23da2363f83",
+            "title": "Route variation: pick a new path",
             "expectedMinutes": 10,
-            "details": "Choose the best rack position based on mapping and note it in the recipe.",
-            "milestoneId": "M2",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "bd653ba4-90ed-4873-914f-5c0cf244b3de",
-        "dayNumber": 9,
-        "theme": "Rise & Timing",
-        "checkInPrompt": "Did your loaf rise evenly last time?",
-        "celebrationMessage": "Timing insights recorded — you're closing in on consistent rise.",
-        "tasks": [
-          {
-            "id": "4b5bc916-c241-480c-b932-c53ffa200615",
-            "title": "Test bake with mapped rack",
-            "expectedMinutes": 100,
-            "details": "Bake one loaf using the mapped rack and record time to set and color development.",
-            "milestoneId": "M2",
+            "details": "Select a different one-mile route for mental freshness.",
+            "milestoneId": "M1",
             "isComplete": false
           },
           {
-            "id": "f5e8883c-016c-4adb-af56-d94e7f4ccca5",
-            "title": "Note toothpick and spring tests",
-            "expectedMinutes": 15,
-            "details": "Record when the center is firm and the toothpick comes out nearly clean.",
-            "milestoneId": "M2",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "54bf9055-8dce-4c35-8a43-000cf3785f03",
-        "dayNumber": 10,
-        "theme": "Mixing Calibration",
-        "checkInPrompt": "How long do you cream butter and sugar to reach the ideal texture?",
-        "celebrationMessage": "Mixing calibrated — good control over crumb formation.",
-        "tasks": [
-          {
-            "id": "511abb33-bd0d-40c3-b8a4-8de9df7b21d7",
-            "title": "Test creaming durations",
-            "expectedMinutes": 45,
-            "details": "Make small batter batches testing 3 different creaming times; label and bake small samples.",
-            "milestoneId": "M2",
+            "id": "8db1d64b-9e4e-42cd-b515-dde96bc859ec",
+            "title": "Walk 1 mile relaxed",
+            "expectedMinutes": 25,
+            "details": "Focus on posture: tall chest, soft shoulders, even steps.",
+            "milestoneId": "M1",
             "isComplete": false
           },
           {
-            "id": "2b718eae-4f72-450a-b55d-21802db243b4",
-            "title": "Compare crumb samples",
-            "expectedMinutes": 20,
-            "details": "Taste and photograph each sample and note which creaming time produces the best crumb.",
-            "milestoneId": "M2",
+            "id": "1bc016f7-af7f-4ffd-b55c-ee2e29a734de",
+            "title": "Recovery stretch 5 minutes",
+            "expectedMinutes": 50,
+            "details": "Do calf and hamstring stretches after walking.",
+            "milestoneId": "M1",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "00c08d97-7783-4b00-8016-dad68689494e",
-        "dayNumber": 11,
-        "theme": "Pan & Portion",
-        "checkInPrompt": "Are you using the pan size that gives the best bake for your oven?",
-        "celebrationMessage": "Pan selection optimized — your loaves will bake more predictably.",
+        "id": "13b91a85-0906-4eb3-9e0f-e069e358d8a4",
+        "dayNumber": 6,
+        "theme": "Push gently",
+        "checkInPrompt": "Rate your energy (1–10). Match pace to energy.",
+        "celebrationMessage": "Great effort — your habit is taking root!",
         "tasks": [
           {
-            "id": "2b9e8f53-043b-41bd-a7d5-82bf92ca3e63",
-            "title": "Test pan sizes or fill levels",
-            "expectedMinutes": 60,
-            "details": "If available, bake two small loaves or adjust fill height to see effects on bake time.",
-            "milestoneId": "M2",
-            "isComplete": false
-          },
-          {
-            "id": "9fd63c78-c978-4678-a3cb-0e6b8742a353",
-            "title": "Record ideal fill percentage",
-            "expectedMinutes": 15,
-            "details": "Note the ideal batter fill height (e.g., 2/3 full) and update recipe card.",
-            "milestoneId": "M2",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "ac09dfb9-d808-4d8b-b0d1-0b8952f20224",
-        "dayNumber": 12,
-        "theme": "Controlled Comparison",
-        "checkInPrompt": "Which variable will you compare today to confirm its effect?",
-        "celebrationMessage": "Comparisons complete — clearer picture of what matters.",
-        "tasks": [
-          {
-            "id": "d613961a-dac6-4299-94dc-b0f01306a44d",
-            "title": "Run a side-by-side test",
-            "expectedMinutes": 110,
-            "details": "Bake two loaves changing only one variable (e.g., oven temp ±10°F) and document results.",
-            "milestoneId": "M2",
-            "isComplete": false
-          },
-          {
-            "id": "7c1dff41-109e-4caf-b1df-0f900fd1c5e9",
-            "title": "Log outcome metrics",
-            "expectedMinutes": 20,
-            "details": "Record crumb, rise, bake time, and moisture for both loaves.",
-            "milestoneId": "M2",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "1097862d-49c0-40cb-a116-849528b15cd4",
-        "dayNumber": 13,
-        "theme": "Refine Method",
-        "checkInPrompt": "Which step will you standardize today (mixing, folding, bake time)?",
-        "celebrationMessage": "Method refined — less guesswork for each bake.",
-        "tasks": [
-          {
-            "id": "6ac3e854-9497-40ba-9d23-a1663da96c25",
-            "title": "Write step-by-step method",
-            "expectedMinutes": 30,
-            "details": "Create a concise step list with timings for creaming, folding, and bake checks.",
-            "milestoneId": "M2",
-            "isComplete": false
-          },
-          {
-            "id": "0a04e682-497f-49cc-a81c-e6ded41a1bd1",
-            "title": "Test the method on a small bake",
-            "expectedMinutes": 75,
-            "details": "Bake one loaf strictly following the new step list and note any deviations.",
-            "milestoneId": "M2",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "6ce6481f-9cf3-406b-9a06-edc19f4e9134",
-        "dayNumber": 14,
-        "theme": "Optimize Outcome",
-        "checkInPrompt": "Are your bakes producing reliable crumb and rise now?",
-        "celebrationMessage": "Texture & rise optimized — milestone reached!",
-        "tasks": [
-          {
-            "id": "3a21a8c3-6f41-413f-b48b-2e87818abaa5",
-            "title": "Bake confirmation loaf",
-            "expectedMinutes": 100,
-            "details": "Produce a loaf intended to meet your ideal texture and rise; follow the refined method.",
-            "milestoneId": "M2",
-            "isComplete": false
-          },
-          {
-            "id": "be9ad7fd-b440-43b1-959c-0861dbe07d0a",
-            "title": "Compare to baseline and approve",
-            "expectedMinutes": 20,
-            "details": "Place photos and notes side-by-side with baseline and mark approval or further tweaks.",
-            "milestoneId": "M2",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "fc118285-8f26-4ba1-8820-e31f9ce08270",
-        "dayNumber": 15,
-        "theme": "Flavor Exploration",
-        "checkInPrompt": "Which flavor profile will you try first: citrus, almond, or vanilla-plus?",
-        "celebrationMessage": "First variation tested — flavor notes captured.",
-        "tasks": [
-          {
-            "id": "992deb43-7a58-4c3b-8379-aa4a69691487",
-            "title": "Design first variation",
-            "expectedMinutes": 20,
-            "details": "Decide on one flavor change and write exact ingredient adjustments.",
-            "milestoneId": "M3",
-            "isComplete": false
-          },
-          {
-            "id": "9ed9bce2-dc18-4ab6-bcaf-9375936ae6be",
-            "title": "Bake variation sample",
-            "expectedMinutes": 90,
-            "details": "Bake the variant (e.g., lemon zest + juice) and record how flavor and moisture change.",
-            "milestoneId": "M3",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "ad133ef7-3625-4242-9ee5-ce6e658b5ecb",
-        "dayNumber": 16,
-        "theme": "Add-ins & Texture",
-        "checkInPrompt": "Will you add nuts, glaze, or fruit to this variation?",
-        "celebrationMessage": "Add-in experiment done — texture comparisons logged.",
-        "tasks": [
-          {
-            "id": "f39c34ec-bdfd-4a84-ad0e-d598f217dcee",
-            "title": "Test add-ins",
-            "expectedMinutes": 60,
-            "details": "Prepare a loaf with one add-in (chopped nuts or berries) and check distribution and moisture impact.",
-            "milestoneId": "M3",
-            "isComplete": false
-          },
-          {
-            "id": "586d7114-f2ba-432a-904f-9cfdf25502a3",
-            "title": "Assess structural impact",
-            "expectedMinutes": 20,
-            "details": "Note whether add-ins sink, change bake time, or alter crumb; photograph cross-section.",
-            "milestoneId": "M3",
-            "isComplete": false
-          }
-        ]
-      },
-      {
-        "id": "f6bc3e52-261d-4961-a0a5-3ca7e83aacc1",
-        "dayNumber": 17,
-        "theme": "Stabilizers & Moisture",
-        "checkInPrompt": "Would a dairy element (sour cream/yogurt) help moisture for your preference?",
-        "celebrationMessage": "Moisture strategies tested — options documented.",
-        "tasks": [
-          {
-            "id": "7451e29e-48c9-4f68-8300-1a44e19d1540",
-            "title": "Test one moisture modifier",
+            "id": "91ba3c60-2c21-45ec-bb12-93e084d7b042",
+            "title": "Warm-up including brisk 1-minute walk",
             "expectedMinutes": 70,
-            "details": "Bake a loaf adding sour cream or brown butter per a small recipe adjustment and record results.",
+            "details": "Add a single brisk minute to raise heart rate before the mile.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "ff1ef537-25a3-48bf-8fd6-0587cd96ea89",
+            "title": "Walk 1 mile aiming for steadier pace",
+            "expectedMinutes": 24,
+            "details": "Try to reduce your mile time slightly while staying comfortable.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "a6283023-b3c5-4ffe-85f4-eeedf9a28456",
+            "title": "Log time and energy",
+            "expectedMinutes": 50,
+            "details": "Note your mile time and how you felt (energy, breathing, effort).",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "f06c0aec-17fc-418e-b130-e28322384f3d",
+        "dayNumber": 7,
+        "theme": "First Milestone",
+        "checkInPrompt": "Are you ready to complete your first continuous mile?",
+        "celebrationMessage": "Milestone reached — your first continuous mile is done!",
+        "tasks": [
+          {
+            "id": "b5d48c55-f34f-43fb-9ae1-da5cf7adf4de",
+            "title": "Prepare mentally and set route",
+            "expectedMinutes": 10,
+            "details": "Confirm route and set a realistic goal (continuous mile without sitting).",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "115bfd1c-f93f-4d7b-b806-9e20824bce1a",
+            "title": "Walk one continuous mile",
+            "expectedMinutes": 25,
+            "details": "Walk a full mile without extended rests; keep a steady, comfortable pace.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "4a2c7788-be8c-43d3-a7f7-f8d216d772f6",
+            "title": "Celebrate and note what worked",
+            "expectedMinutes": 50,
+            "details": "Record one thing that helped today and one adaptation for next week.",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "c57f0822-e918-4cd5-baaf-b6744a787dfc",
+        "dayNumber": 8,
+        "theme": "Build the Streak",
+        "checkInPrompt": "How will you protect your walk time today?",
+        "celebrationMessage": "Day 8 — streak momentum continues!",
+        "tasks": [
+          {
+            "id": "017ec00d-d600-40a4-a7c6-bed33de1f899",
+            "title": "Quick mobility warm-up",
+            "expectedMinutes": 50,
+            "details": "Loosen hips and calves for 5 minutes.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "f98776b6-32e8-4cef-a9d8-60ed29a0cb85",
+            "title": "Walk 1 mile steady",
+            "expectedMinutes": 24,
+            "details": "Complete a mile and focus on consistent effort.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "84e311b7-221a-425f-b3de-e85549a0b5e6",
+            "title": "Log streak count",
+            "expectedMinutes": 30,
+            "details": "Record that you completed another day toward your streak.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "eb4c4881-3546-44c0-a3f4-4ab3c0ec9e41",
+        "dayNumber": 9,
+        "theme": "Tempo intro",
+        "checkInPrompt": "Can you add a small speed play today?",
+        "celebrationMessage": "You added tempo — great feedback loop!",
+        "tasks": [
+          {
+            "id": "bf3c4486-3eff-41fd-b92a-e9f4e5cca831",
+            "title": "Warm-up with two 30-second brisk bursts",
+            "expectedMinutes": 60,
+            "details": "Include two short brisk bursts in your warm-up.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "66cba974-7f04-4064-91fc-18eda9091482",
+            "title": "Walk 1 mile with one 90-second brisk segment",
+            "expectedMinutes": 26,
+            "details": "Walk the mile and include a single 90-second brisk segment mid-mile.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "7d1e1339-4207-408b-8c84-61ccacd7985d",
+            "title": "Note perceived exertion",
+            "expectedMinutes": 30,
+            "details": "After the walk, rate effort and how pace felt.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "65e5082f-6eff-47a2-8a7a-d2aab116c36d",
+        "dayNumber": 10,
+        "theme": "Stack short wins",
+        "checkInPrompt": "What's your mini-goal for today (time/comfort)?",
+        "celebrationMessage": "Three-day streak achieved — you’re building habit power!",
+        "tasks": [
+          {
+            "id": "231ef135-84c5-415b-8b54-5802de705c09",
+            "title": "Plan walk time and set reminder",
+            "expectedMinutes": 50,
+            "details": "Block a 30–40 minute slot and confirm your reminder.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "cfa15da7-2d76-485f-b241-6dcdeb50eb90",
+            "title": "Walk 1 mile consistent pace",
+            "expectedMinutes": 24,
+            "details": "Complete the mile and focus on steady cadence.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "9d96bc84-90bc-4c8a-a070-c20f33ead02c",
+            "title": "Confirm 3-day streak in log",
+            "expectedMinutes": 30,
+            "details": "Mark your streak and how many consecutive days you’ve walked.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "46ff2f51-775c-4dd7-ba67-c9d7fd684e70",
+        "dayNumber": 11,
+        "theme": "Recovery + Form",
+        "checkInPrompt": "Any niggles? Favor recovery if needed.",
+        "celebrationMessage": "Recovery day honored — that’s smart training.",
+        "tasks": [
+          {
+            "id": "1e7ee497-093b-4967-8743-ddfc57e539ff",
+            "title": "Active recovery: 20-minute easy walk",
+            "expectedMinutes": 20,
+            "details": "Keep the pace gentle and enjoy relaxed breathing.",
             "milestoneId": "M3",
             "isComplete": false
           },
           {
-            "id": "4057cf9d-a446-41a3-8bc8-d01e2687ed60",
-            "title": "Document texture differences",
-            "expectedMinutes": 15,
-            "details": "Write how the modifier affected crumb, mouthfeel, and storage life.",
+            "id": "29f8d9f9-9690-409f-a991-f0cb7f50193f",
+            "title": "5-minute post-walk mobility",
+            "expectedMinutes": 50,
+            "details": "Stretch calves and hips lightly after walking.",
             "milestoneId": "M3",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "96895817-acf4-4939-ac57-bfe331091cc0",
+        "id": "0d49c9a4-14d4-4b67-a36b-c5a7d44d9bf7",
+        "dayNumber": 12,
+        "theme": "Tempo practice",
+        "checkInPrompt": "Ready to try two brisk segments today?",
+        "celebrationMessage": "Tempo practice complete — you’re improving speed control!",
+        "tasks": [
+          {
+            "id": "6d474840-4302-47d5-9ee8-45b9bb2af92c",
+            "title": "Warm-up 7 minutes",
+            "expectedMinutes": 70,
+            "details": "Include dynamic mobility and two short brisk minutes.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "cd27d128-9b10-4a08-b964-aa084e24431d",
+            "title": "Walk 1 mile with two 60-second brisk picks",
+            "expectedMinutes": 26,
+            "details": "Insert two one-minute brisk walks; recover afterwards.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "f82be775-408d-4b0d-b175-d4d6505ad001",
+            "title": "Record mile time and notes",
+            "expectedMinutes": 50,
+            "details": "Log time and note where the brisk segments felt strongest.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "33e56307-aaef-4570-bf6a-f71c6ad2e961",
+        "dayNumber": 13,
+        "theme": "Sustainable pace",
+        "checkInPrompt": "Can you hold a slightly faster pace while comfortable?",
+        "celebrationMessage": "You practiced sustainable speed — great progress.",
+        "tasks": [
+          {
+            "id": "6e5d64a4-6f81-4adf-90d4-79e8320bb2c5",
+            "title": "Warm-up and cadence check",
+            "expectedMinutes": 60,
+            "details": "Warm up and count steps for 30 seconds to check cadence.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "a9ad44c3-fbe5-43f5-a7e7-94962b9cb38d",
+            "title": "Walk 1 mile aiming for even splits",
+            "expectedMinutes": 23,
+            "details": "Try to keep each quarter-mile time similar; focus on steady effort.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "0d0b0dde-759d-4093-ad28-336f0677cd95",
+        "dayNumber": 14,
+        "theme": "Review & Rest",
+        "checkInPrompt": "What went well this week? What needs change?",
+        "celebrationMessage": "Two weeks in — you’re building something reliable!",
+        "tasks": [
+          {
+            "id": "010af0f0-924e-467a-8db6-ba02994cb256",
+            "title": "Active recovery walk 20 minutes",
+            "expectedMinutes": 20,
+            "details": "Keep it easy and breathe steady.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "807360d0-508b-464e-8903-ba1f516da6f3",
+            "title": "Weekly log: list 3 wins and 1 adaptation",
+            "expectedMinutes": 10,
+            "details": "Write down what worked this week and one change for next.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "c5c48e1a-d060-42bf-b617-cc3edb069a53",
+        "dayNumber": 15,
+        "theme": "Push the Comfort Zone",
+        "checkInPrompt": "How close does 18 minutes feel today?",
+        "celebrationMessage": "Mid-challenge — you’re stronger than day 1.",
+        "tasks": [
+          {
+            "id": "d127cf25-ba03-4dd3-b527-261974cf807a",
+            "title": "Warm-up with 2 brisk minutes",
+            "expectedMinutes": 70,
+            "details": "Raise heart rate briefly to prepare for a faster mile.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "993364f5-3325-44e8-97c6-677e4be97b33",
+            "title": "Walk 1 mile aiming ≤18 minutes",
+            "expectedMinutes": 18,
+            "details": "Attempt to walk the mile near or under 18 minutes while staying controlled.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "3a8b4ab9-016b-49c4-b2b4-6823b3ee9d7e",
+            "title": "Record time and breathing effort",
+            "expectedMinutes": 50,
+            "details": "Log the exact time and note perceived exertion.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "5c2a405c-6afc-4152-873c-e3315ef7aade",
+        "dayNumber": 16,
+        "theme": "Form Focus",
+        "checkInPrompt": "Where do you feel tension? Adjust posture.",
+        "celebrationMessage": "Good form practice — small changes matter!",
+        "tasks": [
+          {
+            "id": "981eb4b3-0eb0-4a84-896d-cdbe655bb042",
+            "title": "Posture drills 5 minutes",
+            "expectedMinutes": 50,
+            "details": "Practice tall posture, relaxed shoulders, and heel-to-toe walking.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "c94339c1-cb28-4b2b-8ace-174055a83743",
+            "title": "Walk 1 mile steady focusing on form",
+            "expectedMinutes": 22,
+            "details": "Keep attention on posture and smooth arm swing.",
+            "milestoneId": "M4",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "81523206-7574-4f11-a240-7c5f9e91bf1e",
+        "dayNumber": 17,
+        "theme": "Mix it up",
+        "checkInPrompt": "Can you try a new route or time?",
+        "celebrationMessage": "Variety kept things fresh — nice job!",
+        "tasks": [
+          {
+            "id": "e5952916-1588-4c26-97a2-2b40b0397023",
+            "title": "Pick a new one-mile route",
+            "expectedMinutes": 10,
+            "details": "Choose a different path or location for novelty.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "790d04ec-7cbe-4081-b88c-342c78c8b11f",
+            "title": "Walk 1 mile with one brisk 2-minute segment",
+            "expectedMinutes": 26,
+            "details": "Insert a 2-minute brisk walk to stimulate speed adaptation.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "e7421450-db03-4408-b9ae-d9e813230bc1",
+            "title": "Log route and time",
+            "expectedMinutes": 50,
+            "details": "Note how the new route felt and your mile time.",
+            "milestoneId": "M4",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "e1399ab3-6ec2-4435-b169-f5ee2757f1a3",
         "dayNumber": 18,
-        "theme": "Troubleshoot Dense Bakes",
-        "checkInPrompt": "If a cake is dense, which likely cause will you test first?",
-        "celebrationMessage": "Troubleshooting steps noted — fewer mysteries next time.",
+        "theme": "Test a tempo",
+        "checkInPrompt": "Aim for a consistent faster mile today?",
+        "celebrationMessage": "Tempo test complete — progress recorded!",
         "tasks": [
           {
-            "id": "44fbaa46-83a9-43bc-84ea-d9081fa34175",
-            "title": "Run a density checklist",
-            "expectedMinutes": 30,
-            "details": "Test common fixes: more aeration (longer creaming), correct flour weight, and bake time adjustments.",
+            "id": "a5d6df10-872c-495d-87d2-bf8994645f81",
+            "title": "Warm-up 7 minutes",
+            "expectedMinutes": 70,
+            "details": "Include dynamic movements and a brisk minute.",
             "milestoneId": "M3",
             "isComplete": false
           },
           {
-            "id": "d0319cf1-4548-459a-813d-5c3cbf26a06b",
-            "title": "Apply one fix and bake",
-            "expectedMinutes": 90,
-            "details": "Implement a single fix and observe change in crumb and rise.",
+            "id": "a0f25b7b-a3c0-4a5d-877c-f9953f8c3f0f",
+            "title": "Attempt mile ≤18 minutes",
+            "expectedMinutes": 18,
+            "details": "Sustain a slightly faster pace and keep breathing steady.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "0376a2ae-7c79-4da8-95b4-878e4287b1b2",
+            "title": "Reflect on pacing",
+            "expectedMinutes": 50,
+            "details": "Write one note about pacing to use next tempo session.",
             "milestoneId": "M3",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "ca08b272-edec-42ee-b243-49c5f41e0ae2",
+        "id": "b1ad2f94-50d6-4a5b-a578-fb188701a4ea",
         "dayNumber": 19,
-        "theme": "Consolidate Variations",
-        "checkInPrompt": "Which two variations will make the recipe card as options?",
-        "celebrationMessage": "Two variations drafted — your recipe family grows.",
+        "theme": "Consistency",
+        "checkInPrompt": "How many walks have you logged so far?",
+        "celebrationMessage": "Consistency stacking — keep logging!",
         "tasks": [
           {
-            "id": "ad003f53-35e3-4013-8545-1962f133ca59",
-            "title": "Choose two final variations",
+            "id": "57c1e473-0ee0-4a64-83ce-0c1af1199cb0",
+            "title": "Easy 20-minute walk",
             "expectedMinutes": 20,
-            "details": "Select the two most successful variations and list exact ingredient changes.",
-            "milestoneId": "M3",
+            "details": "Keep it light and focus on breathing and recovery.",
+            "milestoneId": "M4",
             "isComplete": false
           },
           {
-            "id": "41cde3e6-07bc-4b17-9f79-ab14c3056d21",
-            "title": "Bake both variations",
-            "expectedMinutes": 120,
-            "details": "Bake the two chosen variations and photograph each for the recipe card.",
-            "milestoneId": "M3",
+            "id": "4af5798a-943a-421a-81c8-1cc7da1792cf",
+            "title": "Update cumulative log count",
+            "expectedMinutes": 50,
+            "details": "Confirm total one-mile walks and note if you’re on track to 12 by Day 21.",
+            "milestoneId": "M4",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "39ff19f2-e948-4f94-aa09-7e5a238b9842",
+        "id": "2acc3a62-1094-463e-86a6-99a571ddca2d",
         "dayNumber": 20,
-        "theme": "Finishing Techniques",
-        "checkInPrompt": "Will you glaze, dust, or keep the loaf simple today?",
-        "celebrationMessage": "Finish options explored — aesthetics meet taste.",
+        "theme": "Mini-challenge",
+        "checkInPrompt": "Can you add one brisk minute to today’s mile?",
+        "celebrationMessage": "Mini-challenge completed — nice push!",
         "tasks": [
           {
-            "id": "6a929792-1c5d-4fd4-96e5-4d1a10449c06",
-            "title": "Test glaze and finishing",
-            "expectedMinutes": 45,
-            "details": "Try a simple sugar glaze and a dusting; note how finishes complement or hide flaws.",
-            "milestoneId": "M3",
+            "id": "032f678e-c2e4-445e-a719-2220d3df298d",
+            "title": "Warm-up with mobility",
+            "expectedMinutes": 60,
+            "details": "Prepare hips and ankles for slightly faster walking.",
+            "milestoneId": "M4",
             "isComplete": false
           },
           {
-            "id": "a6a1fc1e-3489-4783-8046-5732d39192c5",
-            "title": "Decide preferred finish",
-            "expectedMinutes": 15,
-            "details": "Pick the finish that most enhances your chosen variations.",
-            "milestoneId": "M3",
+            "id": "ae1e7b31-eecc-4d4c-9435-c7b1bc3271dd",
+            "title": "Walk 1 mile with one 3-minute brisk segment",
+            "expectedMinutes": 27,
+            "details": "Include a 3-minute faster pace and recover afterward.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "2efd810b-28a3-465a-aad5-562557628834",
+            "title": "Log time and heart-rate feel",
+            "expectedMinutes": 50,
+            "details": "Note how the brisk segment affected your overall time.",
+            "milestoneId": "M4",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "80ae3238-18a8-413e-b41f-b31fc3761a92",
+        "id": "d7e7c931-bd99-44a9-8adb-fa653e958121",
         "dayNumber": 21,
-        "theme": "Gather Feedback",
-        "checkInPrompt": "Who will be your first taster and what will you ask them to focus on?",
-        "celebrationMessage": "Feedback collected — actionable and honest.",
+        "theme": "Midpoint Win",
+        "checkInPrompt": "Are you ready to hit the midpoint consistency goal?",
+        "celebrationMessage": "Midpoint reached — 12 walks logged or close. Fantastic!",
         "tasks": [
           {
-            "id": "94a85f76-3ee8-4337-a29d-a65351af6db8",
-            "title": "Share small samples for tasting",
-            "expectedMinutes": 45,
-            "details": "Bring small slices to one or two people and ask for quick feedback on texture and flavor.",
-            "milestoneId": "M3",
+            "id": "4368d34c-3316-4618-8a7f-95f0087113ea",
+            "title": "Review first 3 weeks' logs",
+            "expectedMinutes": 10,
+            "details": "Check total walks and identify the best day/route.",
+            "milestoneId": "M4",
             "isComplete": false
           },
           {
-            "id": "bc9046a4-6018-4971-a0ce-652f318f0c9c",
-            "title": "Record taster notes",
-            "expectedMinutes": 15,
-            "details": "Log their comments in a structured way (texture, moisture, flavor, overall), and note any suggestions.",
-            "milestoneId": "M3",
+            "id": "5e6045cf-5464-4153-9acb-1161017be19f",
+            "title": "Walk 1 mile steady and enjoy it",
+            "expectedMinutes": 23,
+            "details": "Complete the mile focusing on rhythm and breathing.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "3ac5d406-ad90-4dcf-b48c-91eb2b2772bc",
+            "title": "Plan next week’s targets",
+            "expectedMinutes": 10,
+            "details": "Set one concrete goal for next week (streak/pb/route).",
+            "milestoneId": "M4",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "091e783d-6a52-4bfc-8563-1cc9135cc8b6",
+        "id": "ccab3885-f194-4f33-a5a3-8a2fa192fd84",
         "dayNumber": 22,
-        "theme": "Lock Variations",
-        "checkInPrompt": "Which variation will be your go-to in the recipe card?",
-        "celebrationMessage": "Variations and fixes finalized — milestone met.",
+        "theme": "Recover & Reflect",
+        "checkInPrompt": "Which walk felt strongest so far?",
+        "celebrationMessage": "You honored recovery — smart habit building.",
         "tasks": [
           {
-            "id": "eb116cba-9b0c-4316-952b-1e3adf23bca3",
-            "title": "Finalize two variation recipes",
-            "expectedMinutes": 30,
-            "details": "Write final ingredient lists and steps for both variations with exact weights.",
-            "milestoneId": "M3",
+            "id": "451e3f92-46d2-4b28-968f-c0c40b56c987",
+            "title": "Active recovery walk 20 minutes",
+            "expectedMinutes": 20,
+            "details": "Keep it easy and breathe deeply.",
+            "milestoneId": "M4",
             "isComplete": false
           },
           {
-            "id": "8ccf29ee-a18e-4c11-8c78-ffa407a60281",
-            "title": "Compile troubleshooting checklist",
-            "expectedMinutes": 20,
-            "details": "Create a short list of fixes for collapse, dryness, or dense crumb to include in notes.",
-            "milestoneId": "M3",
+            "id": "749a9cd6-61a1-40e1-8aba-3c00ad2e557c",
+            "title": "Short mobility and foam roll 10 minutes",
+            "expectedMinutes": 10,
+            "details": "Target calves, quads, and hips to reduce stiffness.",
+            "milestoneId": "M4",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "5409d459-4cc2-4da1-b3d7-279db080a798",
+        "id": "18aa74f6-55fa-4de6-b7f5-b09c7e10ec4e",
         "dayNumber": 23,
-        "theme": "Document Draft",
-        "checkInPrompt": "Do you have a clear structure for the recipe card (ingredients, method, notes)?",
-        "celebrationMessage": "Recipe draft begun — the library soon gains a new entry.",
+        "theme": "Push for a Streak",
+        "checkInPrompt": "Can you commit to five days in a row?",
+        "celebrationMessage": "You launched the final push — stay focused!",
         "tasks": [
           {
-            "id": "cf9df7b2-3ae9-4e9b-b300-0ddccf5a2771",
-            "title": "Outline recipe card",
-            "expectedMinutes": 25,
-            "details": "Create a template with sections for ingredients (weights), steps, oven mapping, and notes.",
-            "milestoneId": "M4",
+            "id": "d0089d61-b259-4393-8380-0ecf0b163651",
+            "title": "Set a 5-day streak schedule",
+            "expectedMinutes": 10,
+            "details": "Block the next five days in your calendar and set reminders.",
+            "milestoneId": "M5",
             "isComplete": false
           },
           {
-            "id": "54b9c0e0-2b39-45bb-b730-e6d7ec5e9f20",
-            "title": "Populate with baseline and variations",
-            "expectedMinutes": 30,
-            "details": "Fill the template with your baseline recipe and the two variations, including bake times and rack position.",
-            "milestoneId": "M4",
+            "id": "f06cd45b-80ee-495c-b25d-e6762518e204",
+            "title": "Walk 1 mile with intention",
+            "expectedMinutes": 22,
+            "details": "Complete the mile focusing on controlled pace.",
+            "milestoneId": "M5",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "703da7f8-386e-4f72-ac6e-9933026a078a",
+        "id": "2508ace3-f665-4424-870a-6482268d9402",
         "dayNumber": 24,
-        "theme": "Photo Styling",
-        "checkInPrompt": "What style of photo will best represent your cake (rustic, bright, minimal)?",
-        "celebrationMessage": "Styling planned — photos will make your card pop.",
+        "theme": "Speed Work",
+        "checkInPrompt": "Ready to try intervals today?",
+        "celebrationMessage": "Speed work done — you’re sharpening your pace!",
         "tasks": [
           {
-            "id": "944629e5-1d65-43aa-86f7-36f37b37c6dc",
-            "title": "Plan photo shots",
-            "expectedMinutes": 20,
-            "details": "Decide on 3 shot types: whole loaf, sliced cross-section, and close-up of crumb.",
-            "milestoneId": "M4",
+            "id": "bb98ee7a-6403-4755-b9df-e164cc3ad576",
+            "title": "Warm-up with 3 brisk minutes",
+            "expectedMinutes": 80,
+            "details": "Include short brisk intervals to prime speed.",
+            "milestoneId": "M5",
             "isComplete": false
           },
           {
-            "id": "e41d1fa2-7b5a-4e3b-8590-e4b4b780ce17",
-            "title": "Prepare props and lighting",
-            "expectedMinutes": 20,
-            "details": "Set up natural light, plates, and props; charge your camera/phone.",
-            "milestoneId": "M4",
+            "id": "d46c4b81-2d5c-4ece-9c16-cea7107e464f",
+            "title": "Walk 1 mile with 3 x 1-minute brisk repeats",
+            "expectedMinutes": 26,
+            "details": "Insert three one-minute brisk walks with recovery between.",
+            "milestoneId": "M5",
+            "isComplete": false
+          },
+          {
+            "id": "ac474f45-3e29-4002-a975-ecd4c82abd7f",
+            "title": "Note any pace improvement",
+            "expectedMinutes": 50,
+            "details": "Record if the repeats lowered your overall mile time.",
+            "milestoneId": "M5",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "8fb8db25-7f5f-4efc-b5ea-4d144020da60",
+        "id": "77b8d820-ed3a-4d0f-8c63-6c7da3d7bd8c",
         "dayNumber": 25,
-        "theme": "Take Final Photos",
-        "checkInPrompt": "Is the loaf baked and cooled for the best photo of the crumb?",
-        "celebrationMessage": "Photos captured — your recipe will look professional.",
+        "theme": "Mini PB Day",
+        "checkInPrompt": "Aim to beat your best comfortable mile today?",
+        "celebrationMessage": "Mini PB achieved or attempted — celebrate the effort!",
         "tasks": [
           {
-            "id": "a739df04-3845-48b3-8f0c-af0527791f96",
-            "title": "Bake a photo loaf",
-            "expectedMinutes": 100,
-            "details": "Produce a final loaf intended for photography, using your perfected method.",
-            "milestoneId": "M4",
+            "id": "59c2aaaf-a0e3-4458-b466-ce626b2060b4",
+            "title": "Thorough warm-up 10 minutes",
+            "expectedMinutes": 10,
+            "details": "Warm up fully to prepare for a controlled fast mile attempt.",
+            "milestoneId": "M5",
             "isComplete": false
           },
           {
-            "id": "e07437f1-e372-4777-8fd6-39eb07c5e2af",
-            "title": "Shoot photos for the card",
-            "expectedMinutes": 40,
-            "details": "Take the planned shots and choose the best images for the card.",
-            "milestoneId": "M4",
+            "id": "15ae695a-aa42-4a0b-9b50-f031f4c204d2",
+            "title": "Attempt a comfortable personal best mile",
+            "expectedMinutes": 18,
+            "details": "Walk a mile aiming for your fastest sustainable pace while staying pain-free.",
+            "milestoneId": "M5",
+            "isComplete": false
+          },
+          {
+            "id": "1199ca75-f943-4bc6-bd61-a48d40818647",
+            "title": "Log PB and recovery plan",
+            "expectedMinutes": 50,
+            "details": "Record the time and plan a gentle recovery walk or rest.",
+            "milestoneId": "M5",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "6e3a0352-4397-4d5f-b951-235f67778e8e",
+        "id": "1d3ceb16-26e5-4b2e-87b6-5e3ba9dc3bc4",
         "dayNumber": 26,
-        "theme": "Publish to Library",
-        "checkInPrompt": "Is your recipe clear enough for someone else to reproduce?",
-        "celebrationMessage": "Recipe card complete — added to your library!",
+        "theme": "Sustain",
+        "checkInPrompt": "How does your body feel after the PB attempt?",
+        "celebrationMessage": "You sustained the effort and cared for recovery — excellent work.",
         "tasks": [
           {
-            "id": "373ca299-66f6-4c09-9064-7ae9f92d3ec6",
-            "title": "Finalize and format recipe card",
-            "expectedMinutes": 30,
-            "details": "Type up final recipe with weights, step-by-step method, troubleshooting tips, and photos.",
-            "milestoneId": "M4",
+            "id": "1bad9a7b-95e0-44d2-b5a1-dbf20d83af07",
+            "title": "Active recovery walk 20 minutes",
+            "expectedMinutes": 20,
+            "details": "Keep it easy to flush legs and aid recovery.",
+            "milestoneId": "M5",
             "isComplete": false
           },
           {
-            "id": "7403a52f-baa0-4109-a3c8-932df32225c2",
-            "title": "Save and back up the card",
-            "expectedMinutes": 15,
-            "details": "Save as PDF and in your recipe app/folder with version and date.",
-            "milestoneId": "M4",
+            "id": "9b4910c7-4f96-47d3-a182-559581af6980",
+            "title": "Short mobility and hydration routine",
+            "expectedMinutes": 10,
+            "details": "Hydrate and spend 10 minutes on mobility and foam rolling.",
+            "milestoneId": "M5",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "c51e32c4-65ca-4e1c-a0fd-59688dd85cbe",
+        "id": "1fcd94a0-0a7a-4f0e-ab41-f0be5e74055b",
         "dayNumber": 27,
-        "theme": "Rehearse Final Bake",
-        "checkInPrompt": "Will you run one more final bake to rehearse for tasting day?",
-        "celebrationMessage": "Final bake practiced — confidence building.",
+        "theme": "Solidify Routine",
+        "checkInPrompt": "How many walks left to hit 25 days?",
+        "celebrationMessage": "You’re weeks of habit away from the finish line — keep it up!",
         "tasks": [
           {
-            "id": "dbb07c95-055b-4266-80c7-78c2b28426e3",
-            "title": "Bake final rehearsal loaf",
-            "expectedMinutes": 100,
-            "details": "Bake a loaf exactly to the recipe card to ensure consistency for tasting.",
-            "milestoneId": "M5",
+            "id": "70f3a8d6-2d93-478c-b19e-57eab82c8d7e",
+            "title": "Plan final 3–4 walks",
+            "expectedMinutes": 10,
+            "details": "Schedule the remaining walks needed to reach 25+ days.",
+            "milestoneId": "M6",
             "isComplete": false
           },
           {
-            "id": "02b5539b-3a27-4e28-9802-cfc12c1d40cd",
-            "title": "Pack samples for tasters",
-            "expectedMinutes": 20,
-            "details": "Slice and pack small tasting portions with labels indicating variation.",
-            "milestoneId": "M5",
+            "id": "a9b25df3-8714-41a9-b72c-9a86e00261d9",
+            "title": "Walk 1 mile steady pace",
+            "expectedMinutes": 22,
+            "details": "Complete the mile focusing on relaxed, efficient walking.",
+            "milestoneId": "M6",
+            "isComplete": false
+          },
+          {
+            "id": "edf26a17-d43d-4251-aa6a-2b45549cbc29",
+            "title": "Update cumulative progress",
+            "expectedMinutes": 50,
+            "details": "Record the total number of one-mile walks to date.",
+            "milestoneId": "M6",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "f8377d00-ca22-4d3f-92af-ea42bd119c76",
+        "id": "9fd1619e-64c8-4ae6-9420-5f04cb742055",
         "dayNumber": 28,
-        "theme": "Tasting",
-        "checkInPrompt": "Who will taste your cakes and give focused feedback today?",
-        "celebrationMessage": "Tasting done — feedback in hand!",
+        "theme": "Final Push",
+        "checkInPrompt": "What small ritual will get you out the door today?",
+        "celebrationMessage": "Final push underway — you're nearly there!",
         "tasks": [
           {
-            "id": "bab1a1db-1c82-4583-97c4-a7a88b6f1c43",
-            "title": "Host tasting or deliver samples",
-            "expectedMinutes": 45,
-            "details": "Share samples with friends/family and ask for structured feedback on texture, flavor, and moisture.",
-            "milestoneId": "M5",
+            "id": "e4546bdb-de2e-477a-8ab3-ef1699545267",
+            "title": "Short warm-up",
+            "expectedMinutes": 50,
+            "details": "Prime your body with mobility and a brisk minute.",
+            "milestoneId": "M6",
             "isComplete": false
           },
           {
-            "id": "5cb590cd-8e78-431d-b71a-6f1173e90abe",
-            "title": "Collect and summarize feedback",
-            "expectedMinutes": 25,
-            "details": "Enter feedback into your notes and highlight common themes.",
-            "milestoneId": "M5",
+            "id": "188dc749-c8da-4286-9e7f-337e14047077",
+            "title": "Walk 1 mile and savor it",
+            "expectedMinutes": 23,
+            "details": "Enjoy the environment and steady breathing as you complete the mile.",
+            "milestoneId": "M6",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "86830233-b89a-4e84-bc5b-9dac56ad5d31",
+        "id": "b72b0dc4-8d5e-4aa2-81fa-0e5d2a40a045",
         "dayNumber": 29,
-        "theme": "Iterate From Feedback",
-        "checkInPrompt": "Which single tweak based on feedback will you implement today?",
-        "celebrationMessage": "Feedback applied — final tweaks underway.",
+        "theme": "Taper & Reflect",
+        "checkInPrompt": "Which walk this month felt best and why?",
+        "celebrationMessage": "Reflection day — you’re preparing to finish strong.",
         "tasks": [
           {
-            "id": "902706d7-703f-4e77-bb57-dbe9ab1b33da",
-            "title": "Choose the most impactful tweak",
+            "id": "2ba26f4d-b123-4626-a925-70ff4d7fbc93",
+            "title": "Easy 20-minute walk",
             "expectedMinutes": 20,
-            "details": "Pick one change from feedback (e.g., slightly less sugar, more lemon) and document exact adjustment.",
-            "milestoneId": "M5",
+            "details": "Keep it relaxed to conserve energy for the final day.",
+            "milestoneId": "M6",
             "isComplete": false
           },
           {
-            "id": "68ca7629-215b-4b68-b501-cd82a0a1b18f",
-            "title": "Bake final tweak loaf",
-            "expectedMinutes": 100,
-            "details": "Implement the tweak and bake one final loaf for confirmation.",
-            "milestoneId": "M5",
+            "id": "1c050fe0-fcce-4854-a207-12a397894744",
+            "title": "Write 3 takeaways from the challenge",
+            "expectedMinutes": 10,
+            "details": "Note habits to keep and one change to make long-term.",
+            "milestoneId": "M6",
             "isComplete": false
           }
         ]
       },
       {
-        "id": "95851617-7367-454e-9199-b19d59a010c7",
+        "id": "e0aa1421-0f6d-4fab-b748-1f3f5c717369",
         "dayNumber": 30,
-        "theme": "Sign-off & Celebrate",
-        "checkInPrompt": "Are you ready to declare this recipe final and add it to your cookbook?",
-        "celebrationMessage": "You did it — a confident pound cake is yours. Celebrate with a slice!",
+        "theme": "Finish Strong",
+        "checkInPrompt": "Are you ready to seal the challenge with a final mile?",
+        "celebrationMessage": "You did it — 30 days of commitment. Celebrate your new habit!",
         "tasks": [
           {
-            "id": "b3d9aa9d-2db1-4042-8ac9-613299a78cf0",
-            "title": "Bake the final sign-off loaf",
-            "expectedMinutes": 100,
-            "details": "Produce one final loaf using your perfected recipe and method for documentation.",
-            "milestoneId": "M5",
+            "id": "320ecc9f-e119-4de2-bdc3-d2d60088bc59",
+            "title": "Prepare celebratory routine",
+            "expectedMinutes": 10,
+            "details": "Choose a celebratory cool-down and a small reward for after the walk.",
+            "milestoneId": "M6",
             "isComplete": false
           },
           {
-            "id": "49aee005-8cb3-4879-adba-73b4636a00cf",
-            "title": "Complete final recipe entry and reflections",
-            "expectedMinutes": 30,
-            "details": "Finalize version number, write a short reflection on what improved, and save to your recipe library.",
-            "milestoneId": "M5",
+            "id": "f477117e-6470-4688-a3e8-1c7e4590d59d",
+            "title": "Complete your final one-mile walk",
+            "expectedMinutes": 22,
+            "details": "Walk the mile with intention, reflect on your journey, and savor the finish.",
+            "milestoneId": "M6",
             "isComplete": false
           },
           {
-            "id": "c8684da7-6b43-4a98-ace9-71210e9c13fe",
-            "title": "Share result and celebrate",
-            "expectedMinutes": 15,
-            "details": "Post a photo or message to your circle or journal the accomplishment and enjoy a celebratory slice.",
-            "milestoneId": "M5",
+            "id": "23475687-9650-4138-9f0e-0007ea918592",
+            "title": "Finalize log: confirm 25+ days and next steps",
+            "expectedMinutes": 10,
+            "details": "Ensure you have at least 25 one-mile days logged and set a maintenance plan.",
+            "milestoneId": "M6",
             "isComplete": false
           }
         ]
@@ -1048,126 +1170,126 @@
     ],
     "weeklyReviews": [
       {
-        "id": "c0f66fcb-a834-4478-86c2-4c1626350d3f",
+        "id": "161fcaac-ade5-430a-8b24-2404ee5459ec",
         "weekNumber": 1,
         "evidenceToCollect": [
-          "Photos of each test loaf",
-          "Notes on measurements and oven temp",
-          "Baseline recipe with weights"
+          "Number of one-mile walks completed",
+          "Average mile time",
+          "Notes on soreness or comfort"
         ],
         "reflectionQuestions": [
-          "Which step introduced the biggest variation?",
-          "What measurement practice reduced variability?",
-          "How did ingredient temperature affect the result?"
+          "Which time of day felt best for walking?",
+          "Did you face any barriers to completing a mile?",
+          "What small adjustment made the walk easier?"
         ],
         "adaptationRules": [
           {
-            "id": "f00df314-79b4-4fa8-88f8-64f3601af22d",
-            "condition": "If your baseline loaves vary in rise across bakes",
-            "response": "Standardize oven rack and use an oven thermometer; re-run one bake with controlled rack."
+            "id": "0029a99a-ffc9-4fe0-8f9f-4934077d56aa",
+            "condition": "If average daily time > planned window",
+            "response": "Shorten warm-up or split the mile into two shorter segments to fit schedule."
           },
           {
-            "id": "d08978db-2629-4df4-8865-f01bb62cee77",
-            "condition": "If you miss more than two planned bake days",
-            "response": "Reduce daily tasks to one focused task for next two days to regain momentum."
+            "id": "afd4c2d8-6aa6-4dad-a5c0-c48bec6ec5c4",
+            "condition": "If pain or sharp discomfort reported",
+            "response": "Pause pace increases, schedule an extra recovery day and consult a professional if persistent."
           },
           {
-            "id": "2bcd4510-bfa4-4ef7-88e7-37228a01f41e",
-            "condition": "If texture improves after one change and degrades after another",
-            "response": "Revert the negative change and keep the beneficial one; document both outcomes."
+            "id": "d1a688c4-819d-493f-bf3a-81c79db34652",
+            "condition": "If 3+ days missed",
+            "response": "Reset with a 10–15 minute quick-walk plan and re-block walk times into calendar."
           }
         ]
       },
       {
-        "id": "22c98a07-e436-49cd-a039-39142d87a193",
+        "id": "bde87a72-6555-4a36-8d11-bffbcc8974c7",
         "weekNumber": 2,
         "evidenceToCollect": [
-          "Oven mapping log",
-          "Photos comparing creaming durations",
-          "Bake time and toothpick test records"
+          "Streak length",
+          "Instances of tempo work",
+          "Energy ratings post-walk"
         ],
         "reflectionQuestions": [
-          "Which oven position produced the most even bake?",
-          "Did longer creaming always improve crumb?",
-          "What bake time reliably indicates doneness?"
+          "Did tempo segments feel sustainable?",
+          "What routes motivated you most?",
+          "Are you recovering well between walks?"
         ],
         "adaptationRules": [
           {
-            "id": "ba17f8ad-180e-4f0c-8358-42bdf0ffbdde",
-            "condition": "If oven hotspots persist",
-            "response": "Rotate loaf mid-bake and adjust recommended bake time in your recipe card."
+            "id": "ce9b99b7-dbbd-4a7c-9e72-623e9be71c82",
+            "condition": "If tempo feels unsustainable",
+            "response": "Reduce brisk segment duration or frequency and focus on form."
           },
           {
-            "id": "cd2e2a7f-de02-4d79-8306-860fa03f296f",
-            "condition": "If creaming duration shows minimal difference",
-            "response": "Standardize to the shortest effective creaming time to save effort without losing quality."
+            "id": "12e70c90-9bdf-4217-9991-f731d72f3cf4",
+            "condition": "If motivation drops",
+            "response": "Introduce a new route, podcast, or walking partner for variety."
           },
           {
-            "id": "57508959-e40f-4f44-b1f0-d0522c2b345d",
-            "condition": "If bakes are still underdone in center",
-            "response": "Lower oven temp by 10°F and increase bake time; document new timing."
+            "id": "5843cc5e-7551-431f-8550-1fa892b8a0fa",
+            "condition": "If schedule conflicts occurred",
+            "response": "Implement 10–15 minute backup walks or split the mile into two shorter walks."
           }
         ]
       },
       {
-        "id": "fca64e3c-fed1-423b-95bb-14cbee2af55d",
+        "id": "e3c563bd-c6ba-4ced-bf29-070b5aafb809",
         "weekNumber": 3,
         "evidenceToCollect": [
-          "Photos and notes of each variation",
-          "Taster feedback summaries",
-          "Troubleshooting checklist draft"
+          "Mile times (best and average)",
+          "Number of mobility/recovery sessions",
+          "Consistency toward 12-walk goal"
         ],
         "reflectionQuestions": [
-          "Which variation resonated most with tasters?",
-          "What recurring faults appeared across variants?",
-          "Which fixes are reliable vs. inconsistent?"
+          "Have your mile times improved? By how much?",
+          "Which recovery practices helped most?",
+          "Is the habit integrating into daily routines?"
         ],
         "adaptationRules": [
           {
-            "id": "dcde892a-1fa5-4658-af28-d2288f122dd5",
-            "condition": "If tasters favor one variation strongly",
-            "response": "Prioritize that variation in the recipe card as the recommended option."
+            "id": "f4955645-9473-4a45-a051-f89a0c1edd81",
+            "condition": "If improvement stalls for 5+ days",
+            "response": "Add one targeted interval session and ensure two recovery sessions that week."
           },
           {
-            "id": "8a62f00f-47ae-4983-b7e3-612e7dd08184",
-            "condition": "If a fix works inconsistently",
-            "response": "Test it in isolation across two more bakes before adopting it into the checklist."
+            "id": "ad0565c8-9027-4b73-9821-6540dc88005d",
+            "condition": "If soreness accumulates",
+            "response": "Schedule an extra active recovery day and reduce interval intensity."
           },
           {
-            "id": "b9138270-9099-43b1-8d92-73015064e9da",
-            "condition": "If multiple tasters report dryness",
-            "response": "Increase moisture modifier slightly (e.g., add 1–2 tbsp sour cream) and test again."
+            "id": "7e6d3849-fb65-4d83-abbd-741485d8eb1a",
+            "condition": "If log shows <12 walks by Day 21",
+            "response": "Prioritize short morning or evening walks to catch up and use reminders."
           }
         ]
       },
       {
-        "id": "72b3cc33-accb-4cb7-834c-28598d3681f5",
+        "id": "aebaa2c4-9149-4b23-842c-1ae100b6cb6c",
         "weekNumber": 4,
         "evidenceToCollect": [
-          "Final recipe card PDF",
-          "Final photos",
-          "Tasting feedback and final loaf photos"
+          "Total one-mile days logged",
+          "Streaks achieved (longest)",
+          "Personal best mile time"
         ],
         "reflectionQuestions": [
-          "Is the recipe reproducible by someone else?",
-          "What are the three essential tips to ensure success?",
-          "How will you store and share this recipe long-term?"
+          "Did you hit the 25+ day target?",
+          "What will you keep from this routine?",
+          "How will you maintain progress after day 30?"
         ],
         "adaptationRules": [
           {
-            "id": "44b4e63c-2050-4d59-a5b2-ac1843cd3dab",
-            "condition": "If final tasters note a small persistent issue",
-            "response": "Note it as an optional tweak in the recipe card rather than changing the core recipe."
+            "id": "7f92a8a1-91f0-458e-a849-c8cd295f5bdd",
+            "condition": "If total days <25 by Day 29",
+            "response": "Plan back-to-back short walks to reach 25 before Day 30 and prioritize easy wins."
           },
           {
-            "id": "a009b7f8-fb2c-45bd-8f3d-7e32547d6db0",
-            "condition": "If photos do not represent the cake accurately",
-            "response": "Reshoot with better lighting or different props; keep cropping minimal and authentic."
+            "id": "57a37a1e-33f2-4cd0-9531-756fabdee479",
+            "condition": "If injury risk appears",
+            "response": "Scale back to walking every other day with cross-training and consult care if needed."
           },
           {
-            "id": "dbf44fcd-2884-4805-91d7-5c3bbba06022",
-            "condition": "If you want ongoing improvement",
-            "response": "Schedule a 3-month revisit to test storage life and any seasonal tweaks."
+            "id": "7ed50b9d-a149-43c3-9aa2-5c41f3c37433",
+            "condition": "If goal achieved early",
+            "response": "Set a new maintenance target (e.g., 3–5 miles/week) and plan reward rituals."
           }
         ]
       }
@@ -1177,29 +1299,29 @@
         "hour": 8,
         "minute": 30
       },
-      "message": "Today’s pound-cake task awaits — check the plan and preheat when ready."
+      "message": "Today’s walk: one mile. Lace up and move."
     },
     "celebrationRule": {
       "trigger": "dayComplete",
-      "message": "Nice work — log your notes and enjoy a small celebratory slice!"
+      "message": "Nice work — you completed today's mile! Log it and breathe."
     },
     "streakRule": {
-      "thresholdMinutes": 45,
+      "thresholdMinutes": 20,
       "graceDays": 2
     },
-    "callToAction": "Bake bold — 30 days to a pound cake you can trust. Let’s start!",
+    "callToAction": "Step up: 1 mile a day — commit for 30!",
     "accentPalette": {
       "stops": [
         {
-          "hex": "#FF7EB3",
+          "hex": "#34D399",
           "opacity": 1
         },
         {
-          "hex": "#A855F7",
+          "hex": "#60A5FA",
           "opacity": 1
         },
         {
-          "hex": "#3B82F6",
+          "hex": "#F97316",
           "opacity": 1
         }
       ]
@@ -1207,11 +1329,11 @@
     "cardPalette": {
       "stops": [
         {
-          "hex": "#FECACA",
+          "hex": "#E6FFFA",
           "opacity": 1
         },
         {
-          "hex": "#FBCFE8",
+          "hex": "#EFF6FF",
           "opacity": 1
         }
       ]
