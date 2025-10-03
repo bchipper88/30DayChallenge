@@ -1,0 +1,1221 @@
+{
+  "jobId": "cf4061bf-99ea-4b35-b474-21d71e54a2e6",
+  "plan": {
+    "id": "e5796045-01cd-427e-a3a9-cd2b92761329",
+    "title": "Master a reliable pound cake",
+    "domain": "creative",
+    "primaryGoal": "Learn to bake a repeatable, excellent pound cake and add the tested recipe to your personal library",
+    "createdAt": "2025-10-02T22:06:17.977Z",
+    "summary": null,
+    "targetOutcome": {
+      "metric": "Successful test bakes",
+      "value": 6,
+      "unit": "cakes",
+      "timeframe": "30 days"
+    },
+    "assumptions": [
+      "You have intermediate baking familiarity (can follow standard recipes and use common kitchen equipment).",
+      "You have access to an oven, standard baking pans, and basic ingredients or can procure them within a day.",
+      "You can commit ~45–120 minutes on most days for baking or prep."
+    ],
+    "constraints": [
+      "No specialized commercial equipment required (plan uses tools common at home).",
+      "Dietary restrictions (gluten/dairy/egg-free) require separate adaptation not covered here.",
+      "Time per day is limited to typical home-cook windows (max ~2 hours for bake days)."
+    ],
+    "resources": [
+      "Digital kitchen scale, oven thermometer, loaf pan (9x5\" or 8.5x4.5\"), mixing bowls, mixer or whisk, spatula, cooling rack",
+      "Three reliable pound cake recipes (links or cookbooks you trust), a notebook or notes app for logging",
+      "Stopwatch/timer and measuring spoons/cups"
+    ],
+    "purpose": "Add another recipe to my library — develop a repeatable pound cake you trust and can reliably reproduce.",
+    "keyPrinciples": [
+      "Measure precisely: weight is more reliable than volume for consistency.",
+      "One change at a time: isolate variables so you can learn what matters.",
+      "Iterate fast, learn faster: bake, record, adjust, repeat.",
+      "Prioritize texture and timing over decoration early on."
+    ],
+    "riskHighlights": [
+      {
+        "id": "00b66b31-33e7-4b2f-9b5a-0b2fad2e2408",
+        "risk": "Inconsistent measurements leading to variable results",
+        "likelihood": "high",
+        "mitigation": "Use a digital scale, write exact weights, and standardize ingredient temperature."
+      },
+      {
+        "id": "4172b7a7-80d6-42f7-a791-7118336edaf6",
+        "risk": "Overloading the schedule on bake days and getting discouraged",
+        "likelihood": "medium",
+        "mitigation": "Limit daily tasks; plan longer bake days only a few times and rest between them."
+      },
+      {
+        "id": "8aad2042-b9c3-4215-afb8-51563bfd8a32",
+        "risk": "Oven temperature variance causing under/overbake",
+        "likelihood": "high",
+        "mitigation": "Calibrate oven with thermometer and map hot spots early in the plan."
+      },
+      {
+        "id": "508ba736-0c95-4706-a3a9-9bfa926bd167",
+        "risk": "Missing feedback from tasters",
+        "likelihood": "medium",
+        "mitigation": "Use a quick feedback form and encourage friends to be specific about texture, moisture, and flavor."
+      }
+    ],
+    "milestones": [
+      {
+        "id": "M1",
+        "title": "Core recipe learned",
+        "description": "Understand and execute a standard pound cake recipe reliably.",
+        "targetDay": 7
+      },
+      {
+        "id": "M2",
+        "title": "Texture & rise optimized",
+        "description": "Tune oven, mixing, and bake timing to get consistent crumb and rise.",
+        "targetDay": 14
+      },
+      {
+        "id": "M3",
+        "title": "Flavor variations & troubleshooting",
+        "description": "Create 2 tasteful variations and document fixes for common faults.",
+        "targetDay": 22
+      },
+      {
+        "id": "M4",
+        "title": "Recipe card & photos ready",
+        "description": "Write a final recipe card with weights, steps, photos, and notes for the library.",
+        "targetDay": 26
+      },
+      {
+        "id": "M5",
+        "title": "Final confident bake & tasting",
+        "description": "Deliver a final bake for tasting, collect feedback, and finalize the recipe.",
+        "targetDay": 30
+      }
+    ],
+    "phases": [
+      {
+        "id": "7d2036f9-e883-49fc-9d21-e2c85ddc4c83",
+        "index": 0,
+        "name": "Phase 1 — Learn the Core (Days 1–7)",
+        "objective": "Establish a baseline: choose a core recipe, master the method, and complete the first reliable bakes.",
+        "milestones": [
+          {
+            "id": "e62f5822-4516-4eec-bdcf-5561bf06bc5c",
+            "title": "Pick a base recipe",
+            "detail": "Select one trusted pound cake recipe and translate it to weights.",
+            "progress": 0,
+            "targetDay": 2
+          },
+          {
+            "id": "2357147e-886f-42f9-9aad-41d78f948b15",
+            "title": "First full bake",
+            "detail": "Complete a full bake and record results with photos and notes.",
+            "progress": 0,
+            "targetDay": 4
+          },
+          {
+            "id": "3d88a6de-06be-4043-a87c-85ec89d9acba",
+            "title": "Refined baseline bake",
+            "detail": "Produce a repeatable loaf following exact measurements and timing.",
+            "progress": 0,
+            "targetDay": 7
+          }
+        ],
+        "keyPrinciples": [
+          "Measure precisely",
+          "One change at a time"
+        ],
+        "risks": [
+          {
+            "id": "28f81ec3-8bb2-4996-9f2d-c7dd4d4c932e",
+            "risk": "Skipping weight conversion and introducing variability",
+            "likelihood": "high",
+            "mitigation": "Convert recipes to grams immediately and use a scale."
+          },
+          {
+            "id": "0f452780-fe06-4eb9-94bc-43ab87171e20",
+            "risk": "Rushing the first bakes and misreading results",
+            "likelihood": "medium",
+            "mitigation": "Take photos, note oven temp, and allow full cool time before judging."
+          }
+        ]
+      },
+      {
+        "id": "3aca011d-9878-4b57-a4b0-5f66ff3cf068",
+        "index": 1,
+        "name": "Phase 2 — Tweak Texture (Days 8–14)",
+        "objective": "Diagnose and tune crumb, rise and moisture via oven mapping and mixing refinements.",
+        "milestones": [
+          {
+            "id": "867101d2-073b-4a7c-8d85-9e4e38a309e9",
+            "title": "Oven calibrated",
+            "detail": "Map real oven temperatures and find ideal rack position.",
+            "progress": 0,
+            "targetDay": 9
+          },
+          {
+            "id": "35cffc18-4686-48ac-9e92-0f92149761e5",
+            "title": "Mixing and timing refined",
+            "detail": "Identify creaming time and mixing speed that yields consistent crumb.",
+            "progress": 0,
+            "targetDay": 13
+          }
+        ],
+        "keyPrinciples": [
+          "Iterate fast, learn faster",
+          "Prioritize texture early"
+        ],
+        "risks": [
+          {
+            "id": "b0428a97-e60f-4797-9d41-acd5c0a50c19",
+            "risk": "Oven hotspots causing uneven bake",
+            "likelihood": "high",
+            "mitigation": "Rotate pan mid-bake or use a different rack; use an oven thermometer."
+          },
+          {
+            "id": "49bda939-c2cc-4bfc-91af-fe95e79bc31e",
+            "risk": "Changing multiple variables at once",
+            "likelihood": "medium",
+            "mitigation": "Test one change per bake and keep notes."
+          }
+        ]
+      },
+      {
+        "id": "e7ef13f3-9f92-423b-83a5-44e6e6241e7a",
+        "index": 2,
+        "name": "Phase 3 — Flavor & Fixes (Days 15–22)",
+        "objective": "Explore variations, document techniques for common faults, and lock in two favorite tweaks.",
+        "milestones": [
+          {
+            "id": "36e02d69-2826-412e-920c-cee793637a67",
+            "title": "Two variation recipes",
+            "detail": "Develop two reliable flavor variations (e.g., vanilla-citrus and almond).",
+            "progress": 0,
+            "targetDay": 19
+          },
+          {
+            "id": "bf8d6a54-e2da-4f83-a4a8-9dd84e7dddc8",
+            "title": "Fault-fix list",
+            "detail": "Create a troubleshooting checklist for density, collapse, and dryness.",
+            "progress": 0,
+            "targetDay": 22
+          }
+        ],
+        "keyPrinciples": [
+          "One change at a time",
+          "Document every trial"
+        ],
+        "risks": [
+          {
+            "id": "70c80e0f-9f13-490c-ae2f-5aa11ffc3a69",
+            "risk": "Over-complicating variations and losing baseline",
+            "likelihood": "medium",
+            "mitigation": "Always keep the core recipe unchanged and label variants clearly."
+          },
+          {
+            "id": "0c648fb2-920f-470b-ba6f-be359e19c163",
+            "risk": "Ingredient substitution causing failures",
+            "likelihood": "medium",
+            "mitigation": "When substituting, change only one ingredient and test."
+          }
+        ]
+      },
+      {
+        "id": "2e652d64-e795-4a73-8c35-364144a855c0",
+        "index": 3,
+        "name": "Phase 4 — Finalize & Share (Days 23–30)",
+        "objective": "Document the perfected recipe with photos, perform final bakes for tasting, and add it to your library.",
+        "milestones": [
+          {
+            "id": "cc98b59a-d201-4309-b727-f3f3a6d58326",
+            "title": "Recipe card completed",
+            "detail": "Write clear steps, weights, bake times, and notes for the final recipe card.",
+            "progress": 0,
+            "targetDay": 26
+          },
+          {
+            "id": "f0977e1f-1aae-4703-b50b-df80e6284885",
+            "title": "Final tasting and sign-off",
+            "detail": "Conduct a final bake for feedback and finalize the recipe.",
+            "progress": 0,
+            "targetDay": 30
+          }
+        ],
+        "keyPrinciples": [
+          "Document thoroughly",
+          "Celebrate process and results"
+        ],
+        "risks": [
+          {
+            "id": "e98a10c5-456f-4d58-b88a-fc0835a951fd",
+            "risk": "Not collecting actionable feedback",
+            "likelihood": "medium",
+            "mitigation": "Provide tasters with a short feedback form focusing on texture, flavor, and moisture."
+          },
+          {
+            "id": "90fba4de-4934-4f98-a110-9cf6c9b85769",
+            "risk": "Losing track of versions",
+            "likelihood": "low",
+            "mitigation": "Store each recipe iteration with date and a version number."
+          }
+        ]
+      }
+    ],
+    "days": [
+      {
+        "id": "cdbebae6-cd75-4f51-bcec-6a860d839bac",
+        "dayNumber": 1,
+        "theme": "Start: Choose & Prepare",
+        "checkInPrompt": "Which base recipe will you convert to weights today?",
+        "celebrationMessage": "Good start — your baseline recipe is chosen.",
+        "tasks": [
+          {
+            "id": "4dbd76ac-83bd-4e8e-96fa-8c2c776fa995",
+            "title": "Select base recipe",
+            "expectedMinutes": 30,
+            "details": "Choose one pound cake recipe you trust and read it fully.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "5dc56ec2-6487-41c9-8970-5e254fdc754b",
+            "title": "Convert to weight measurements",
+            "expectedMinutes": 30,
+            "details": "Translate ingredient volumes to grams and write them down.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "afa915f5-dd31-4e19-ae72-193a4476198c",
+            "title": "Inventory equipment & ingredients",
+            "expectedMinutes": 20,
+            "details": "Check that you have the pans, scale, thermometer, and ingredients; add missing items to a shopping list.",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "a4e9c61c-24c6-4a5d-abc7-2bba78ae1f06",
+        "dayNumber": 2,
+        "theme": "Prep & Learn",
+        "checkInPrompt": "Are your ingredients at the recommended temperatures?",
+        "celebrationMessage": "Prep complete — ingredients and tools are ready.",
+        "tasks": [
+          {
+            "id": "fca7d928-3210-40dc-bc96-7d753fda2626",
+            "title": "Bring ingredients to temperature",
+            "expectedMinutes": 20,
+            "details": "Set butter and eggs at room temperature per the recipe.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "e5947a8b-da0b-4680-b8fa-9e674c7bb15c",
+            "title": "Watch technique videos",
+            "expectedMinutes": 25,
+            "details": "Watch short clips on creaming butter+sugar and proper folding; take two technique notes.",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "167a7160-7e9e-4168-b6dd-3fd12bb5d2ca",
+        "dayNumber": 3,
+        "theme": "First Full Bake",
+        "checkInPrompt": "Preheat the oven and set your timer — ready to bake?",
+        "celebrationMessage": "First cake out of the oven — well done!",
+        "tasks": [
+          {
+            "id": "1f33ea1e-5127-43d8-8010-c4181b66a16b",
+            "title": "Preheat & calibrate",
+            "expectedMinutes": 15,
+            "details": "Preheat oven to recipe temp and place the oven thermometer to confirm actual temp.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "c38443a7-fde2-4a5e-a457-d3a503858fbe",
+            "title": "Bake first test loaf",
+            "expectedMinutes": 90,
+            "details": "Follow your converted recipe exactly and bake one loaf; time and note bake duration.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "b2c15832-61c5-4a3d-b9bf-e293bdda3ec4",
+            "title": "Cool and log observations",
+            "expectedMinutes": 20,
+            "details": "Allow full cool, then photograph, taste a small piece, and write notes on texture and flavor.",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "28717913-a9f5-4aa0-aa16-d28fddced6a2",
+        "dayNumber": 4,
+        "theme": "Analyze & Adjust",
+        "checkInPrompt": "What surprised you about your first loaf?",
+        "celebrationMessage": "You turned observation into action — small tweaks planned.",
+        "tasks": [
+          {
+            "id": "a4e748c3-132d-4837-93da-223a80c77d25",
+            "title": "Review notes & photos",
+            "expectedMinutes": 25,
+            "details": "Compare results to expected texture and note deviations (crumb, moisture, top color).",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "641e1244-8304-48b7-b149-0da7a57af32d",
+            "title": "Plan one variable change",
+            "expectedMinutes": 20,
+            "details": "Choose a single change to test (oven temp, mixing time, or pan position).",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "b8759c59-7bb4-4504-adfb-57fffa5ac585",
+            "title": "Bake second test with one change",
+            "expectedMinutes": 90,
+            "details": "Implement the chosen change and bake one loaf; record bake time and outcome.",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "5194bf93-44c8-4c1a-8be1-c1fdc66c5482",
+        "dayNumber": 5,
+        "theme": "Technique Focus",
+        "checkInPrompt": "Which technique will you prioritize today: creaming, folding, or measuring?",
+        "celebrationMessage": "Technique practice logged — you're building muscle memory.",
+        "tasks": [
+          {
+            "id": "0a1918b1-6df7-41f6-9fa7-3833bb7aa210",
+            "title": "Practice creaming method",
+            "expectedMinutes": 30,
+            "details": "Do a smaller practice: cream butter and sugar for 5–7 minutes and note texture.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "6d08af7b-7465-4d26-9344-be02b02e9696",
+            "title": "Measure and sifting drill",
+            "expectedMinutes": 20,
+            "details": "Weigh flour and sift; practice folding dry into wet to avoid overmixing.",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "d6fb290d-4205-4c17-a8f0-d6b95b445aad",
+        "dayNumber": 6,
+        "theme": "Small Tweaks",
+        "checkInPrompt": "What single tweak will you test today to improve crumb?",
+        "celebrationMessage": "Small tweak tested — each change is data.",
+        "tasks": [
+          {
+            "id": "c4664331-d39f-41b7-8b31-5636c1d6ef56",
+            "title": "Test ingredient temperature",
+            "expectedMinutes": 15,
+            "details": "Bake a half-loaf or cupcake batch changing only butter/egg temperature to compare.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "8d0d623c-2f67-44b1-9f54-19b936db3416",
+            "title": "Record differences",
+            "expectedMinutes": 20,
+            "details": "Photograph and write clear notes on how the change affected rise and texture.",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "dae1e60d-af06-4e90-b096-e74692264cef",
+        "dayNumber": 7,
+        "theme": "Baseline Confirmed",
+        "checkInPrompt": "Is your baseline loaf repeatable with the steps you've logged?",
+        "celebrationMessage": "Baseline achieved — core recipe learned!",
+        "tasks": [
+          {
+            "id": "35c69cd5-1da1-4381-8390-fd6b5de21978",
+            "title": "Bake baseline loaf",
+            "expectedMinutes": 100,
+            "details": "Bake one final baseline loaf using your documented weights and timings.",
+            "milestoneId": "M1",
+            "isComplete": false
+          },
+          {
+            "id": "816600fb-a12c-48ec-b7ea-d0852e8a3eb8",
+            "title": "Finalize baseline notes",
+            "expectedMinutes": 25,
+            "details": "Write a short 'baseline recipe' in your notes with exact weights, oven rack, and bake time.",
+            "milestoneId": "M1",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "eeb758e7-a374-4a93-8ba4-f8bb9cfd0b7a",
+        "dayNumber": 8,
+        "theme": "Oven & Environment",
+        "checkInPrompt": "Do you know your oven's true temperature and hot spots?",
+        "celebrationMessage": "Oven mapped — you know where to place the pan.",
+        "tasks": [
+          {
+            "id": "68b14e9b-54e4-41a4-8961-df0cc6bb3522",
+            "title": "Map oven temperature",
+            "expectedMinutes": 30,
+            "details": "Place the thermometer in different rack positions and log actual temps at set points.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "9fc8460d-cb7e-4ec4-bee1-b952c419ac13",
+            "title": "Plan ideal rack position",
+            "expectedMinutes": 10,
+            "details": "Choose the best rack position based on mapping and note it in the recipe.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "bd653ba4-90ed-4873-914f-5c0cf244b3de",
+        "dayNumber": 9,
+        "theme": "Rise & Timing",
+        "checkInPrompt": "Did your loaf rise evenly last time?",
+        "celebrationMessage": "Timing insights recorded — you're closing in on consistent rise.",
+        "tasks": [
+          {
+            "id": "4b5bc916-c241-480c-b932-c53ffa200615",
+            "title": "Test bake with mapped rack",
+            "expectedMinutes": 100,
+            "details": "Bake one loaf using the mapped rack and record time to set and color development.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "f5e8883c-016c-4adb-af56-d94e7f4ccca5",
+            "title": "Note toothpick and spring tests",
+            "expectedMinutes": 15,
+            "details": "Record when the center is firm and the toothpick comes out nearly clean.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "54bf9055-8dce-4c35-8a43-000cf3785f03",
+        "dayNumber": 10,
+        "theme": "Mixing Calibration",
+        "checkInPrompt": "How long do you cream butter and sugar to reach the ideal texture?",
+        "celebrationMessage": "Mixing calibrated — good control over crumb formation.",
+        "tasks": [
+          {
+            "id": "511abb33-bd0d-40c3-b8a4-8de9df7b21d7",
+            "title": "Test creaming durations",
+            "expectedMinutes": 45,
+            "details": "Make small batter batches testing 3 different creaming times; label and bake small samples.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "2b718eae-4f72-450a-b55d-21802db243b4",
+            "title": "Compare crumb samples",
+            "expectedMinutes": 20,
+            "details": "Taste and photograph each sample and note which creaming time produces the best crumb.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "00c08d97-7783-4b00-8016-dad68689494e",
+        "dayNumber": 11,
+        "theme": "Pan & Portion",
+        "checkInPrompt": "Are you using the pan size that gives the best bake for your oven?",
+        "celebrationMessage": "Pan selection optimized — your loaves will bake more predictably.",
+        "tasks": [
+          {
+            "id": "2b9e8f53-043b-41bd-a7d5-82bf92ca3e63",
+            "title": "Test pan sizes or fill levels",
+            "expectedMinutes": 60,
+            "details": "If available, bake two small loaves or adjust fill height to see effects on bake time.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "9fd63c78-c978-4678-a3cb-0e6b8742a353",
+            "title": "Record ideal fill percentage",
+            "expectedMinutes": 15,
+            "details": "Note the ideal batter fill height (e.g., 2/3 full) and update recipe card.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "ac09dfb9-d808-4d8b-b0d1-0b8952f20224",
+        "dayNumber": 12,
+        "theme": "Controlled Comparison",
+        "checkInPrompt": "Which variable will you compare today to confirm its effect?",
+        "celebrationMessage": "Comparisons complete — clearer picture of what matters.",
+        "tasks": [
+          {
+            "id": "d613961a-dac6-4299-94dc-b0f01306a44d",
+            "title": "Run a side-by-side test",
+            "expectedMinutes": 110,
+            "details": "Bake two loaves changing only one variable (e.g., oven temp ±10°F) and document results.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "7c1dff41-109e-4caf-b1df-0f900fd1c5e9",
+            "title": "Log outcome metrics",
+            "expectedMinutes": 20,
+            "details": "Record crumb, rise, bake time, and moisture for both loaves.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "1097862d-49c0-40cb-a116-849528b15cd4",
+        "dayNumber": 13,
+        "theme": "Refine Method",
+        "checkInPrompt": "Which step will you standardize today (mixing, folding, bake time)?",
+        "celebrationMessage": "Method refined — less guesswork for each bake.",
+        "tasks": [
+          {
+            "id": "6ac3e854-9497-40ba-9d23-a1663da96c25",
+            "title": "Write step-by-step method",
+            "expectedMinutes": 30,
+            "details": "Create a concise step list with timings for creaming, folding, and bake checks.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "0a04e682-497f-49cc-a81c-e6ded41a1bd1",
+            "title": "Test the method on a small bake",
+            "expectedMinutes": 75,
+            "details": "Bake one loaf strictly following the new step list and note any deviations.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "6ce6481f-9cf3-406b-9a06-edc19f4e9134",
+        "dayNumber": 14,
+        "theme": "Optimize Outcome",
+        "checkInPrompt": "Are your bakes producing reliable crumb and rise now?",
+        "celebrationMessage": "Texture & rise optimized — milestone reached!",
+        "tasks": [
+          {
+            "id": "3a21a8c3-6f41-413f-b48b-2e87818abaa5",
+            "title": "Bake confirmation loaf",
+            "expectedMinutes": 100,
+            "details": "Produce a loaf intended to meet your ideal texture and rise; follow the refined method.",
+            "milestoneId": "M2",
+            "isComplete": false
+          },
+          {
+            "id": "be9ad7fd-b440-43b1-959c-0861dbe07d0a",
+            "title": "Compare to baseline and approve",
+            "expectedMinutes": 20,
+            "details": "Place photos and notes side-by-side with baseline and mark approval or further tweaks.",
+            "milestoneId": "M2",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "fc118285-8f26-4ba1-8820-e31f9ce08270",
+        "dayNumber": 15,
+        "theme": "Flavor Exploration",
+        "checkInPrompt": "Which flavor profile will you try first: citrus, almond, or vanilla-plus?",
+        "celebrationMessage": "First variation tested — flavor notes captured.",
+        "tasks": [
+          {
+            "id": "992deb43-7a58-4c3b-8379-aa4a69691487",
+            "title": "Design first variation",
+            "expectedMinutes": 20,
+            "details": "Decide on one flavor change and write exact ingredient adjustments.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "9ed9bce2-dc18-4ab6-bcaf-9375936ae6be",
+            "title": "Bake variation sample",
+            "expectedMinutes": 90,
+            "details": "Bake the variant (e.g., lemon zest + juice) and record how flavor and moisture change.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "ad133ef7-3625-4242-9ee5-ce6e658b5ecb",
+        "dayNumber": 16,
+        "theme": "Add-ins & Texture",
+        "checkInPrompt": "Will you add nuts, glaze, or fruit to this variation?",
+        "celebrationMessage": "Add-in experiment done — texture comparisons logged.",
+        "tasks": [
+          {
+            "id": "f39c34ec-bdfd-4a84-ad0e-d598f217dcee",
+            "title": "Test add-ins",
+            "expectedMinutes": 60,
+            "details": "Prepare a loaf with one add-in (chopped nuts or berries) and check distribution and moisture impact.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "586d7114-f2ba-432a-904f-9cfdf25502a3",
+            "title": "Assess structural impact",
+            "expectedMinutes": 20,
+            "details": "Note whether add-ins sink, change bake time, or alter crumb; photograph cross-section.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "f6bc3e52-261d-4961-a0a5-3ca7e83aacc1",
+        "dayNumber": 17,
+        "theme": "Stabilizers & Moisture",
+        "checkInPrompt": "Would a dairy element (sour cream/yogurt) help moisture for your preference?",
+        "celebrationMessage": "Moisture strategies tested — options documented.",
+        "tasks": [
+          {
+            "id": "7451e29e-48c9-4f68-8300-1a44e19d1540",
+            "title": "Test one moisture modifier",
+            "expectedMinutes": 70,
+            "details": "Bake a loaf adding sour cream or brown butter per a small recipe adjustment and record results.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "4057cf9d-a446-41a3-8bc8-d01e2687ed60",
+            "title": "Document texture differences",
+            "expectedMinutes": 15,
+            "details": "Write how the modifier affected crumb, mouthfeel, and storage life.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "96895817-acf4-4939-ac57-bfe331091cc0",
+        "dayNumber": 18,
+        "theme": "Troubleshoot Dense Bakes",
+        "checkInPrompt": "If a cake is dense, which likely cause will you test first?",
+        "celebrationMessage": "Troubleshooting steps noted — fewer mysteries next time.",
+        "tasks": [
+          {
+            "id": "44fbaa46-83a9-43bc-84ea-d9081fa34175",
+            "title": "Run a density checklist",
+            "expectedMinutes": 30,
+            "details": "Test common fixes: more aeration (longer creaming), correct flour weight, and bake time adjustments.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "d0319cf1-4548-459a-813d-5c3cbf26a06b",
+            "title": "Apply one fix and bake",
+            "expectedMinutes": 90,
+            "details": "Implement a single fix and observe change in crumb and rise.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "ca08b272-edec-42ee-b243-49c5f41e0ae2",
+        "dayNumber": 19,
+        "theme": "Consolidate Variations",
+        "checkInPrompt": "Which two variations will make the recipe card as options?",
+        "celebrationMessage": "Two variations drafted — your recipe family grows.",
+        "tasks": [
+          {
+            "id": "ad003f53-35e3-4013-8545-1962f133ca59",
+            "title": "Choose two final variations",
+            "expectedMinutes": 20,
+            "details": "Select the two most successful variations and list exact ingredient changes.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "41cde3e6-07bc-4b17-9f79-ab14c3056d21",
+            "title": "Bake both variations",
+            "expectedMinutes": 120,
+            "details": "Bake the two chosen variations and photograph each for the recipe card.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "39ff19f2-e948-4f94-aa09-7e5a238b9842",
+        "dayNumber": 20,
+        "theme": "Finishing Techniques",
+        "checkInPrompt": "Will you glaze, dust, or keep the loaf simple today?",
+        "celebrationMessage": "Finish options explored — aesthetics meet taste.",
+        "tasks": [
+          {
+            "id": "6a929792-1c5d-4fd4-96e5-4d1a10449c06",
+            "title": "Test glaze and finishing",
+            "expectedMinutes": 45,
+            "details": "Try a simple sugar glaze and a dusting; note how finishes complement or hide flaws.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "a6a1fc1e-3489-4783-8046-5732d39192c5",
+            "title": "Decide preferred finish",
+            "expectedMinutes": 15,
+            "details": "Pick the finish that most enhances your chosen variations.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "80ae3238-18a8-413e-b41f-b31fc3761a92",
+        "dayNumber": 21,
+        "theme": "Gather Feedback",
+        "checkInPrompt": "Who will be your first taster and what will you ask them to focus on?",
+        "celebrationMessage": "Feedback collected — actionable and honest.",
+        "tasks": [
+          {
+            "id": "94a85f76-3ee8-4337-a29d-a65351af6db8",
+            "title": "Share small samples for tasting",
+            "expectedMinutes": 45,
+            "details": "Bring small slices to one or two people and ask for quick feedback on texture and flavor.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "bc9046a4-6018-4971-a0ce-652f318f0c9c",
+            "title": "Record taster notes",
+            "expectedMinutes": 15,
+            "details": "Log their comments in a structured way (texture, moisture, flavor, overall), and note any suggestions.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "091e783d-6a52-4bfc-8563-1cc9135cc8b6",
+        "dayNumber": 22,
+        "theme": "Lock Variations",
+        "checkInPrompt": "Which variation will be your go-to in the recipe card?",
+        "celebrationMessage": "Variations and fixes finalized — milestone met.",
+        "tasks": [
+          {
+            "id": "eb116cba-9b0c-4316-952b-1e3adf23bca3",
+            "title": "Finalize two variation recipes",
+            "expectedMinutes": 30,
+            "details": "Write final ingredient lists and steps for both variations with exact weights.",
+            "milestoneId": "M3",
+            "isComplete": false
+          },
+          {
+            "id": "8ccf29ee-a18e-4c11-8c78-ffa407a60281",
+            "title": "Compile troubleshooting checklist",
+            "expectedMinutes": 20,
+            "details": "Create a short list of fixes for collapse, dryness, or dense crumb to include in notes.",
+            "milestoneId": "M3",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "5409d459-4cc2-4da1-b3d7-279db080a798",
+        "dayNumber": 23,
+        "theme": "Document Draft",
+        "checkInPrompt": "Do you have a clear structure for the recipe card (ingredients, method, notes)?",
+        "celebrationMessage": "Recipe draft begun — the library soon gains a new entry.",
+        "tasks": [
+          {
+            "id": "cf9df7b2-3ae9-4e9b-b300-0ddccf5a2771",
+            "title": "Outline recipe card",
+            "expectedMinutes": 25,
+            "details": "Create a template with sections for ingredients (weights), steps, oven mapping, and notes.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "54b9c0e0-2b39-45bb-b730-e6d7ec5e9f20",
+            "title": "Populate with baseline and variations",
+            "expectedMinutes": 30,
+            "details": "Fill the template with your baseline recipe and the two variations, including bake times and rack position.",
+            "milestoneId": "M4",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "703da7f8-386e-4f72-ac6e-9933026a078a",
+        "dayNumber": 24,
+        "theme": "Photo Styling",
+        "checkInPrompt": "What style of photo will best represent your cake (rustic, bright, minimal)?",
+        "celebrationMessage": "Styling planned — photos will make your card pop.",
+        "tasks": [
+          {
+            "id": "944629e5-1d65-43aa-86f7-36f37b37c6dc",
+            "title": "Plan photo shots",
+            "expectedMinutes": 20,
+            "details": "Decide on 3 shot types: whole loaf, sliced cross-section, and close-up of crumb.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "e41d1fa2-7b5a-4e3b-8590-e4b4b780ce17",
+            "title": "Prepare props and lighting",
+            "expectedMinutes": 20,
+            "details": "Set up natural light, plates, and props; charge your camera/phone.",
+            "milestoneId": "M4",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "8fb8db25-7f5f-4efc-b5ea-4d144020da60",
+        "dayNumber": 25,
+        "theme": "Take Final Photos",
+        "checkInPrompt": "Is the loaf baked and cooled for the best photo of the crumb?",
+        "celebrationMessage": "Photos captured — your recipe will look professional.",
+        "tasks": [
+          {
+            "id": "a739df04-3845-48b3-8f0c-af0527791f96",
+            "title": "Bake a photo loaf",
+            "expectedMinutes": 100,
+            "details": "Produce a final loaf intended for photography, using your perfected method.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "e07437f1-e372-4777-8fd6-39eb07c5e2af",
+            "title": "Shoot photos for the card",
+            "expectedMinutes": 40,
+            "details": "Take the planned shots and choose the best images for the card.",
+            "milestoneId": "M4",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "6e3a0352-4397-4d5f-b951-235f67778e8e",
+        "dayNumber": 26,
+        "theme": "Publish to Library",
+        "checkInPrompt": "Is your recipe clear enough for someone else to reproduce?",
+        "celebrationMessage": "Recipe card complete — added to your library!",
+        "tasks": [
+          {
+            "id": "373ca299-66f6-4c09-9064-7ae9f92d3ec6",
+            "title": "Finalize and format recipe card",
+            "expectedMinutes": 30,
+            "details": "Type up final recipe with weights, step-by-step method, troubleshooting tips, and photos.",
+            "milestoneId": "M4",
+            "isComplete": false
+          },
+          {
+            "id": "7403a52f-baa0-4109-a3c8-932df32225c2",
+            "title": "Save and back up the card",
+            "expectedMinutes": 15,
+            "details": "Save as PDF and in your recipe app/folder with version and date.",
+            "milestoneId": "M4",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "c51e32c4-65ca-4e1c-a0fd-59688dd85cbe",
+        "dayNumber": 27,
+        "theme": "Rehearse Final Bake",
+        "checkInPrompt": "Will you run one more final bake to rehearse for tasting day?",
+        "celebrationMessage": "Final bake practiced — confidence building.",
+        "tasks": [
+          {
+            "id": "dbb07c95-055b-4266-80c7-78c2b28426e3",
+            "title": "Bake final rehearsal loaf",
+            "expectedMinutes": 100,
+            "details": "Bake a loaf exactly to the recipe card to ensure consistency for tasting.",
+            "milestoneId": "M5",
+            "isComplete": false
+          },
+          {
+            "id": "02b5539b-3a27-4e28-9802-cfc12c1d40cd",
+            "title": "Pack samples for tasters",
+            "expectedMinutes": 20,
+            "details": "Slice and pack small tasting portions with labels indicating variation.",
+            "milestoneId": "M5",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "f8377d00-ca22-4d3f-92af-ea42bd119c76",
+        "dayNumber": 28,
+        "theme": "Tasting",
+        "checkInPrompt": "Who will taste your cakes and give focused feedback today?",
+        "celebrationMessage": "Tasting done — feedback in hand!",
+        "tasks": [
+          {
+            "id": "bab1a1db-1c82-4583-97c4-a7a88b6f1c43",
+            "title": "Host tasting or deliver samples",
+            "expectedMinutes": 45,
+            "details": "Share samples with friends/family and ask for structured feedback on texture, flavor, and moisture.",
+            "milestoneId": "M5",
+            "isComplete": false
+          },
+          {
+            "id": "5cb590cd-8e78-431d-b71a-6f1173e90abe",
+            "title": "Collect and summarize feedback",
+            "expectedMinutes": 25,
+            "details": "Enter feedback into your notes and highlight common themes.",
+            "milestoneId": "M5",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "86830233-b89a-4e84-bc5b-9dac56ad5d31",
+        "dayNumber": 29,
+        "theme": "Iterate From Feedback",
+        "checkInPrompt": "Which single tweak based on feedback will you implement today?",
+        "celebrationMessage": "Feedback applied — final tweaks underway.",
+        "tasks": [
+          {
+            "id": "902706d7-703f-4e77-bb57-dbe9ab1b33da",
+            "title": "Choose the most impactful tweak",
+            "expectedMinutes": 20,
+            "details": "Pick one change from feedback (e.g., slightly less sugar, more lemon) and document exact adjustment.",
+            "milestoneId": "M5",
+            "isComplete": false
+          },
+          {
+            "id": "68ca7629-215b-4b68-b501-cd82a0a1b18f",
+            "title": "Bake final tweak loaf",
+            "expectedMinutes": 100,
+            "details": "Implement the tweak and bake one final loaf for confirmation.",
+            "milestoneId": "M5",
+            "isComplete": false
+          }
+        ]
+      },
+      {
+        "id": "95851617-7367-454e-9199-b19d59a010c7",
+        "dayNumber": 30,
+        "theme": "Sign-off & Celebrate",
+        "checkInPrompt": "Are you ready to declare this recipe final and add it to your cookbook?",
+        "celebrationMessage": "You did it — a confident pound cake is yours. Celebrate with a slice!",
+        "tasks": [
+          {
+            "id": "b3d9aa9d-2db1-4042-8ac9-613299a78cf0",
+            "title": "Bake the final sign-off loaf",
+            "expectedMinutes": 100,
+            "details": "Produce one final loaf using your perfected recipe and method for documentation.",
+            "milestoneId": "M5",
+            "isComplete": false
+          },
+          {
+            "id": "49aee005-8cb3-4879-adba-73b4636a00cf",
+            "title": "Complete final recipe entry and reflections",
+            "expectedMinutes": 30,
+            "details": "Finalize version number, write a short reflection on what improved, and save to your recipe library.",
+            "milestoneId": "M5",
+            "isComplete": false
+          },
+          {
+            "id": "c8684da7-6b43-4a98-ace9-71210e9c13fe",
+            "title": "Share result and celebrate",
+            "expectedMinutes": 15,
+            "details": "Post a photo or message to your circle or journal the accomplishment and enjoy a celebratory slice.",
+            "milestoneId": "M5",
+            "isComplete": false
+          }
+        ]
+      }
+    ],
+    "weeklyReviews": [
+      {
+        "id": "c0f66fcb-a834-4478-86c2-4c1626350d3f",
+        "weekNumber": 1,
+        "evidenceToCollect": [
+          "Photos of each test loaf",
+          "Notes on measurements and oven temp",
+          "Baseline recipe with weights"
+        ],
+        "reflectionQuestions": [
+          "Which step introduced the biggest variation?",
+          "What measurement practice reduced variability?",
+          "How did ingredient temperature affect the result?"
+        ],
+        "adaptationRules": [
+          {
+            "id": "f00df314-79b4-4fa8-88f8-64f3601af22d",
+            "condition": "If your baseline loaves vary in rise across bakes",
+            "response": "Standardize oven rack and use an oven thermometer; re-run one bake with controlled rack."
+          },
+          {
+            "id": "d08978db-2629-4df4-8865-f01bb62cee77",
+            "condition": "If you miss more than two planned bake days",
+            "response": "Reduce daily tasks to one focused task for next two days to regain momentum."
+          },
+          {
+            "id": "2bcd4510-bfa4-4ef7-88e7-37228a01f41e",
+            "condition": "If texture improves after one change and degrades after another",
+            "response": "Revert the negative change and keep the beneficial one; document both outcomes."
+          }
+        ]
+      },
+      {
+        "id": "22c98a07-e436-49cd-a039-39142d87a193",
+        "weekNumber": 2,
+        "evidenceToCollect": [
+          "Oven mapping log",
+          "Photos comparing creaming durations",
+          "Bake time and toothpick test records"
+        ],
+        "reflectionQuestions": [
+          "Which oven position produced the most even bake?",
+          "Did longer creaming always improve crumb?",
+          "What bake time reliably indicates doneness?"
+        ],
+        "adaptationRules": [
+          {
+            "id": "ba17f8ad-180e-4f0c-8358-42bdf0ffbdde",
+            "condition": "If oven hotspots persist",
+            "response": "Rotate loaf mid-bake and adjust recommended bake time in your recipe card."
+          },
+          {
+            "id": "cd2e2a7f-de02-4d79-8306-860fa03f296f",
+            "condition": "If creaming duration shows minimal difference",
+            "response": "Standardize to the shortest effective creaming time to save effort without losing quality."
+          },
+          {
+            "id": "57508959-e40f-4f44-b1f0-d0522c2b345d",
+            "condition": "If bakes are still underdone in center",
+            "response": "Lower oven temp by 10°F and increase bake time; document new timing."
+          }
+        ]
+      },
+      {
+        "id": "fca64e3c-fed1-423b-95bb-14cbee2af55d",
+        "weekNumber": 3,
+        "evidenceToCollect": [
+          "Photos and notes of each variation",
+          "Taster feedback summaries",
+          "Troubleshooting checklist draft"
+        ],
+        "reflectionQuestions": [
+          "Which variation resonated most with tasters?",
+          "What recurring faults appeared across variants?",
+          "Which fixes are reliable vs. inconsistent?"
+        ],
+        "adaptationRules": [
+          {
+            "id": "dcde892a-1fa5-4658-af28-d2288f122dd5",
+            "condition": "If tasters favor one variation strongly",
+            "response": "Prioritize that variation in the recipe card as the recommended option."
+          },
+          {
+            "id": "8a62f00f-47ae-4983-b7e3-612e7dd08184",
+            "condition": "If a fix works inconsistently",
+            "response": "Test it in isolation across two more bakes before adopting it into the checklist."
+          },
+          {
+            "id": "b9138270-9099-43b1-8d92-73015064e9da",
+            "condition": "If multiple tasters report dryness",
+            "response": "Increase moisture modifier slightly (e.g., add 1–2 tbsp sour cream) and test again."
+          }
+        ]
+      },
+      {
+        "id": "72b3cc33-accb-4cb7-834c-28598d3681f5",
+        "weekNumber": 4,
+        "evidenceToCollect": [
+          "Final recipe card PDF",
+          "Final photos",
+          "Tasting feedback and final loaf photos"
+        ],
+        "reflectionQuestions": [
+          "Is the recipe reproducible by someone else?",
+          "What are the three essential tips to ensure success?",
+          "How will you store and share this recipe long-term?"
+        ],
+        "adaptationRules": [
+          {
+            "id": "44b4e63c-2050-4d59-a5b2-ac1843cd3dab",
+            "condition": "If final tasters note a small persistent issue",
+            "response": "Note it as an optional tweak in the recipe card rather than changing the core recipe."
+          },
+          {
+            "id": "a009b7f8-fb2c-45bd-8f3d-7e32547d6db0",
+            "condition": "If photos do not represent the cake accurately",
+            "response": "Reshoot with better lighting or different props; keep cropping minimal and authentic."
+          },
+          {
+            "id": "dbf44fcd-2884-4805-91d7-5c3bbba06022",
+            "condition": "If you want ongoing improvement",
+            "response": "Schedule a 3-month revisit to test storage life and any seasonal tweaks."
+          }
+        ]
+      }
+    ],
+    "reminderRule": {
+      "timeOfDay": {
+        "hour": 8,
+        "minute": 30
+      },
+      "message": "Today’s pound-cake task awaits — check the plan and preheat when ready."
+    },
+    "celebrationRule": {
+      "trigger": "dayComplete",
+      "message": "Nice work — log your notes and enjoy a small celebratory slice!"
+    },
+    "streakRule": {
+      "thresholdMinutes": 45,
+      "graceDays": 2
+    },
+    "callToAction": "Bake bold — 30 days to a pound cake you can trust. Let’s start!",
+    "accentPalette": {
+      "stops": [
+        {
+          "hex": "#FF7EB3",
+          "opacity": 1
+        },
+        {
+          "hex": "#A855F7",
+          "opacity": 1
+        },
+        {
+          "hex": "#3B82F6",
+          "opacity": 1
+        }
+      ]
+    },
+    "cardPalette": {
+      "stops": [
+        {
+          "hex": "#FECACA",
+          "opacity": 1
+        },
+        {
+          "hex": "#FBCFE8",
+          "opacity": 1
+        }
+      ]
+    },
+    "craftedByAgent": "spark"
+  }
+}

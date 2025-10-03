@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 import { randomUUID } from 'node:crypto';
+import { writeFileSync } from 'node:fs';
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -10,6 +11,13 @@ const maxOpenAIRetries = parseInt(process.env.OPENAI_MAX_RETRIES ?? '2', 10);
 const openAIModel = process.env.OPENAI_MODEL ?? 'gpt-4.1-mini';
 const openAITemperature = parseFloat(process.env.OPENAI_TEMPERATURE ?? '0.6');
 const fixedTemperatureModels = new Set(['gpt-4.1-mini', 'gpt-4.1-nano', 'gpt-4.1']);
+const fallbackUserId = process.env.SUPABASE_FALLBACK_USER_ID ?? null;
+const staleJobRetrySeconds = Number.isFinite(parseInt(process.env.STALE_JOB_RETRY_SECONDS ?? '', 10))
+  ? parseInt(process.env.STALE_JOB_RETRY_SECONDS ?? '', 10)
+  : 300;
+const staleJobCheckIntervalMs = Number.isFinite(parseInt(process.env.STALE_JOB_CHECK_INTERVAL_MS ?? '', 10))
+  ? parseInt(process.env.STALE_JOB_CHECK_INTERVAL_MS ?? '', 10)
+  : 60_000;
 
 const modelRequiresFixedTemperature = (model) => {
   if (!model) return false;
@@ -34,6 +42,8 @@ const supabase = createClient(supabaseUrl, supabaseKey, {
 });
 const openai = new OpenAI({ apiKey: openAIKey });
 
+let lastStaleJobCheck = 0;
+
 const blueprintSchema = {
   type: 'object',
   additionalProperties: false,
@@ -54,6 +64,7 @@ const blueprintSchema = {
     'streakRule',
     'accentPalette',
     'cardPalette',
+    'milestones',
     'phases',
     'dailyPlan',
     'weeklyReviews'
@@ -165,6 +176,22 @@ const blueprintSchema = {
       maxItems: 3,
       items: { type: 'string', pattern: '^#?[0-9A-Fa-f]{6}$' }
     },
+    milestones: {
+      type: 'array',
+      minItems: 4,
+      maxItems: 6,
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['id', 'title', 'description', 'targetDay'],
+        properties: {
+          id: { type: 'string' },
+          title: { type: 'string' },
+          description: { type: 'string' },
+          targetDay: { type: 'integer', minimum: 1, maximum: 30 }
+        }
+      }
+    },
     phases: {
       type: 'array',
       minItems: 4,
@@ -233,53 +260,12 @@ const blueprintSchema = {
             items: {
               type: 'object',
               additionalProperties: false,
-              required: [
-                'title',
-                'type',
-                'expectedMinutes',
-                'instructions',
-                'definitionOfDone',
-                'tags',
-                'metric'
-              ],
+              required: ['title', 'expectedMinutes', 'details', 'milestoneId'],
               properties: {
                 title: { type: 'string' },
-                type: {
-                  type: 'string',
-                  enum: [
-                    'setup',
-                    'research',
-                    'practice',
-                    'review',
-                    'reflection',
-                    'outreach',
-                    'build',
-                    'ship'
-                  ]
-                },
                 expectedMinutes: { type: 'integer', minimum: 10, maximum: 180 },
-                instructions: { type: 'string' },
-                definitionOfDone: { type: 'string' },
-                tags: {
-                  type: 'array',
-                  minItems: 2,
-                  items: { type: 'string' }
-                },
-                metric: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      additionalProperties: false,
-                      required: ['name', 'unit', 'target'],
-                      properties: {
-                        name: { type: 'string' },
-                        unit: { type: 'string' },
-                        target: { type: 'number' }
-                      }
-                    },
-                    { type: 'null' }
-                  ]
-                }
+                details: { type: 'string' },
+                milestoneId: { type: 'string' }
               }
             }
           }
@@ -331,7 +317,8 @@ You are an expert coach who designs science-informed 30-day challenges that move
 Produce a JSON object that matches the "PlanBlueprint" format shown below. Your plan must:
 • Outline exactly 4 phases (7-8 day spans) with objectives and 2-3 milestones each.
 • Define challenge-wide "keyPrinciples" (3-5) and "riskRadar" entries (3-6, each with likelihood low/medium/high) capturing only the highest-leverage guidance for the full 30-day journey.
-• Provide a "dailyPlan" array with exactly 30 entries (dayNumber 1..30) and each day containing 2-3 tasks. Tasks require: title, type (setup/research/practice/review/reflection/outreach/build/ship), expectedMinutes, instructions (imperative), definitionOfDone, tags (2-3), and metric {name, unit, target} (set metric to null when not applicable). Add motivating checkInPrompt + celebrationMessage per day.
+• Provide 4-6 milestones (epics) each with an id, title, energetic description, and targetDay showing when it should be achieved.
+• Provide a "dailyPlan" array with exactly 30 entries (dayNumber 1..30) and each day containing 2-3 tasks. Tasks require: title, expectedMinutes, details (imperative description), and milestoneId referencing one of the milestones above. Add motivating checkInPrompt + celebrationMessage per day.
 • Provide four weekly reviews (weekNumber 1..4) each with 3 evidence items, 3 reflection questions, and 3 adaptation rules (condition + response).
 • Include assumptions, constraints, resources, callToAction, reminder (hour/minute/message), celebrationRule (trigger/message), streakRule (thresholdMinutes/graceDays), accentPalette (3-4 hex colors), and cardPalette (2-3 softer pastel hex colors for UI cards).
 • Craft "callToAction" as an inspirational rally cry for their 30-day challenge—short, memorable, high-energy, and explicitly calling them to step up for the full journey.
@@ -371,6 +358,9 @@ Return JSON in this exact structure (use your own values):
     },
     "... total 4 phases ..."
   ],
+  "milestones": [
+    { "id": "M1", "title": "Ship MVP", "description": "Finish the core experience and ready it for beta.", "targetDay": 21 }
+  ],
   "dailyPlan": [
     {
       "dayNumber": 1,
@@ -380,21 +370,9 @@ Return JSON in this exact structure (use your own values):
       "tasks": [
         {
           "title": "Define success metrics",
-          "type": "setup",
-          "instructions": "Outline measurable success criteria.",
-          "definitionOfDone": "Success criteria documented and shared.",
+          "details": "Outline measurable success criteria.",
           "expectedMinutes": 45,
-          "tags": ["strategy", "clarity"],
-          "metric": { "name": "Success Criteria", "unit": "items", "target": 3 }
-        },
-        {
-          "title": "Draft onboarding flow",
-          "type": "build",
-          "instructions": "Sketch the primary onboarding steps.",
-          "definitionOfDone": "Wireframe of onboarding flow completed.",
-          "expectedMinutes": 60,
-          "tags": ["design", "prototype"],
-          "metric": null
+          "milestoneId": "M1"
         }
       ]
     }
@@ -417,6 +395,7 @@ Strictly return JSON only, no commentary.
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function reserveJob() {
+  await reviveStaleJobsIfNeeded();
   const { data: job, error } = await supabase
     .from('ai_generation_jobs')
     .select('*')
@@ -456,25 +435,97 @@ async function reserveJob() {
   return claimed;
 }
 
+async function reviveStaleJobsIfNeeded() {
+  const now = Date.now();
+  if (now - lastStaleJobCheck < staleJobCheckIntervalMs) {
+    return;
+  }
+  lastStaleJobCheck = now;
+
+  if (!Number.isFinite(staleJobRetrySeconds) || staleJobRetrySeconds <= 0) {
+    return;
+  }
+
+  const cutoff = new Date(now - staleJobRetrySeconds * 1000).toISOString();
+  try {
+    const { data, error } = await supabase
+      .from('ai_generation_jobs')
+      .update({ status: 'pending', error: null })
+      .eq('status', 'in_progress')
+      .lt('updated_at', cutoff)
+      .select('id');
+
+    if (error) {
+      console.error('Failed to revive stale jobs', error);
+      return;
+    }
+
+    if (data && data.length > 0) {
+      console.warn('Revived stale jobs', { jobIds: data.map((item) => item.id) });
+    }
+  } catch (error) {
+    console.error('Error reviving stale jobs', error);
+  }
+}
+
 function buildPlanFromBlueprint(blueprint, { fallbackPurpose = null } = {}) {
-  const phases = (blueprint.phases ?? []).map((phase, index) => ({
+  const normalizeString = (value, fallback = "") => {
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return String(value);
+    }
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      return trimmed.length > 0 ? trimmed : fallback;
+    }
+    return fallback;
+  };
+
+  const normalizeInteger = (value, fallback = 0) => {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  };
+
+  const normalizeNumber = (value, fallback = 0) => {
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  };
+
+  const normalizeLikelihood = (value) => {
+    const lower = normalizeString(value).toLowerCase();
+    return ['low', 'medium', 'high'].includes(lower) ? lower : 'medium';
+  };
+
+  const normalizeStringArray = (value, min = 0, max = Infinity) => {
+    if (!Array.isArray(value)) return [];
+    const result = [];
+    for (const entry of value) {
+      if (result.length === max) break;
+      const text = normalizeString(entry);
+      if (text.length > 0) {
+        result.push(text);
+      }
+    }
+    return result.length >= min ? result : result;
+  };
+
+  const phases = (Array.isArray(blueprint.phases) ? blueprint.phases : []).map((phase, index) => ({
     id: randomUUID(),
     index,
-    name: phase.name,
-    objective: phase.objective,
-    milestones: (phase.milestones ?? []).map((milestone) => ({
+    name: normalizeString(phase.name, `Phase ${index + 1}`),
+    objective: normalizeString(phase.objective, ""),
+    milestones: (Array.isArray(phase.milestones) ? phase.milestones : []).map((milestone, milestoneIndex) => ({
       id: randomUUID(),
-      title: milestone.title,
-      detail: milestone.detail,
+      title: normalizeString(milestone.title, `Milestone ${milestoneIndex + 1}`),
+      detail: normalizeString(milestone.detail ?? milestone.description, ""),
       progress: 0,
-      targetDay: milestone.targetDay
+      targetDay: normalizeInteger(milestone.targetDay, Math.min(30, ((index * 2) + milestoneIndex + 1) * 3))
     })),
-    keyPrinciples: phase.keyPrinciples ?? [],
-    risks: (phase.risks ?? []).map((risk) => ({
+    keyPrinciples: normalizeStringArray(phase.keyPrinciples),
+    risks: (Array.isArray(phase.risks) ? phase.risks : []).map((risk) => ({
       id: randomUUID(),
-      risk: risk.risk,
-      likelihood: risk.likelihood,
-      mitigation: risk.mitigation
+      risk: normalizeString(risk.risk),
+      likelihood: normalizeLikelihood(risk.likelihood),
+      mitigation: normalizeString(risk.mitigation)
     }))
   }));
 
@@ -506,11 +557,6 @@ function buildPlanFromBlueprint(blueprint, { fallbackPurpose = null } = {}) {
       if (planPrinciples.length === 5) break;
     }
   }
-
-  const normalizeLikelihood = (value) => {
-    const lower = typeof value === 'string' ? value.toLowerCase() : '';
-    return ['low', 'medium', 'high'].includes(lower) ? lower : 'medium';
-  };
 
   const planRisks = [];
   const riskSeen = new Set();
@@ -551,69 +597,180 @@ function buildPlanFromBlueprint(blueprint, { fallbackPurpose = null } = {}) {
   const blueprintPurpose = typeof blueprint.purpose === 'string' ? blueprint.purpose.trim() : '';
   const planPurpose = blueprintPurpose.length > 0 ? blueprintPurpose : (trimmedFallbackPurpose.length > 0 ? trimmedFallbackPurpose : null);
 
-  const days = (blueprint.dailyPlan ?? []).map((day) => ({
+  let milestones = (Array.isArray(blueprint.milestones) ? blueprint.milestones : []).map((milestone, index) => ({
+    id: normalizeString(milestone.id, `M-${index + 1}`),
+    title: normalizeString(milestone.title, `Milestone ${index + 1}`),
+    description: normalizeString(milestone.description ?? milestone.detail, ""),
+    targetDay: normalizeInteger(milestone.targetDay, Math.min(30, (index + 1) * 6))
+  }));
+
+  if (milestones.length === 0) {
+    milestones = [{
+      id: 'M-1',
+      title: 'Milestone 1',
+      description: 'Reach your first meaningful checkpoint.',
+      targetDay: 7
+    }];
+  }
+
+  const milestoneIds = new Set(milestones.map((item) => item.id));
+
+  const targetOutcomeSource = typeof blueprint.targetOutcome === "object" && blueprint.targetOutcome !== null ? blueprint.targetOutcome : {};
+  const targetOutcome = {
+    metric: normalizeString(targetOutcomeSource.metric, "Primary metric"),
+    value: normalizeNumber(targetOutcomeSource.value, 0),
+    unit: normalizeString(targetOutcomeSource.unit, "units"),
+    timeframe: normalizeString(targetOutcomeSource.timeframe, "30 days")
+  };
+
+  const reminder = typeof blueprint.reminder === "object" && blueprint.reminder !== null ? blueprint.reminder : {};
+  const reminderHour = normalizeInteger(reminder.hour, 8);
+  const reminderMinute = normalizeInteger(reminder.minute, 30);
+  const reminderMessage = normalizeString(reminder.message, "Take a focused moment for your challenge.");
+
+  const celebration = typeof blueprint.celebrationRule === "object" && blueprint.celebrationRule !== null ? blueprint.celebrationRule : {};
+  const celebrationTrigger = (() => {
+    const value = normalizeString(celebration.trigger, "dayComplete").toLowerCase();
+    return value === "milestonecomplete" ? "milestoneComplete" : "dayComplete";
+  })();
+  const celebrationMessage = normalizeString(celebration.message, "Great work—keep the streak alive!");
+
+  const streak = typeof blueprint.streakRule === "object" && blueprint.streakRule !== null ? blueprint.streakRule : {};
+  const streakThreshold = normalizeInteger(streak.thresholdMinutes, 45);
+  const streakGrace = normalizeInteger(streak.graceDays, 2);
+
+  let days = (Array.isArray(blueprint.dailyPlan) ? blueprint.dailyPlan : []).map((day, index) => ({
     id: randomUUID(),
-    dayNumber: day.dayNumber,
-    theme: day.theme,
-    checkInPrompt: day.checkInPrompt,
-    celebrationMessage: day.celebrationMessage,
-    tasks: (day.tasks ?? []).map((task) => ({
+    dayNumber: normalizeInteger(day.dayNumber, index + 1),
+    theme: normalizeString(day.theme, `Focus Day ${index + 1}`),
+    checkInPrompt: normalizeString(day.checkInPrompt),
+    celebrationMessage: normalizeString(day.celebrationMessage),
+    tasks: (day.tasks ?? []).map((task, taskIndex) => ({
       id: randomUUID(),
-      title: task.title,
-      type: task.type,
-      expectedMinutes: task.expectedMinutes,
-      instructions: task.instructions,
-      definitionOfDone: task.definitionOfDone,
-      metric: task.metric ?? null,
-      tags: task.tags,
+      title: normalizeString(task.title, `Task ${taskIndex + 1}`),
+      expectedMinutes: normalizeInteger(task.expectedMinutes, 30),
+      details: normalizeString(task.details),
+      milestoneId: (() => {
+        const raw = normalizeString(task.milestoneId);
+        if (milestoneIds.has(raw)) return raw;
+        return milestones[0]?.id ?? null;
+      })(),
       isComplete: false
     }))
   }));
 
-  const weeklyReviews = (blueprint.weeklyReviews ?? []).map((review) => ({
+  if (days.length < 30) {
+    const startIndex = days.length;
+    for (let i = startIndex; i < 30; i += 1) {
+      days.push({
+        id: randomUUID(),
+        dayNumber: i + 1,
+        theme: `Momentum Day ${i + 1}`,
+        checkInPrompt: "What did you move forward today?",
+        celebrationMessage: "Notched another day—keep that fire going!",
+        tasks: [
+          {
+            id: randomUUID(),
+            title: "Plan your next focused action",
+            expectedMinutes: 30,
+            details: "Identify and execute the most impactful task for today.",
+            milestoneId: milestones[0]?.id ?? null,
+            isComplete: false
+          }
+        ]
+      });
+    }
+  }
+
+  let weeklyReviews = (Array.isArray(blueprint.weeklyReviews) ? blueprint.weeklyReviews : []).map((review, index) => ({
     id: randomUUID(),
-    weekNumber: review.weekNumber,
-    evidenceToCollect: review.evidenceToCollect,
-    reflectionQuestions: review.reflectionQuestions,
-    adaptationRules: (review.adaptationRules ?? []).map((rule) => ({
+    weekNumber: normalizeInteger(review.weekNumber, index + 1),
+    evidenceToCollect: normalizeStringArray(review.evidenceToCollect),
+    reflectionQuestions: normalizeStringArray(review.reflectionQuestions),
+    adaptationRules: (Array.isArray(review.adaptationRules) ? review.adaptationRules : []).map((rule) => ({
       id: randomUUID(),
-      condition: rule.condition,
-      response: rule.response
+      condition: normalizeString(rule.condition),
+      response: normalizeString(rule.response)
     }))
   }));
 
+  const defaultAdaptation = () => ({
+    id: randomUUID(),
+    condition: "If momentum dips for two days",
+    response: "Reduce scope and schedule a 15-minute booster session."
+  });
+
+  const ensureEntries = (entry, fallback) => (entry.length > 0 ? entry : [fallback]);
+
+  weeklyReviews = weeklyReviews.map((review) => ({
+    ...review,
+    evidenceToCollect: ensureEntries(review.evidenceToCollect, "Capture one tangible proof of progress."),
+    reflectionQuestions: ensureEntries(review.reflectionQuestions, "What worked best this week and why?"),
+    adaptationRules: review.adaptationRules.length > 0 ? review.adaptationRules : [defaultAdaptation()]
+  }));
+
+  if (weeklyReviews.length < 4) {
+    const startIndex = weeklyReviews.length;
+    for (let i = startIndex; i < 4; i += 1) {
+      weeklyReviews.push({
+        id: randomUUID(),
+        weekNumber: i + 1,
+        evidenceToCollect: ["Document a meaningful outcome you created."],
+        reflectionQuestions: ["Where did you see the biggest shift?"],
+        adaptationRules: [defaultAdaptation()]
+      });
+    }
+  }
+
+  const accentPalette = (Array.isArray(blueprint.accentPalette) ? blueprint.accentPalette : ["#FF7EB3", "#A855F7", "#3B82F6"]).map((hex) => normalizeString(hex, "#3B82F6"));
+  const cardPaletteSource = Array.isArray(blueprint.cardPalette) ? blueprint.cardPalette : accentPalette.slice(0, 2);
+  const cardPalette = cardPaletteSource.length > 0 ? cardPaletteSource : accentPalette.slice(0, 2);
+
+  const allowedDomains = ['fitness', 'business', 'learning', 'creative', 'productivity', 'finance', 'wellbeing', 'other'];
+  const domainLower = normalizeString(blueprint.domain, 'other').toLowerCase();
+  const domain = allowedDomains.includes(domainLower) ? domainLower : 'other';
+
+  const callToAction = normalizeString(blueprint.callToAction, "This is your 30-day commitment—make every day count!");
+
   return {
     id: randomUUID(),
-    title: blueprint.title,
-    domain: blueprint.domain,
-    primaryGoal: blueprint.primaryGoal,
+    title: normalizeString(blueprint.title, "30-Day Challenge"),
+    domain,
+    primaryGoal: normalizeString(blueprint.primaryGoal, ""),
     createdAt: new Date().toISOString(),
     summary: blueprint.summary ?? null,
-    targetOutcome: blueprint.targetOutcome,
-    assumptions: blueprint.assumptions,
-    constraints: blueprint.constraints,
-    resources: blueprint.resources,
+    targetOutcome,
+    assumptions: normalizeStringArray(blueprint.assumptions),
+    constraints: normalizeStringArray(blueprint.constraints),
+    resources: normalizeStringArray(blueprint.resources),
     purpose: planPurpose,
     keyPrinciples: planPrinciples,
     riskHighlights: planRisks,
+    milestones,
     phases,
     days,
     weeklyReviews,
     reminderRule: {
       timeOfDay: {
-        hour: blueprint.reminder.hour,
-        minute: blueprint.reminder.minute
+        hour: reminderHour,
+        minute: reminderMinute
       },
-      message: blueprint.reminder.message
+      message: reminderMessage
     },
-    celebrationRule: blueprint.celebrationRule,
-    streakRule: blueprint.streakRule,
-    callToAction: blueprint.callToAction,
+    celebrationRule: {
+      trigger: celebrationTrigger,
+      message: celebrationMessage
+    },
+    streakRule: {
+      thresholdMinutes: streakThreshold,
+      graceDays: streakGrace
+    },
+    callToAction,
     accentPalette: {
-      stops: blueprint.accentPalette.map((hex) => ({ hex, opacity: 1 }))
+      stops: accentPalette.map((hex) => ({ hex, opacity: 1 }))
     },
     cardPalette: {
-      stops: (blueprint.cardPalette ?? blueprint.accentPalette).map((hex) => ({ hex, opacity: 1 }))
+      stops: cardPalette.map((hex) => ({ hex, opacity: 1 }))
     }
   };
 }
@@ -718,20 +875,61 @@ async function processJob(job) {
       job.purpose ?? '',
       job.familiarity ?? ''
     );
-    const { error } = await supabase
+    if (job.agent) {
+      plan.craftedByAgent = job.agent;
+    }
+
+    const sanitizedPlan = JSON.parse(JSON.stringify(plan));
+
+    try {
+      writeFileSync('response.json', JSON.stringify({ jobId: job.id, plan: sanitizedPlan }, null, 2));
+    } catch (writeError) {
+      console.warn('Failed to write response.json for debugging', writeError);
+    }
+
+    console.log('Generated plan payload', JSON.stringify({ jobId: job.id, plan: sanitizedPlan }, null, 2));
+    const { data: updatedRows, error: updateError } = await supabase
       .from('ai_generation_jobs')
       .update({
         status: 'completed',
-        result: plan,
+        result: sanitizedPlan,
         response_id: responseId ?? null,
         error: null
       })
-      .eq('id', job.id);
+      .eq('id', job.id)
+      .select('id, status')
+      .maybeSingle();
 
-    if (error) {
-      console.error('Failed to mark job completed', error);
+    if (updateError || !updatedRows) {
+      console.error('Failed to mark job completed', updateError ?? new Error('No row updated'));
+      await supabase
+        .from('ai_generation_jobs')
+        .update({
+          status: 'failed',
+          error: (updateError?.message ?? 'Unable to persist plan result'),
+          result: null
+        })
+        .eq('id', job.id);
+      return;
+    }
+
+    console.log('Job completed', { id: job.id, model: job.model ?? openAIModel });
+
+    const upsertUserId = job.user_id ?? fallbackUserId;
+    if (upsertUserId) {
+      const { error: planUpsertError } = await supabase
+        .from('challenge_plans')
+        .upsert({
+          id: sanitizedPlan.id,
+          user_id: upsertUserId,
+          payload: sanitizedPlan
+        }, { onConflict: 'id' });
+
+      if (planUpsertError) {
+        console.error('Failed to upsert challenge plan payload', planUpsertError);
+      }
     } else {
-      console.log('Job completed', { id: job.id, model: job.model ?? openAIModel });
+      console.warn('Plan generated without associated user_id; skipping persistence to challenge_plans', { jobId: job.id });
     }
   } catch (error) {
     console.error('Job failed', { id: job.id, error });
